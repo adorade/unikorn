@@ -1,0 +1,24 @@
+# Copyright 2018 Adorade. All Rights Reserved.
+#
+# Travis continuous integration system configuration file.
+# Overview on how to customize the configuration is located at:
+# http://docs.travis-ci.com/user/customizing-the-build/
+
+sudo: false
+
+language: node_js
+node_js:
+  - "lts/*"
+
+before_install:
+  - curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.12.3
+  - export PATH=$HOME/.yarn/bin:$PATH
+
+cache:
+  yarn: true
+
+before_script:
+  - yarn global add gulp-cli
+
+script:
+  - node -v && npm -v && yarn -v && git --version && gulp -v
