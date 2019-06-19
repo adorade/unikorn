@@ -6,6 +6,9 @@
   "author": "Adorade",
   "homepage": "https://adorade.ro",
   "repository": "https://github.com/adorade/unikorn",
+  "devDependencies": {
+    "gulp": "^4.0.2"
+  },
   "license": "MIT",
   "private": true
 }
