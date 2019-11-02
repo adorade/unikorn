@@ -57,6 +57,7 @@ rules:
   number-leading-zero: never
   no-eol-whitespace: true
   no-extra-semicolons: true
+  no-empty-source: null
   no-missing-end-of-source-newline: true
   property-no-vendor-prefix: true
   rule-empty-line-before:
@@ -77,13 +78,15 @@ rules:
   selector-max-specificity: null
   selector-max-type: 2
   selector-max-universal: 1
-  selector-no-qualifying-type: true
+  selector-no-qualifying-type:
+    - true
+    - ignore: [attribute]
   selector-no-vendor-prefix: true
   string-quotes: double
   value-keyword-case: lower
-  value-list-comma-newline-after: never-multi-line
+  value-list-comma-newline-after: always-multi-line
   value-list-comma-newline-before: never-multi-line
-  value-list-comma-space-after: always
+  value-list-comma-space-after: always-single-line
   value-no-vendor-prefix: true
 
   # -- Plugin Rules

@@ -1,8 +1,5 @@
 # https://stylelint.io/user-guide/configuration/#stylelintignore
 **/*.min.css
 **/*.css
-**/.extra/scss/
-**/assets/css/
-**/dist/css/
-**/docs/css/
-**/*.md
+**/dist
+**/docs

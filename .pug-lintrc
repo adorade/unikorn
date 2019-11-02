@@ -26,6 +26,5 @@
     "multiLineSeparator": "\n  "
   },
   "validateDivTags": true,
-  "validateIndentation": 2,
-  "validateLineBreaks": "LF"
+  "validateIndentation": 2
 }
