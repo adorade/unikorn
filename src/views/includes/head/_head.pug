@@ -1,0 +1,38 @@
+//- includes/head/_head.pug
+if relpath
+  - relpath= relpath
+else
+  - relpath= ""
+
+//- META
+// Required meta tags
+meta(charset="utf-8")
+meta(name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no")
+if title
+  title= title
+else
+  title UniKorn
+if description
+  meta(name="description" content= description)
+else
+  meta(name="description" content="UniKorn Framework for Dreamers")
+
+//- FAVICONS
+// Favicon for Website, Andoid and iOS
+link(rel="apple-touch-icon" sizes="180x180" href=relpath + "static/icons/apple-touch-icon.png")
+link(rel="icon" type="image/png" sizes="32x32" href=relpath + "static/icons/favicon-32x32.png")
+link(rel="icon" type="image/png" sizes="192x192" href=relpath + "static/icons/android-chrome-192x192.png")
+link(rel="icon" type="image/png" sizes="16x16" href=relpath + "static/icons/favicon-16x16.png")
+link(rel="manifest" href=relpath + "static/manifest.json")
+link(rel="mask-icon" href=relpath + "static/icons/safari-pinned-tab.svg" color="#ff5722")
+link(rel="shortcut icon" href=relpath + "static/icons/favicon.ico")
+meta(name="msapplication-config" content=relpath + "static/browserconfig.xml")
+meta(name="theme-color" content="#2196f3")
+
+//- OPEN GRAPH
+// Open Graph for Social Media
+meta(property="og:title" content="UniKorn")
+meta(property="og:type" content="website")
+meta(property="og:image" content="https://uni.adorade.ro/images/unikorn-og.png")
+meta(property="og:description" content="Framework for Dreamers")
+meta(property="og:url" content="https://uni.adorade.ro")

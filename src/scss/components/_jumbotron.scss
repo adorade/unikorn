@@ -1,0 +1,26 @@
+//
+// Jumbotron
+// ============================================================================
+
+// Base styles
+// ----------------------------
+.jumbotron {
+  padding: $jumbotron-padding ($jumbotron-padding / 2);
+  margin-bottom: $jumbotron-padding;
+  background-color: $jumbotron-bg;
+  color: $jumbotron-color;
+  @include border-radius($border-radius-lg);
+
+  @include media-breakpoint-up(sm) {
+    padding: ($jumbotron-padding * 2) $jumbotron-padding;
+  }
+}
+
+
+// Fluid jumbotron
+// ----------------------------
+.jumbotron-fluid {
+  padding-right: 0;
+  padding-left: 0;
+  @include border-radius(0);
+}

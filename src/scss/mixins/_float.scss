@@ -1,0 +1,19 @@
+//
+// Mixins - Float
+// ============================================================================
+// stylelint-disable declaration-no-important
+
+// Float left
+@mixin float-left {
+  float: left !important;
+}
+
+// Float right
+@mixin float-right {
+  float: right !important;
+}
+
+// Float none
+@mixin float-none {
+  float: none !important;
+}
