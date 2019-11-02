@@ -1,0 +1,12 @@
+//- index.pug
+extends layout/_layout
+
+prepend setting
+  - title = 'UniKorn Framework for Dreamers';
+
+block content
+  include includes/sections/hero/_hero
+  include includes/sections/features/_features
+
+append custom-js
+  include includes/files/_custom-js

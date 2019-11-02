@@ -1,0 +1,47 @@
+//- includes/drawer/_drawer-dropdown.pug
+//- Drawer component with dropdown
+.drawer.fade#drawer(tabindex="-1" role="dialog" aria-hidden="true")
+  .drawer-dialog.drawer-dark(role="document")
+    .drawer-content
+      .drawer-header
+        a.drawer-logo(href="./")
+          img.img-fluid(alt="UniKorn" src="images/unikorn-logo.png")
+        button.close(type="button" role="button" data-dismiss="drawer" aria-label="Close")
+          i.material-icons close
+      .drawer-body
+        ul.drawer-nav
+          li.nav-item.dropdown.show
+            a.nav-link.dropdown-toggle#General(href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true") General
+            .dropdown-menu.show(aria-labelledby="General")
+              a.dropdown-item(href="./") #[i.material-icons home] Home
+              a.dropdown-item(href="#!") #[i.material-icons history] Story
+              a.dropdown-item(href="#!") #[i.material-icons info_outline] About
+              a.dropdown-item(href="#!") #[i.material-icons insert_photo] Portfolio
+              a.dropdown-item(href="#!") #[i.material-icons email] Contact
+          li.nav-item.dropdown
+            a.nav-link.dropdown-toggle#Components(href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false") Components
+            .dropdown-menu(aria-labelledby="Components")
+              a.dropdown-item(href="#!") #[i.material-icons cloud] Cloud
+              a.dropdown-item(href="#!") #[i.material-icons laptop] Laptop
+              a.dropdown-item(href="#!") #[i.material-icons tablet] Tablet
+              a.dropdown-item(href="#!") #[i.material-icons computer] Computer
+              .drawer-divider
+              a.dropdown-item(href="#!") #[i.material-icons headset] Headset
+              a.dropdown-item(href="#!") #[i.material-icons scanner] Scanner
+              a.dropdown-item(href="#!") #[i.material-icons speaker] Speaker
+          li.nav-item.dropdown
+            a.nav-link.dropdown-toggle#Social(href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false") Social Media
+            .dropdown-menu(aria-labelledby="Social")
+              a.dropdown-item(href="#!") #[i.material-icons face] Facebook
+              a.dropdown-item(href="#!") #[i.material-icons face] Twitter
+              a.dropdown-item(href="#!") #[i.material-icons face] Google +
+              a.dropdown-item(href="#!") #[i.material-icons face] GitHub
+          li.nav-item.dropdown
+            a.nav-link.dropdown-toggle#Support(href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false") Support
+            .dropdown-menu(aria-labelledby="Support")
+              a.dropdown-item(href="#!") #[i.material-icons feedback] Feedback
+              a.dropdown-item(href="#!") #[i.material-icons build] Support
+              a.dropdown-item(href="#!") #[i.material-icons note] Terms
+              a.dropdown-item(href="#!") #[i.material-icons help] Help
+      .drawer-footer
+        include ../misc/_copyright

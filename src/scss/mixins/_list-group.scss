@@ -1,0 +1,25 @@
+//
+// Mixins - List group
+// ============================================================================
+
+// List group item variants.
+// Use contextual classes to style list items with a stateful background and color.
+@mixin list-group-item-variant($state, $background, $color) {
+  .list-group-item-#{$state} {
+    background-color: $background;
+    color: $color;
+
+    &.list-group-item-action {
+      @include hover-focus {
+        background-color: darken($background, 5%);
+        color: $color;
+      }
+
+      &.active {
+        border-color: $color;
+        background-color: $color;
+        color: $white;
+      }
+    }
+  }
+}

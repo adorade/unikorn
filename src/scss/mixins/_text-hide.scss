@@ -1,0 +1,18 @@
+//
+// Mixins - Text hide
+// ============================================================================
+// CSS image replacement
+
+// Text hide
+@mixin text-hide($ignore-warning: false) {
+  border: 0;
+  background-color: transparent;
+  color: transparent;
+  // stylelint-disable-next-line font-family-no-missing-generic-family-keyword
+  font: 0/0 a;
+  text-shadow: none;
+
+  @if ($ignore-warning != true) {
+    @warn "The `text-hide()` mixin has been deprecated as of v4.1.0. It will be removed entirely in v5.";
+  }
+}

@@ -1,0 +1,11 @@
+//- includes/files/_styles.pug
+if relpath
+  - relpath= relpath
+else
+  - relpath= ""
+
+// UniKorn CSS Files
+link(rel="stylesheet" href=relpath + "css/unikorn.css")
+//- link(rel="stylesheet" href=relpath + "css/unikorn.min.css")
+link(rel="stylesheet" href=relpath + "css/style.css")
+//- link(rel="stylesheet" href=relpath + "css/style.min.css")

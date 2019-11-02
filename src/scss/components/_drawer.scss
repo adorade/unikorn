@@ -1,0 +1,549 @@
+//
+// Drawer
+// =====================================================
+
+// Base styles
+// ----------------------------
+// Kill the scroll on the body
+.drawer-open {
+  overflow: hidden;
+
+  .drawer {
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+}
+
+// Drawer Container
+// ----------------------------
+.drawer {
+  position: fixed;
+  top: 0;//
+  // right: 0;
+  // bottom: 0;
+  left: 0;
+  z-index: $zindex-drawer;
+  display: none;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+
+  // Prevent Chrome on Windows from adding a focus outline.
+  outline: 0;
+}
+
+.drawer-dialog {
+  position: relative;
+  z-index: 1;
+  width: $drawer-width;
+  height: 100%;
+  transform: translate(-100%, 0);
+
+  // When fading in the drawer, animate it to slide right
+  transition: $drawer-transition;
+
+  // When fading in the drawer, animate it to slide right
+  .drawer.fade & {
+    transform: translate(-50%, 0);
+    @include transition($drawer-transition);
+  }
+
+  .drawer.show & {
+    transform: translate(0, 0);
+  }
+}
+
+.drawer-dialog-scrollable {
+  display: flex; // IE10/11
+  max-height: calc(100% - (#{$drawer-dialog-margin * 2}));
+
+  .drawer-content {
+    max-height: calc(100vh - (#{$drawer-dialog-margin * 2})); // IE10/11
+    overflow: hidden;
+  }
+
+  .drawer-header,
+  .drawer-footer {
+    flex-shrink: 0;
+  }
+
+  .drawer-body {
+    overflow-y: auto;
+  }
+}
+
+.modal-dialog-centered {
+  display: flex;
+  align-items: center;
+  min-height: calc(100% - (#{$drawer-dialog-margin} * 2));
+
+  // Ensure `modal-dialog-centered` extends the full height of the view (IE10/11)
+  &::before {
+    display: block; // IE10
+    height: calc(100vh - (#{$drawer-dialog-margin} * 2));
+    content: "";
+  }
+
+  // Ensure `.modal-body` shows scrollbar (IE10/11)
+  &.modal-dialog-scrollable {
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+
+    .modal-content {
+      max-height: none;
+    }
+
+    &::before {
+      content: none;
+    }
+  }
+}
+
+// Drawer Content
+.drawer-content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  background-clip: padding-box;
+  background-color: $drawer-content-bg;
+  color: $drawer-content-color;
+
+  // Remove focus outline from opened drawer
+  outline: 0;
+}
+
+// Drawer Backdrop
+.drawer-backdrop {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: ($zindex-drawer - 5);
+  width: 100vw;
+  height: 100vh;
+  background-color: $drawer-backdrop-bg;
+  transition: $drawer-transition-opacity;
+
+  // Fade for backdrop
+  &.fade { opacity: 0; }
+  &.show { opacity: $drawer-backdrop-opacity; }
+}
+
+
+// Drawer Controls
+// ----------------------------
+.drawer-controls {
+  padding: 0;
+}
+
+
+// Modal structure
+// ----------------------------
+// Drawer Header
+.drawer-header {
+  display: flex;
+  align-items: center; // vertically center it
+  justify-content: space-between; // Put drawer header elements (title and dismiss) on opposite ends
+  // padding: $drawer-header-padding;
+  border-bottom: $drawer-header-border-width solid $drawer-header-border-color;
+
+  .close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: flex;
+    padding: $drawer-padding-x;
+    font-size: ($font-size-base * 1.5);
+
+    &:focus {
+      outline: 0;
+    }
+  }
+}
+
+.drawer-title {
+  margin-bottom: 0;
+  line-height: $drawer-title-line-height;
+}
+
+.drawer-brand {
+  float: left;
+  padding: $drawer-padding-y $drawer-padding-x;
+  font-size: $drawer-brand-font-size;
+
+  @include hover-focus {
+    text-decoration: none;
+  }
+}
+
+.drawer-logo {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  height: 170px;
+  padding: 0;
+  background-color: #d04615;
+
+  img {
+    height: 170px;
+  }
+}
+
+// Drawer Body
+.drawer-body {
+  position: relative;
+
+  // Enable `flex-grow: 1` so that the body take up as much space as possible
+  // when should there be a fixed height on `.modal-dialog`.
+  flex: 1 1 auto;
+  padding: $drawer-inner-padding;
+}
+
+.drawer-divider {
+  @include nav-divider($drawer-content-border-color, $drawer-border-width);
+}
+
+// Drawer Footer
+.drawer-footer {
+  display: flex;
+  align-items: center; // vertically center
+  justify-content: center;
+  width: 100%;
+  padding: $drawer-inner-padding;
+  border-top: $drawer-footer-border-width solid $drawer-footer-border-color;
+  background-color: $drawer-content-bg;
+  text-align: center;
+}
+
+// Measure scrollbar width for padding body during drawer show/hide
+.drawer-scrollbar-measure {
+  position: absolute;
+  top: -9999px;
+  width: 50px;
+  height: 50px;
+  overflow: scroll;
+}
+
+
+// Drawer nav
+// ----------------------------
+// Custom drawer navigation (doesn't require `.nav`, but does make use of `.nav-link`).
+.drawer-nav {
+  display: flex;
+  flex-direction: column; // cannot use `inherit` to get the `.drawer`s value
+  padding-left: 0;
+  margin-bottom: 0;
+  list-style: none;
+
+  .nav-link {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: $drawer-padding-y $drawer-padding-x;
+    color: $drawer-light-color;
+
+    @include hover-focus {
+      background-color: $drawer-light-hover-bg;
+      color: $drawer-light-hover-color;
+    }
+
+    &.disabled {
+      color: $drawer-light-disabled-color;
+    }
+
+    i {
+      margin-right: 1em;
+    }
+  }
+
+  .show > .nav-link,
+  .active > .nav-link,
+  .nav-link.show,
+  .nav-link.active {
+    background-color: $drawer-light-active-bg;
+    color: $drawer-light-active-color;
+    font-weight: $font-weight-bolder;
+  }
+
+  .collapse-toggle {
+    background-color: $drawer-light-active-bg;
+  }
+
+  .collapsed {
+    background-color: transparent !important; // stylelint-disable-line declaration-no-important
+  }
+
+  .collapse-menu {
+    padding: 0;
+    color: $body-color;
+  }
+
+  .dropdown-toggle {
+    display: block;
+
+    &::after {
+      float: right;
+      margin-top: $drawer-caret-width;
+      margin-left: 0;
+      vertical-align: $drawer-caret-width;
+    }
+  }
+
+  .dropdown-menu {
+    position: static;
+    float: none;
+    padding: 0;
+    margin: 0;
+    border: none;
+    border-radius: 0;
+    background-color: $drawer-content-bg; // #fff;
+    color: $body-color;
+    @include box-shadow(none);
+  }
+
+  .collapse-item,
+  .dropdown-item {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: $drawer-padding-y ($drawer-padding-x * 2);
+    color: $body-color;
+
+    @include hover-focus {
+      background-color: $drawer-light-hover-bg;
+      color: $drawer-light-hover-color;
+      text-decoration: none;
+    }
+
+    &.active,
+    &:active {
+      background-color: $drawer-light-active-bg;
+      color: $drawer-light-active-color;
+      text-decoration: none;
+    }
+
+    &.disabled,
+    &:disabled {
+      background-color: transparent;
+      color: $drawer-light-disabled-color;
+      @if $enable-gradients {
+        background-image: none;
+      }
+    }
+
+    i {
+      margin-right: 1em;
+    }
+  }
+}
+
+
+// Drawer themes
+// -----------------------------
+// Styles for switching between drawers with light or dark background.
+
+// Dark links against a light background
+.drawer-light {
+  background-color: $drawer-light-bg;
+  .drawer-content {
+    border-right-color: $drawer-light-border-color;
+    background-color: $drawer-light-bg;
+    color: $drawer-light-color;
+  }
+
+  .drawer-header {
+    border-bottom-color: $drawer-light-border-color;
+    color: $drawer-light-color;
+
+    .close {
+      color: $drawer-light-secondary-color;
+    }
+  }
+
+  .drawer-brand {
+    color: $drawer-light-color;
+
+    @include hover-focus {
+      color: $drawer-light-hover-color;
+    }
+  }
+
+  .drawer-text {
+    color: $drawer-light-color;
+  }
+
+  .drawer-divider {
+    border-top-color: $drawer-light-border-color;
+  }
+
+  .drawer-footer {
+    border-top-color: $drawer-light-border-color;
+    background-color: $drawer-light-bg;
+    color: $drawer-light-color;
+  }
+
+  .drawer-nav {
+    .nav-link {
+      color: $drawer-light-color;
+
+      @include hover-focus {
+        background-color: $drawer-light-hover-bg;
+        color: $drawer-light-hover-color;
+      }
+
+      &.disabled {
+        color: $drawer-light-disabled-color;
+      }
+    }
+
+    .show > .nav-link,
+    .active > .nav-link,
+    .nav-link.show,
+    .nav-link.active {
+      background-color: $drawer-light-active-bg;
+      color: $drawer-light-active-color;
+    }
+
+    .collapse-toggle {
+      background-color: $drawer-light-active-bg;
+    }
+
+    .collapse-menu,
+    .dropdown-menu {
+      background-color: $drawer-light-bg;
+      color: $drawer-light-color;
+    }
+
+    .collapse-item,
+    .dropdown-item {
+      color: $drawer-light-color;
+
+      @include hover-focus {
+        background-color: $drawer-light-hover-bg;
+        color: $drawer-light-hover-color;
+        text-decoration: none;
+      }
+
+      &.active,
+      &:active {
+        background-color: $drawer-light-active-bg;
+        color: $drawer-light-active-color;
+        text-decoration: none;
+      }
+
+      &.disabled,
+      &:disabled {
+        background-color: transparent;
+        color: $drawer-light-disabled-color;
+        @if $enable-gradients {
+          background-image: none;
+        }
+      }
+    }
+  }
+}
+
+// White links against a dark background
+.drawer-dark {
+  background-color: $drawer-dark-bg;
+
+  .drawer-content {
+    border-right-color: $drawer-dark-border-color;
+    background-color: $drawer-dark-bg;
+    color: $drawer-dark-color;
+  }
+
+  .drawer-header {
+    border-bottom-color: $drawer-dark-border-color;
+    color: $drawer-dark-color;
+
+    .close {
+      color: $drawer-dark-secondary-color;
+    }
+  }
+
+  .drawer-brand {
+    color: $drawer-dark-color;
+
+    @include hover-focus {
+      color: $drawer-dark-hover-color;
+    }
+  }
+
+  .drawer-text {
+    color: $drawer-dark-color;
+  }
+
+  .drawer-divider {
+    border-top-color: $drawer-dark-border-color;
+  }
+
+  .drawer-footer {
+    border-top-color: $drawer-dark-border-color;
+    background-color: $drawer-dark-bg;
+    color: $drawer-dark-color;
+  }
+
+  .drawer-nav {
+    .nav-link {
+      color: $drawer-dark-color;
+
+      @include hover-focus {
+        background-color: $drawer-dark-hover-bg;
+        color: $drawer-dark-hover-color;
+      }
+
+      &.disabled {
+        color: $drawer-dark-disabled-color;
+      }
+    }
+
+    .show > .nav-link,
+    .active > .nav-link,
+    .nav-link.show,
+    .nav-link.active {
+      background-color: $drawer-dark-active-bg;
+      color: $drawer-dark-active-color;
+    }
+
+    .collapse-toggle {
+      background-color: $drawer-dark-active-bg;
+    }
+
+    .collapse-menu,
+    .dropdown-menu {
+      background-color: $drawer-dark-bg;
+      color: $drawer-dark-color;
+    }
+
+    .collapse-item,
+    .dropdown-item {
+      color: $drawer-dark-color;
+
+      @include hover-focus {
+        background-color: $drawer-dark-hover-bg;
+        color: $drawer-dark-hover-color;
+        text-decoration: none;
+      }
+
+      &.active,
+      &:active {
+        background-color: $drawer-dark-active-bg;
+        color: $drawer-dark-active-color;
+        text-decoration: none;
+      }
+
+      &.disabled,
+      &:disabled {
+        background-color: transparent;
+        color: $drawer-dark-disabled-color;
+        @if $enable-gradients {
+          background-image: none;
+        }
+      }
+    }
+  }
+}

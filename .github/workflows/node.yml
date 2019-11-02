@@ -41,7 +41,7 @@ jobs:
       run: |
         yarn install
         yarn run verify
-        # yarn run build
+        yarn run build
       shell: bash
       env:
         CI: true

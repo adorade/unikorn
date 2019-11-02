@@ -1,0 +1,28 @@
+//- includes/drawer/_drawer.pug
+//- Drawer component with link
+.drawer.fade#drawer(tabindex="-1" role="dialog" aria-hidden="true")
+  .drawer-dialog.drawer-dark(role="document")
+    .drawer-content
+      .drawer-header
+        a.drawer-logo(href="./")
+          img.img-fluid(alt="UniKorn" src="images/unikorn-logo.png")
+        button.close(type="button" role="button" data-dismiss="drawer" aria-label="Close")
+          i.material-icons close
+      .drawer-body
+        ul.drawer-nav
+          li.nav-item.active: a.nav-link(href="./") #[i.material-icons home] Home
+          li.nav-item: a.nav-link(href="#!") #[i.material-icons history] Story
+          li.nav-item: a.nav-link(href="#!") #[i.material-icons info_outline] About
+          li.nav-item: a.nav-link(href="#!") #[i.material-icons insert_photo] Portfolio
+          li.nav-item: a.nav-link(href="#!") #[i.material-icons email] Contact
+          hr.drawer-divider
+          li.nav-item: a.nav-link(href="#!") #[i.material-icons move_to_inbox] Inbox
+          li.nav-item: a.nav-link(href="#!") #[i.material-icons star] Starred
+          li.nav-item: a.nav-link(href="#!") #[i.material-icons send] Sent mail
+          li.nav-item: a.nav-link(href="#!") #[i.material-icons drafts] Drafts
+          hr.drawer-divider
+          li.nav-item: a.nav-link(href="#!") #[i.material-icons email] All mail
+          li.nav-item: a.nav-link(href="#!") #[i.material-icons delete] Trash
+          li.nav-item: a.nav-link(href="#!") #[i.material-icons report] Spam
+      .drawer-footer
+        include ../misc/_copyright

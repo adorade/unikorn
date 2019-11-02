@@ -1,0 +1,20 @@
+//
+// Mixins - Alert
+// ============================================================================
+
+// Alert variants.
+// Provide contextual feedback messages for typical user actions with the handful
+// of available and flexible alert messages.
+@mixin alert-variant($background, $border, $color) {
+  border-color: $border;
+  @include gradient-bg($background);
+  color: $color;
+
+  hr {
+    border-top-color: darken($border, 5%);
+  }
+
+  .alert-link {
+    color: darken($color, 10%);
+  }
+}
