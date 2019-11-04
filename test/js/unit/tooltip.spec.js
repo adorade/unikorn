@@ -25,10 +25,10 @@ $(function () {
     }
   })
 
-  // test('should provide no conflict', (assert) => {
-  //   assert.expect(1)
-  //   assert.strictEqual(typeof $.fn.tooltip, 'undefined', 'tooltip was set back to undefined (org value)')
-  // })
+  test('should provide no conflict', (assert) => {
+    assert.expect(1)
+    assert.strictEqual(typeof $.fn.tooltip, 'undefined', 'tooltip was set back to undefined (org value)')
+  })
 
   test('should return tooltip version', (assert) => {
     assert.expect(1)
@@ -1282,5 +1282,4 @@ $(function () {
 
     assert.strictEqual(tooltip.config.sanitize, true)
   })
-
 })

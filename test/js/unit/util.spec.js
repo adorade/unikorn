@@ -26,25 +26,11 @@ $(function () {
     assert.expect(2)
 
     var $el = $('<div data-target="#1"></div>').appendTo($('#qunit-fixture'))
+    assert.strictEqual(Util.getSelectorFromElement($el[0]), null)
 
-    try {
-      assert.ok(true, 'trying to use a bad selector')
-      Util.getSelectorFromElement($el[0])
-    } catch (e) {
-      assert.ok(e instanceof DOMException)
-    }
+    var $el2 = $('<a href="/posts"></a>').appendTo($('#qunit-fixture'))
+    assert.strictEqual(Util.getSelectorFromElement($el2[0]), null)
   })
-
-  // added
-  // test('Util.getSelectorFromElement should return null when there is a bad selector', (assert) => {
-  //   assert.expect(2)
-
-  //   var $el = $('<div data-target="#1"></div>').appendTo($('#qunit-fixture'))
-  //   assert.strictEqual(Util.getSelectorFromElement($el[0]), null)
-
-  //   var $el2 = $('<a href="/posts"></a>').appendTo($('#qunit-fixture'))
-  //   assert.strictEqual(Util.getSelectorFromElement($el2[0]), null)
-  // })
 
   test('Util.typeCheckConfig should thrown an error when a bad config is passed', (assert) => {
     assert.expect(1)
@@ -182,9 +168,4 @@ $(function () {
       sandbox.restore()
     }
   })
-
-  // test('Util.jQueryDetection should detect jQuery', (assert) => {
-  //   assert.expect(0)
-  //   Util.jQueryDetection()
-  // })
 })
