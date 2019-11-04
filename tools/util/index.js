@@ -7,7 +7,7 @@
 // Load plugins
 export {
   src, dest, series, parallel, lastRun, watch, tree,
-  args, taskTarget, plugins, bs, fs, http2, karmaServer,
+  args, taskTarget, plugins, bs, fs, karmaServer,
   del, log, green, magenta, red, bgBlue, bgRed
 } from './plugins';
 

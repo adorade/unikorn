@@ -8,7 +8,7 @@ import {
   lintSCSS, compile, lintMJS, transpile, lintPages, pagile, imagine, statica
 } from './';
 import {
-  series, watch, dirs, paths, opts, bs, http2,
+  series, watch, dirs, paths, opts, bs,
   log, green, magenta, red, bgRed, bgBlue
 } from '../util';
 
@@ -22,12 +22,7 @@ export function serve (done) {
     },
     port: 3333,
     logPrefix: 'UniKorn',
-    // ui: false,
-    httpModule: http2
-    // https: {
-    //   cert: `${process.env.LOCALAPPDATA}\\mkcert\\localhost.pem`,
-    //   key: `${process.env.LOCALAPPDATA}\\mkcert\\localhost-key.pem`
-    // }
+    ui: false
   });
 
   function watchEvent (path, event, task) {
