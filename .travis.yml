@@ -29,4 +29,5 @@ before_script:
 
 script:
   - yarn run verify
+  - yarn run test
   - yarn run build
