@@ -1,20 +1,19 @@
 /*!
- * UniKorn (v4.0.0): karma.conf.js
+ * UniKorn (v1.0.0): karma.conf.js
  *
  * Karma configuration.
- * Copyright (c) 2018 Adorade (https://adorade.ro)
+ * Copyright (c) 2018 - 2019 Adorade (https://adorade.ro)
  * Licensed under MIT (https://github.com/adorade/unikorn/blob/master/LICENSE)
  * ============================================================================
  *
  * Usage:
  *   `yarn run test` or `yarn test`
- *   `gulp test`
- *   `gulp tdd`
+ *   `gulp tester`
  */
-// Generated on Tue Jul 17 2018 20:43:33 GMT+0300 (GTB Daylight Time)
 
-const { env } = process
-const debug = env.DEBUG === 'true'
+// For debug purpose
+// const { env } = process
+// const debug = env.DEBUG === 'true'
 
 module.exports = (config) => {
   config.set({
@@ -130,13 +129,13 @@ module.exports = (config) => {
       postDetection: function (availableBrowsers) {
         if (availableBrowsers.length > 0) {
           if (typeof process.env.TRAVIS_JOB_ID !== 'undefined' || availableBrowsers.indexOf('Chrome') > -1) {
-            // return ['ChromeHeadlessNoSandbox']
-            return debug ? ['Chrome'] : ['ChromeHeadlessNoSandbox']
+            return ['ChromeHeadless']
+            // return debug ? ['Chrome'] : ['ChromeHeadlessNoSandbox']
           }
 
           if (availableBrowsers.indexOf('Firefox') > -1) {
-            // return ['FirefoxHeadless']
-            return debug ? ['Firefox'] : ['FirefoxHeadless']
+            return ['FirefoxHeadless']
+            // return debug ? ['Firefox'] : ['FirefoxHeadless']
           }
         } else {
           throw new Error('Please install Chrome or Firefox')
