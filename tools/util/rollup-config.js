@@ -5,7 +5,6 @@
  * ========================================================================== */
 
 import babel from 'rollup-plugin-babel';
-import resolve from 'rollup-plugin-node-resolve';
 
 const pkg = require(`${process.cwd()}/package.json`);
 const filename = `${pkg.name}`;
@@ -13,7 +12,6 @@ const filename = `${pkg.name}`;
 // Input Options
 const external = [...Object.keys(pkg.dependencies || {})]; // 'jquery', 'popper.js'
 const plugins = [
-  resolve(),
   babel({
     // for more options see: .babelrc.js,
     exclude: 'node_modules/**', // Only transpile our source code
