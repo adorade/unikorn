@@ -28,7 +28,6 @@ cache:
     - node_modules
 
 before_script:
-  - google-chrome-stable --product-version
   - yarn global add gulp-cli
 
 script:
