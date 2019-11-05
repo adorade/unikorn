@@ -38,7 +38,6 @@ export const taskTarget = args.production ? dirs.prod : dirs.dev;
 // Load others modules
 export const bs = require('browser-sync').create();
 export const fs = require('fs');
-export const http2 = require('http2');
 export const del = require('del');
 export const karmaServer = require('karma').Server;
 

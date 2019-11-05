@@ -13,6 +13,9 @@ os:
   - linux
   - osx
 
+addons:
+  chrome: stable
+
 git:
   depth: 10
 
@@ -29,4 +32,5 @@ before_script:
 
 script:
   - yarn run verify
+  - yarn run test
   - yarn run build

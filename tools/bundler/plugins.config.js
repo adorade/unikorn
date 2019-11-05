@@ -1,16 +1,14 @@
 /*!
- * UniKorn (v4.0.0): plugins.config.js
+ * UniKorn (v1.0.0): plugins.config.js
  *
  * Script to build our plugins to use them separately.
  * Copyright (c) 2018 - 2019 Adorade (https://adorade.ro)
  * Licensed under MIT (https://github.com/adorade/unikorn/blob/master/LICENSE)
  * ========================================================================== */
 
-const rollup = require('rollup');
-const eslint = require('rollup-plugin-eslint').eslint;
-const babel  = require('rollup-plugin-babel');
-const resolve = require('rollup-plugin-node-resolve');
 const path   = require('path');
+const rollup = require('rollup');
+const babel  = require('rollup-plugin-babel');
 const banner = require('./banner');
 
 // Replace console.log
@@ -27,12 +25,7 @@ if (mode !== 'test') {
   log(`${magenta('Looks like we are in test mode!')}`);
 }
 
-const external = ['jquery', 'popper.js'];
 const plugins = [
-  eslint({
-    throwOnError: true
-  }),
-  resolve(),
   babel({
     // for more options see: .babelrc.js,
     exclude: 'node_modules/**', // Only transpile our source code
@@ -45,11 +38,6 @@ const plugins = [
     ]
   })
 ];
-const globals = {
-  jquery: 'jQuery', // Ensure we use jQuery which is always available even in noConflict mode
-  'popper.js': 'Popper'
-};
-const rootPath = isTest ? '../../dist/js/coverage' : '../../dist/js/plugins';
 
 const uniPlugins = {
   Alert: path.resolve(__dirname, '../../src/mjs/alert.mjs'),
@@ -66,40 +54,47 @@ const uniPlugins = {
   Tooltip: path.resolve(__dirname, '../../src/mjs/tooltip.mjs'),
   Util: path.resolve(__dirname, '../../src/mjs/util.mjs')
 };
+const rootPath = isTest ? '../../dist/js/coverage' : '../../dist/js/plugins';
 
-for(let pluginKey of Object.keys(uniPlugins)) {
+for(let plugin of Object.keys(uniPlugins)) {
+  const external = ['jquery', 'popper.js'];
+  const globals = {
+    jquery: 'jQuery', // Ensure we use jQuery which is always available even in noConflict mode
+    'popper.js': 'Popper'
+  };
+
   // Do not bundle Util in plugins
-  if (pluginKey !== 'Util') {
+  if (plugin !== 'Util') {
     external.push(uniPlugins.Util);
     globals[uniPlugins.Util] = 'Util';
   }
 
   // Do not bundle Tooltip in Popover
-  if (pluginKey === 'Popover') {
+  if (plugin === 'Popover') {
     external.push(uniPlugins.Tooltip);
     globals[uniPlugins.Tooltip] = 'Tooltip';
   }
 
-  const pluginFilename = `${pluginKey.toLowerCase()}.js`;
+  const pluginFilename = `${plugin.toLowerCase()}.js`;
 
   rollup.rollup({
-    input: uniPlugins[pluginKey],
+    input: uniPlugins[plugin],
     plugins,
     external
   }).then((bundle) => {
     bundle.write({
       format: 'umd',
       file: path.resolve(__dirname, `${rootPath}/${pluginFilename}`),
-      name: pluginKey,
+      name: plugin,
       globals,
       banner: banner(pluginFilename),
       sourcemap: false
     })
       .then(() => {
         isTest
-          ? log(`Building ${cyan(`${pluginKey}`)} coverage... Done!`)
-          : log(`Building ${green(`${pluginKey}`)} plugin... Done!`);
+          ? log(`Building ${cyan(`${plugin}`)} coverage... Done!`)
+          : log(`Building ${green(`${plugin}`)} plugin... Done!`);
       })
-      .catch((err) => log.error(`${red(`${pluginKey}: ${err}`)}`));
+      .catch((err) => log.error(`${red(`${plugin}: ${err}`)}`));
   });
 }

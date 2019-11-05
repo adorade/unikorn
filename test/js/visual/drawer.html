@@ -1,0 +1,178 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="../../../dist/css/unikorn.min.css">
+  <title>Drawer</title>
+  <style>
+  </style>
+  <link rel="shortcut icon" href="../../../dist/static/icons/favicon.ico">
+</head>
+
+<body>
+  <div class="drawer fade" id="myDrawer" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="drawer-dialog drawer-dark" role="document">
+      <div class="drawer-content">
+        <div class="drawer-header">
+          <a class="drawer-logo" href="./">
+            <img class="img-fluid" alt="UniKorn" src="../../../dist/images/unikorn-logo.png">
+          </a>
+          <button class="close" type="button" role="button" data-dismiss="drawer" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="drawer-body">
+          <ul class="drawer-nav">
+            <li class="nav-item active">
+              <a class="nav-link" href="./">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#!">Story</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#!">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#!">Portfolio</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#!">Contact</a>
+            </li>
+            <hr class="drawer-divider">
+            <li class="nav-item">
+              <a class="nav-link" href="#!">Inbox</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#!">Starred</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#!">Sent mail</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#!">Drafts</a>
+            </li>
+            <hr class="drawer-divider">
+            <li class="nav-item">
+              <a class="nav-link" href="#!">All mail</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#!">Trash</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#!">Spam</a>
+            </li>
+          </ul>
+        </div>
+        <div class="drawer-footer">
+          <p class="text-center">UniKorn &copy; 2017</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <nav class="navbar navbar-full navbar-dark bg-dark">
+    <button class="navbar-toggler hidden-lg-up" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive"
+      aria-expanded="false" aria-label="Toggle navigation"></button>
+    <div class="collapse navbar-expand-md" id="navbarResponsive">
+      <a class="navbar-brand" href="#">This shouldn't jump!</a>
+      <ul class="navbar-nav">
+        <li class="nav-item active">
+          <a class="nav-link" href="#">Home
+            <span class="sr-only">(current)</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Link</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Link</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="container mt-3">
+    <h1>Drawer
+      <small>UniKorn Visual Test</small>
+    </h1>
+
+    <button type="button" class="btn btn-primary btn-lg" data-toggle="drawer" data-target="#myDrawer">
+      Launch demo drawer
+    </button>
+
+    <button type="button" class="btn btn-secondary btn-lg" data-toggle="drawer" data-target="&#x3C;div class=&#x22;drawer fade the-bad&#x22; tabindex=&#x22;-1&#x22; role=&#x22;dialog&#x22;&#x3E;&#x3C;div class=&#x22;drawer-dialog&#x22; role=&#x22;document&#x22;&#x3E;&#x3C;div class=&#x22;drawer-content&#x22;&#x3E;&#x3C;div class=&#x22;drawer-header&#x22;&#x3E;&#x3C;button type=&#x22;button&#x22; class=&#x22;close&#x22; data-dismiss=&#x22;drawer&#x22; aria-label=&#x22;Close&#x22;&#x3E;&#x3C;span aria-hidden=&#x22;true&#x22;&#x3E;&#x26;times;&#x3C;/span&#x3E;&#x3C;/button&#x3E;&#x3C;h4 class=&#x22;drawer-title&#x22;&#x3E;The Bad drawer&#x3C;/h4&#x3E;&#x3C;/div&#x3E;&#x3C;div class=&#x22;drawer-body&#x22;&#x3E;This drawer&#x27;s HTTML source code is declared inline, inside the data-target attribute of it&#x27;s show-button&#x3C;/div&#x3E;&#x3C;/div&#x3E;&#x3C;/div&#x3E;&#x3C;/div&#x3E;">
+      Drawer with an XSS inside the data-target
+    </button>
+
+    <p>Lorem ipsum dolor sit amet, mei tractatos omittantur ad, ea ridens luptatum pri. No ius ferri tantas. Usu in vide iisque.
+      Hendrerit appellantur ex eam. Id eum ullum fierent.</p>
+    <p>Eu eos utinam dolorum neglegentur, ex labore viderer molestiae mel. Qui no tota fastidii. Choro reprehendunt te vis,
+      vix natum clita no. Minim dolores vel in. Id per tale primis, nisl dissentias id mel. No vitae latine oblique mea,
+      est ea eius utinam.</p>
+    <p>Ei eos tale iuvaret salutandi. Eruditi pertinax no pro, at sapientem disputationi qui, sed et errem animal. Vix at omittam
+      singulis suscipiantur, cu sed debet iriure adolescens, ut odio assueverit per. Vim ad aliquip oportere.</p>
+    <p>Molestie appetere accusata ea mei, ei dico facilisis has. Ut sit graece aperiam verterem, solet dicant deleniti at est.
+      Mea id munere dissentias, qui ut unum doming argumentum. At hinc clita interesset eum, cum mollis menandri ea. Ex hinc
+      docendi adolescens cum, ex vix integre diceret. Ipsum everti ut usu.</p>
+    <p>Ne mel solum saepe epicurei, in brute malorum definiebas usu. In tempor posidonium vis. Tation blandit mei an, vidit
+      antiopam no mea, ius novum disputando concludaturque in. In sit omnes eripuit volutpat. Vix te dicta mollis. Hinc omnis
+      nec ex, ne vix veri quas partiendo. Choro scribentur ex mel, tation repudiare quo at, ex impedit habemus est.</p>
+    <p>Tale esse id sed, usu scaevola moderatius ex, sit aperiri vivendum ad. Eu vis movet mollis convenire, iudico tantas libris
+      an sed. Imperdiet efficiantur cu duo, qui laoreet intellegat ad, ei inani dolorum feugait eos. Stet deterruisset ius
+      ex, quas recteque adipiscing ne pri. In dico timeam mel. Nibh decore ut ius, sit recteque consequuntur cu, libris probatus
+      delicatissimi no eum.</p>
+    <p>An meis diceret quo, eos ad illud lorem. Commodo oporteat ad vel. Pri in oratio mediocritatem. Id per amet populo postulant,
+      at eius hendrerit has. Sea illud detraxit phaedrum no, cum at consulatu complectitur definitiones.</p>
+    <p>Justo doming te mel. Zril iudicabit inciderint eu eam, in nec nisl placerat erroribus, te cum idque verterem explicari.
+      Mazim delenit sit ut, ei sit paulo fierent conclusionemque. Duo te purto petentium dissentiet, eu probo alterum mei.
+      Nec zril fabellas percipitur ut, te ponderum molestiae philosophia pro, has delicata ullamcorper ea.</p>
+    <p>Ludus tibique convenire no eam, lorem labitur vix ei. Cum nullam torquatos te, ne qui eius dicant postea, ad insolens
+      dignissim his. Te solet aperiam admodum duo, modus suscipiantur nec ea, sit propriae repudiare accommodare ex. Possit
+      malorum gloriatur mea no. Vim ei sale utroque verterem, id vim nobis atomorum.</p>
+    <p>Eruditi rationibus liberavisse cu vix, quo in quando pericula forensibus. Ne habeo apeirian persecuti qui, periculis
+      moderatius eam an, atomorum instructior sea in. Prompta dolorum feugait ad vel, ad dicunt timeam philosophia nam. Nam
+      labore accusata id, adhuc facilisi ea cum. Mel ex erant vivendo imperdiet, at per option latine. Zril virtute salutatus
+      ne mei, wisi facer falli no nec, unum feugiat convenire qui ut.</p>
+
+    <p>Lorem ipsum dolor sit amet, mei tractatos omittantur ad, ea ridens luptatum pri. No ius ferri tantas. Usu in vide iisque.
+      Hendrerit appellantur ex eam. Id eum ullum fierent.</p>
+    <p>Eu eos utinam dolorum neglegentur, ex labore viderer molestiae mel. Qui no tota fastidii. Choro reprehendunt te vis,
+      vix natum clita no. Minim dolores vel in. Id per tale primis, nisl dissentias id mel. No vitae latine oblique mea,
+      est ea eius utinam.</p>
+    <p>Ei eos tale iuvaret salutandi. Eruditi pertinax no pro, at sapientem disputationi qui, sed et errem animal. Vix at omittam
+      singulis suscipiantur, cu sed debet iriure adolescens, ut odio assueverit per. Vim ad aliquip oportere.</p>
+    <p>Molestie appetere accusata ea mei, ei dico facilisis has. Ut sit graece aperiam verterem, solet dicant deleniti at est.
+      Mea id munere dissentias, qui ut unum doming argumentum. At hinc clita interesset eum, cum mollis menandri ea. Ex hinc
+      docendi adolescens cum, ex vix integre diceret. Ipsum everti ut usu.</p>
+    <p>Ne mel solum saepe epicurei, in brute malorum definiebas usu. In tempor posidonium vis. Tation blandit mei an, vidit
+      antiopam no mea, ius novum disputando concludaturque in. In sit omnes eripuit volutpat. Vix te dicta mollis. Hinc omnis
+      nec ex, ne vix veri quas partiendo. Choro scribentur ex mel, tation repudiare quo at, ex impedit habemus est.</p>
+    <p>Tale esse id sed, usu scaevola moderatius ex, sit aperiri vivendum ad. Eu vis movet mollis convenire, iudico tantas libris
+      an sed. Imperdiet efficiantur cu duo, qui laoreet intellegat ad, ei inani dolorum feugait eos. Stet deterruisset ius
+      ex, quas recteque adipiscing ne pri. In dico timeam mel. Nibh decore ut ius, sit recteque consequuntur cu, libris probatus
+      delicatissimi no eum.</p>
+    <p>An meis diceret quo, eos ad illud lorem. Commodo oporteat ad vel. Pri in oratio mediocritatem. Id per amet populo postulant,
+      at eius hendrerit has. Sea illud detraxit phaedrum no, cum at consulatu complectitur definitiones.</p>
+    <p>Justo doming te mel. Zril iudicabit inciderint eu eam, in nec nisl placerat erroribus, te cum idque verterem explicari.
+      Mazim delenit sit ut, ei sit paulo fierent conclusionemque. Duo te purto petentium dissentiet, eu probo alterum mei.
+      Nec zril fabellas percipitur ut, te ponderum molestiae philosophia pro, has delicata ullamcorper ea.</p>
+    <p>Ludus tibique convenire no eam, lorem labitur vix ei. Cum nullam torquatos te, ne qui eius dicant postea, ad insolens
+      dignissim his. Te solet aperiam admodum duo, modus suscipiantur nec ea, sit propriae repudiare accommodare ex. Possit
+      malorum gloriatur mea no. Vim ei sale utroque verterem, id vim nobis atomorum.</p>
+    <p>Eruditi rationibus liberavisse cu vix, quo in quando pericula forensibus. Ne habeo apeirian persecuti qui, periculis
+      moderatius eam an, atomorum instructior sea in. Prompta dolorum feugait ad vel, ad dicunt timeam philosophia nam. Nam
+      labore accusata id, adhuc facilisi ea cum. Mel ex erant vivendo imperdiet, at per option latine. Zril virtute salutatus
+      ne mei, wisi facer falli no nec, unum feugiat convenire qui ut.</p>
+  </div>
+
+  <script src="../../../node_modules/jquery/dist/jquery.slim.min.js"></script>
+  <script src="../../../node_modules/popper.js/dist/umd/popper.min.js"></script>
+  <script src="../../../dist/js/plugins/util.js"></script>
+  <script src="../../../dist/js/plugins/drawer.js"></script>
+  <script src="../../../dist/js/plugins/collapse.js"></script>
+
+</body>
+
+</html>

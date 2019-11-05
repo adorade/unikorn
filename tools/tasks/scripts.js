@@ -25,7 +25,7 @@ cleanScripts.displayName = 'clean:js';
 cleanScripts.description = 'Clean up scripts folder';
 
 export function lintMJS () {
-  log(`${green('-> Linting ES files...')}`);
+  log(`${green('-> Linting MJS files...')}`);
 
   const outputDir = paths.logs.gulp;
   fs.mkdirSync(`${outputDir}`, { recursive: true });

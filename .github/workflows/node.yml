@@ -15,13 +15,8 @@ jobs:
 
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest, macOS-latest]
+        os: [ubuntu-latest, windows-latest]
         node_version: [10.x, 12.x]
-        exclude:
-        - os: windows-latest
-          node_version: 10.x
-        - os: macOS-latest
-          node_version: 10.x
 
     runs-on: ${{ matrix.os }}
 
@@ -37,10 +32,11 @@ jobs:
         node-version: ${{ matrix.node_version }}
 
     # install dependencies, verify and build
-    - name: Clean install dependencies and build
+    - name: Clean install dependencies, test and build
       run: |
         yarn install
         yarn run verify
+        yarn run test
         yarn run build
       shell: bash
       env:

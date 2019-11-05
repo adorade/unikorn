@@ -1,13 +1,11 @@
 /*!
- * UniKorn (v4.0.0): rollup.config.js
+ * UniKorn (v1.0.0): rollup.config.js
  * Copyright (c) 2018 - 2019 Adorade (https://adorade.ro)
  * Licensed under MIT (https://github.com/adorade/unikorn/blob/master/LICENSE)
  * ========================================================================== */
 
 import babel from 'rollup-plugin-babel';              // https://github.com/rollup/rollup-plugin-babel
 import { terser } from 'rollup-plugin-terser';        // https://github.com/TrySound/rollup-plugin-terser
-import { eslint } from 'rollup-plugin-eslint';        // https://github.com/TrySound/rollup-plugin-eslint
-import resolve from 'rollup-plugin-node-resolve';     // https://github.com/rollup/rollup-plugin-node-resolve
 import pkg from '../../package.json';
 const getBanner = require('./banner');
 
@@ -32,10 +30,6 @@ const destPath = './dist/js/bundler'; // path relative to root
 // Config
 const external = [...Object.keys(pkg.dependencies || {})];
 const plugins = [
-  eslint({
-    throwOnError: true
-  }),
-  resolve(),
   babel({
     // for more options see: .babelrc.js,
     exclude: 'node_modules/**', // Only transpile our source code
