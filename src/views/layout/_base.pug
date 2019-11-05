@@ -1,18 +1,18 @@
 //- layout/_layout.pug
 doctype html
 html(lang="en")
-  include ../includes/head/_stamp
+  include ../partials/_stamp
   block setting
 
   head
     block head
-      include ../includes/head/_head
+      include ../partials/_meta
     block fonts
-      include ../includes/files/_fonts
+      include ../partials/_fonts
     block styles
-      include ../includes/files/_styles
+      include ../partials/_styles
     block head-js
-      //- include ../includes/head/_tagmanager
+      include ../partials/_analytics
 
   body
     .wrapper
@@ -27,5 +27,5 @@ html(lang="en")
         include ../includes/footer/_footer
     include ../includes/misc/_back-to-top
     block scripts
-      include ../includes/files/_scripts
+      include ../partials/_scripts
     block custom-js
