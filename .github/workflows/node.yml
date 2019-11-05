@@ -36,8 +36,8 @@ jobs:
       run: |
         yarn install
         yarn run verify
-        gulp build
-      # shell: bash
+        yarn run build:gulp
+      shell: bash
       env:
         CI: true
 
