@@ -13,6 +13,9 @@ os:
   - linux
   - osx
 
+addons:
+  chrome: stable
+
 git:
   depth: 10
 
@@ -25,6 +28,7 @@ cache:
     - node_modules
 
 before_script:
+  - google-chrome-stable --product-version
   - yarn global add gulp-cli
 
 script:

@@ -127,11 +127,11 @@ module.exports = (config) => {
       // post processing of browsers list
       // here you can edit the list of browsers used by karma
       postDetection: function (availableBrowsers) {
-        if (typeof process.env.TRAVIS_JOB_ID !== 'undefined' || availableBrowsers.indexOf('Chrome') > -1) {
+        if (typeof process.env.TRAVIS_JOB_ID !== 'undefined' || availableBrowsers.includes('Chrome')) {
           return ['ChromeHeadlessNoSandbox']
         }
 
-        if (availableBrowsers.indexOf('Firefox') > -1) {
+        if (availableBrowsers.includes('Firefox')) {
           return ['FirefoxHeadless']
         }
 
