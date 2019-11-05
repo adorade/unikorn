@@ -37,7 +37,7 @@ jobs:
         node-version: ${{ matrix.node_version }}
 
     # install dependencies, verify and build
-    - name: Clean install dependencies and build
+    - name: Clean install dependencies, test and build
       run: |
         yarn install
         yarn run verify
@@ -46,6 +46,7 @@ jobs:
       shell: bash
       env:
         CI: true
+        BROWSER: chrome
 
     # deploy web app using publish profile credentials
     # coming soon
