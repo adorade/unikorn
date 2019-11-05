@@ -127,19 +127,29 @@ module.exports = (config) => {
       // post processing of browsers list
       // here you can edit the list of browsers used by karma
       postDetection: function (availableBrowsers) {
-        if (availableBrowsers.length > 0) {
-          if (typeof process.env.TRAVIS_JOB_ID !== 'undefined' || availableBrowsers.indexOf('Chrome') > -1) {
-            return ['ChromeHeadless']
-            // return debug ? ['Chrome'] : ['ChromeHeadlessNoSandbox']
-          }
-
-          if (availableBrowsers.indexOf('Firefox') > -1) {
-            return ['FirefoxHeadless']
-            // return debug ? ['Firefox'] : ['FirefoxHeadless']
-          }
-        } else {
-          throw new Error('Please install Chrome or Firefox')
+        if (typeof process.env.TRAVIS_JOB_ID !== 'undefined' || availableBrowsers.indexOf('Chrome') > -1) {
+          return ['ChromeHeadlessNoSandbox']
         }
+
+        if (availableBrowsers.indexOf('Firefox') > -1) {
+          return ['FirefoxHeadless']
+        }
+
+        throw new Error('Please install Chrome or Firefox')
+
+        // if (availableBrowsers.length > 0) {
+        //   if (typeof process.env.TRAVIS_JOB_ID !== 'undefined' || availableBrowsers.indexOf('Chrome') > -1) {
+        //     return ['ChromeHeadless']
+        //     // return debug ? ['Chrome'] : ['ChromeHeadlessNoSandbox']
+        //   }
+
+        //   if (availableBrowsers.indexOf('Firefox') > -1) {
+        //     return ['FirefoxHeadless']
+        //     // return debug ? ['Firefox'] : ['FirefoxHeadless']
+        //   }
+        // } else {
+        //   throw new Error('Please install Chrome or Firefox')
+        // }
       }
     }
   })
