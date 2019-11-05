@@ -1,11 +1,9 @@
 # GitHub Actions allows you to build, test, and deploy applications in your language of choice
-name: Node CI
+name: Test
 
 on:
   push:
-    branches: [master, develop]
-  pull_request:
-    branches: [master]
+    branches: [tests]
   schedule:
   - cron: 0 2 * * 1-5
 
@@ -15,7 +13,7 @@ jobs:
 
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest, macOS-latest]
+        os: [ubuntu-latest, windows-latest]
         node_version: [10.x, 12.x]
 
     runs-on: ${{ matrix.os }}
@@ -31,15 +29,11 @@ jobs:
       with:
         node-version: ${{ matrix.node_version }}
 
-    # install dependencies, verify and build
-    - name: Clean install dependencies and build
+    # install dependencies, verify and test
+    - name: Clean install dependencies and test
       run: |
         yarn install
         yarn run verify
-        yarn run build:gulp
-      shell: bash
+        yarn run test
       env:
         CI: true
-
-    # deploy web app using publish profile credentials
-    # coming soon
