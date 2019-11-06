@@ -836,4 +836,25 @@ $(function () {
     })
       .unikornModal('show')
   })
+
+  test('should set .modal\'s scroll top to 0 if .modal-dialog-scrollable and modal body do not exists', (assert) => {
+    assert.expect(1)
+    var done = assert.async()
+
+    var $modal = $([
+      '<div id="modal-test">',
+      '  <div class="modal-dialog modal-dialog-scrollable">',
+      '    <div class="modal-content">',
+      '    </div>',
+      '  </div>',
+      '</div>'
+    ].join('')).appendTo('#qunit-fixture')
+
+
+    $modal.on('shown.uni.modal', function () {
+      assert.strictEqual($modal.scrollTop(), 0)
+      done()
+    })
+      .unikornModal('show')
+  })
 })

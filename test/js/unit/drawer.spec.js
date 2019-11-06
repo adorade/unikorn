@@ -838,4 +838,25 @@ $(function () {
     })
       .unikornDrawer('show')
   })
+
+  test('should set .drawer\'s scroll top to 0 if .drawer-dialog-scrollable and drawer body do not exists', (assert) => {
+    assert.expect(1)
+    var done = assert.async()
+
+    var $drawer = $([
+      '<div id="drawer-test">',
+      '  <div class="drawer-dialog drawer-dialog-scrollable">',
+      '    <div class="drawer-content">',
+      '    </div>',
+      '  </div>',
+      '</div>'
+    ].join('')).appendTo('#qunit-fixture')
+
+
+    $drawer.on('shown.uni.drawer', function () {
+      assert.strictEqual($drawer.scrollTop(), 0)
+      done()
+    })
+      .unikornDrawer('show')
+  })
 })

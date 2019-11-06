@@ -223,6 +223,7 @@ const Modal = (($) => {
 
     _showElement(relatedTarget) {
       const transition = $(this._element).hasClass(ClassName.FADE)
+      const modalBody = this._dialog ? this._dialog.querySelector(Selector.MODAL_BODY) : null
 
       if (!this._element.parentNode ||
          this._element.parentNode.nodeType !== Node.ELEMENT_NODE) {
@@ -234,8 +235,8 @@ const Modal = (($) => {
       this._element.removeAttribute('aria-hidden')
       this._element.setAttribute('aria-modal', true)
 
-      if ($(this._dialog).hasClass(ClassName.SCROLLABLE)) {
-        this._dialog.querySelector(Selector.MODAL_BODY).scrollTop = 0
+      if ($(this._dialog).hasClass(ClassName.SCROLLABLE) && modalBody) {
+        modalBody.scrollTop = 0
       } else {
         this._element.scrollTop = 0
       }
