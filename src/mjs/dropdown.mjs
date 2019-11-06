@@ -71,19 +71,21 @@ const Dropdown = (($) => {
   }
 
   const Default = {
-    offset    : 0,
-    flip      : true,
-    boundary  : 'scrollParent',
-    reference : 'toggle',
-    display   : 'dynamic'
+    offset       : 0,
+    flip         : true,
+    boundary     : 'scrollParent',
+    reference    : 'toggle',
+    display      : 'dynamic',
+    popperConfig : null
   }
 
   const DefaultType = {
-    offset    : '(number|string|function)',
-    flip      : 'boolean',
-    boundary  : '(string|element)',
-    reference : '(string|element)',
-    display   : 'string'
+    offset       : '(number|string|function)',
+    flip         : 'boolean',
+    boundary     : '(string|element)',
+    reference    : '(string|element)',
+    display      : 'string',
+    popperConfig : '(null|object)'
   }
 
   /**
@@ -110,7 +112,6 @@ const Dropdown = (($) => {
         return
       }
 
-      const parent   = Dropdown._getParentFromElement(this._element)
       const isActive = $(this._menu).hasClass(ClassName.SHOW)
 
       Dropdown._clearMenus()
@@ -119,10 +120,19 @@ const Dropdown = (($) => {
         return
       }
 
+      this.show(true)
+    }
+
+    show(usePopper = false) {
+      if (this._element.disabled || $(this._element).hasClass(ClassName.DISABLED) || $(this._menu).hasClass(ClassName.SHOW)) {
+        return
+      }
+
       const relatedTarget = {
         relatedTarget: this._element
       }
       const showEvent = $.Event(Event.SHOW, relatedTarget)
+      const parent = Dropdown._getParentFromElement(this._element)
 
       $(parent).trigger(showEvent)
 
@@ -131,7 +141,7 @@ const Dropdown = (($) => {
       }
 
       // Disable totally Popper.js for Dropdown in Navbar and Drawer
-      if (!this._inNavbar) {
+      if (!this._inNavbar && usePopper) {
         /**
          * Check for Popper dependency
          * Popper - https://popper.js.org
@@ -181,29 +191,6 @@ const Dropdown = (($) => {
         .trigger($.Event(Event.SHOWN, relatedTarget))
     }
 
-    show() {
-      if (this._element.disabled || $(this._element).hasClass(ClassName.DISABLED) || $(this._menu).hasClass(ClassName.SHOW)) {
-        return
-      }
-
-      const relatedTarget = {
-        relatedTarget: this._element
-      }
-      const showEvent = $.Event(Event.SHOW, relatedTarget)
-      const parent = Dropdown._getParentFromElement(this._element)
-
-      $(parent).trigger(showEvent)
-
-      if (showEvent.isDefaultPrevented()) {
-        return
-      }
-
-      $(this._menu).toggleClass(ClassName.SHOW)
-      $(parent)
-        .toggleClass(ClassName.SHOW)
-        .trigger($.Event(Event.SHOWN, relatedTarget))
-    }
-
     hide() {
       if (this._element.disabled || $(this._element).hasClass(ClassName.DISABLED) || !$(this._menu).hasClass(ClassName.SHOW)) {
         return
@@ -219,6 +206,10 @@ const Dropdown = (($) => {
 
       if (hideEvent.isDefaultPrevented()) {
         return
+      }
+
+      if (this._popper) {
+        this._popper.destroy()
       }
 
       $(this._menu).toggleClass(ClassName.SHOW)
@@ -352,7 +343,10 @@ const Dropdown = (($) => {
         }
       }
 
-      return popperConfig
+      return {
+        ...popperConfig,
+        ...this._config.popperConfig
+      }
     }
 
     // Static
@@ -424,6 +418,10 @@ const Dropdown = (($) => {
 
         toggles[i].setAttribute('aria-expanded', 'false')
 
+        if (context._popper) {
+          context._popper.destroy()
+        }
+
         $(dropdownMenu).removeClass(ClassName.SHOW)
         $(parent)
           .removeClass(ClassName.SHOW)
@@ -468,6 +466,10 @@ const Dropdown = (($) => {
       const parent   = Dropdown._getParentFromElement(this)
       const isActive = $(parent).hasClass(ClassName.SHOW)
 
+      if (!isActive && event.which === ESCAPE_KEYCODE) {
+        return
+      }
+
       if (!isActive || isActive && (event.which === ESCAPE_KEYCODE || event.which === SPACE_KEYCODE)) {
         if (event.which === ESCAPE_KEYCODE) {
           const toggle = parent.querySelector(Selector.DATA_TOGGLE)
@@ -479,6 +481,7 @@ const Dropdown = (($) => {
       }
 
       const items = [].slice.call(parent.querySelectorAll(Selector.VISIBLE_ITEMS))
+        .filter((item) => $(item).is(':visible'))
 
       if (items.length === 0) {
         return

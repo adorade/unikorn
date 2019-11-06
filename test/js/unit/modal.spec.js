@@ -828,12 +828,55 @@ $(function () {
 
     var $modalBody = $('.modal-body')
     $modalBody.scrollTop(100)
-    assert.strictEqual($modalBody.scrollTop(), 100)
+    assert.ok($modalBody.scrollTop() > 95 && $modalBody.scrollTop() <= 100)
 
     $modal.on('shown.uni.modal', function () {
       assert.strictEqual($modalBody.scrollTop(), 0, 'modal body scrollTop should be 0 when opened')
       done()
     })
       .unikornModal('show')
+  })
+
+  test('should set .modal\'s scroll top to 0 if .modal-dialog-scrollable and modal body do not exists', (assert) => {
+    assert.expect(1)
+    var done = assert.async()
+
+    var $modal = $([
+      '<div id="modal-test">',
+      '  <div class="modal-dialog modal-dialog-scrollable">',
+      '    <div class="modal-content">',
+      '    </div>',
+      '  </div>',
+      '</div>'
+    ].join('')).appendTo('#qunit-fixture')
+
+
+    $modal.on('shown.uni.modal', function () {
+      assert.strictEqual($modal.scrollTop(), 0)
+      done()
+    })
+      .unikornModal('show')
+  })
+
+  test('should not close modal when clicking outside of modal-content if backdrop = static', (assert) => {
+    assert.expect(1)
+    var done = assert.async()
+    var $modal = $('<div class="modal" data-backdrop="static"><div class="modal-dialog" /></div>').appendTo('#qunit-fixture')
+
+    $modal.on('shown.uni.modal', function () {
+      $modal.trigger('click')
+      setTimeout(function () {
+        var modal = $modal.data('uni.modal')
+
+        assert.strictEqual(modal._isShown, true)
+        done()
+      }, 10)
+    })
+      .on('hidden.uni.modal', function () {
+        assert.strictEqual(true, false, 'should not hide the modal')
+      })
+      .unikornModal({
+        backdrop: 'static'
+      })
   })
 })

@@ -3,7 +3,6 @@
  * Licensed under MIT (https://github.com/adorade/unikorn/blob/master/LICENSE)
  * -------------------------------------------------------------------------- */
 
-import './warnings'
 import Alert from './alert'
 import Button from './button'
 import Carousel from './carousel'

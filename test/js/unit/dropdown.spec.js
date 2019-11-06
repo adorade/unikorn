@@ -85,6 +85,33 @@ $(function () {
     $dropdown.trigger($.Event('click'))
   })
 
+  test('should not open dropdown if escape key was pressed on the toggle', (assert) => {
+    assert.expect(1)
+    var done = assert.async()
+
+    var dropdownHTML = '<div class="tabs">' +
+        '<div class="dropdown">' +
+        '<button disabled href="#" class="btn dropdown-toggle" data-toggle="dropdown">Dropdown</button>' +
+        '<div class="dropdown-menu">' +
+        '<a class="dropdown-item" href="#">Secondary link</a>' +
+        '<a class="dropdown-item" href="#">Something else here</a>' +
+        '<div class="divider"/>' +
+        '<a class="dropdown-item" href="#">Another link</a>' +
+        '</div>' +
+        '</div>' +
+        '</div>'
+    $(dropdownHTML).appendTo('#qunit-fixture')
+    var $dropdown = $('#qunit-fixture').find('[data-toggle="dropdown"]').unikornDropdown()
+    var $button = $('button[data-toggle="dropdown"]')
+
+    // Key escape
+    $button.trigger('focus').trigger($.Event('keydown', {
+      which: 27
+    }))
+    assert.ok(!$dropdown.parent('.dropdown').hasClass('show'), 'dropdown menu is not shown after escape pressed')
+    done()
+  })
+
   test('should not add class position-static to dropdown if boundary not set', (assert) => {
     assert.expect(1)
     var done = assert.async()
@@ -816,6 +843,45 @@ $(function () {
     $triggerDropdown.trigger($.Event('click'))
   })
 
+  test('should close dropdown and set focus back to toggle when escape is pressed while focused on a dropdown item', (assert) => {
+    assert.expect(3)
+    var done = assert.async()
+
+    var dropdownHTML = '<div class="tabs">' +
+        '<div class="dropdown">' +
+        '<a href="#" class="dropdown-toggle" id="toggle" data-toggle="dropdown">Dropdown</a>' +
+        '<div class="dropdown-menu">' +
+        '<a class="dropdown-item" id="item" href="#">Menu item</a>' +
+        '</div>' +
+        '</div>'
+    var $dropdown = $(dropdownHTML)
+      .appendTo('#qunit-fixture')
+      .find('[data-toggle="dropdown"]')
+      .unikornDropdown()
+
+    var $item = $('#item')
+    var $toggle = $('#toggle')
+
+    $dropdown
+      .parent('.dropdown')
+      .on('shown.uni.dropdown', function () {
+        // Forcibly focus first item
+        $item.focus()
+        assert.ok($(document.activeElement)[0] === $item[0], 'menu item initial focus set')
+
+        // Key escape
+        $item.trigger('focus').trigger($.Event('keydown', {
+          which: 27
+        }))
+
+        assert.ok(!$dropdown.parent('.dropdown').hasClass('show'), 'dropdown menu was closed after escape')
+        assert.ok($(document.activeElement)[0] === $toggle[0], 'toggle has focus again once menu was closed after escape')
+        done()
+      })
+
+    $dropdown.trigger($.Event('click'))
+  })
+
   test('should ignore keyboard events for <input>s and <textarea>s within dropdown-menu, except for escape key', (assert) => {
     assert.expect(7)
     var done = assert.async()
@@ -1463,5 +1529,150 @@ $(function () {
 
     assert.strictEqual(offset.offset, myOffset)
     assert.ok(typeof offset.fn === 'undefined')
+  })
+
+  test('should allow to pass config to popper.js with `popperConfig`', (assert) => {
+    assert.expect(1)
+
+    var dropdownHTML =
+      '<div class="dropdown">' +
+      '  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown</a>' +
+      '  <div class="dropdown-menu">' +
+      '    <a class="dropdown-item" href="#">Another link</a>' +
+      '  </div>' +
+      '</div>'
+
+    var $dropdown = $(dropdownHTML)
+      .appendTo('#qunit-fixture')
+      .find('[data-toggle="dropdown"]')
+      .unikornDropdown({
+        popperConfig: {
+          placement: 'left'
+        }
+      })
+
+    var dropdown = $dropdown.data('uni.dropdown')
+    var popperConfig = dropdown._getPopperConfig()
+
+    assert.strictEqual(popperConfig.placement, 'left')
+  })
+
+  test('should destroy old popper references on toggle', (assert) => {
+    assert.expect(3)
+    var done = assert.async()
+
+    var fixtureHtml = [
+      '<div class="first dropdown">',
+      '  <button href="#" class="firstBtn btn" data-toggle="dropdown" aria-expanded="false">Dropdown</button>',
+      '  <div class="dropdown-menu">',
+      '    <a class="dropdown-item" href="#">Secondary link</a>',
+      '  </div>',
+      '</div>',
+      '<div class="second dropdown">',
+      '  <button href="#" class="secondBtn btn" data-toggle="dropdown" aria-expanded="false">Dropdown</button>',
+      '  <div class="dropdown-menu">',
+      '    <a class="dropdown-item" href="#">Secondary link</a>',
+      '  </div>',
+      '</div>'
+    ].join('')
+
+    $(fixtureHtml).appendTo('#qunit-fixture')
+
+    var $btnDropdown1 = $('.firstBtn').unikornDropdown()
+    var $btnDropdown2 = $('.secondBtn').unikornDropdown()
+    var $firstDropdownEl = $('.first')
+    var $secondDropdownEl = $('.second')
+    var dropdown1 = $btnDropdown1.data('uni.dropdown')
+    var dropdown2 = $btnDropdown2.data('uni.dropdown')
+    var spyPopper
+
+    $firstDropdownEl.one('shown.uni.dropdown', function () {
+      assert.strictEqual($firstDropdownEl.hasClass('show'), true)
+      spyPopper = sinon.spy(dropdown1._popper, 'destroy')
+      dropdown2.toggle()
+    })
+
+    $secondDropdownEl.one('shown.uni.dropdown', function () {
+      assert.strictEqual($secondDropdownEl.hasClass('show'), true)
+      assert.ok(spyPopper.called)
+      done()
+    })
+
+    dropdown1.toggle()
+  })
+
+  test('should hide a dropdown and destroy popper', (assert) => {
+    assert.expect(1)
+    var done = assert.async()
+
+    var fixtureHtml = [
+      '<div class="dropdown">',
+      '  <button href="#" class="btn dropdown-toggle" data-toggle="dropdown">Dropdown</button>',
+      '  <div class="dropdown-menu">',
+      '    <a class="dropdown-item" href="#">Secondary link</a>',
+      '  </div>',
+      '</div>'
+    ].join('')
+
+    $(fixtureHtml).appendTo('#qunit-fixture')
+
+    var $dropdownEl = $('.dropdown')
+    var dropdown = $('[data-toggle="dropdown"]')
+      .unikornDropdown()
+      .data('uni.dropdown')
+    var spyPopper
+
+    $dropdownEl.one('shown.uni.dropdown', function () {
+      spyPopper = sinon.spy(dropdown._popper, 'destroy')
+      dropdown.hide()
+    })
+
+    $dropdownEl.one('hidden.uni.dropdown', function () {
+      assert.ok(spyPopper.called)
+      done()
+    })
+
+    dropdown.show(true)
+  })
+
+  test('it should skip hidden element when using keyboard navigation', (assert) => {
+    assert.expect(3)
+    var done = assert.async()
+
+    var fixtureHtml = [
+      '<style>',
+      '  .d-none {',
+      '    display: none;',
+      '  }',
+      '</style>',
+      '<div class="dropdown">',
+      '  <button href="#" class="btn dropdown-toggle" data-toggle="dropdown">Dropdown</button>',
+      '  <div class="dropdown-menu">',
+      '    <button class="dropdown-item d-none" type="button">Hidden button by class</button>',
+      '    <a class="dropdown-item" href="#sub1" style="display: none">Hidden link</a>',
+      '    <a class="dropdown-item" href="#sub1" style="visibility: hidden">Hidden link</a>',
+      '    <a id="item1" class="dropdown-item" href="#">Another link</a>',
+      '  </div>',
+      '</div>'
+    ].join('')
+
+    $(fixtureHtml).appendTo('#qunit-fixture')
+
+    var $dropdownEl = $('.dropdown')
+    var $dropdown = $('[data-toggle="dropdown"]')
+      .unikornDropdown()
+
+    $dropdownEl.one('shown.uni.dropdown', function () {
+      $dropdown.trigger($.Event('keydown', {
+        which: 40
+      }))
+
+      assert.strictEqual($(document.activeElement).hasClass('d-none'), false, '.d-none not focused')
+      assert.strictEqual($(document.activeElement).css('display') === 'none', false, '"display: none" not focused')
+      assert.strictEqual(document.activeElement.style.visibility === 'hidden', false, '"visibility: hidden" not focused')
+      done()
+    })
+
+    $dropdown.trigger('click')
   })
 })

@@ -1282,4 +1282,21 @@ $(function () {
 
     assert.strictEqual(tooltip.config.sanitize, true)
   })
+
+  test('should allow to pass config to popper.js with `popperConfig`', (assert) => {
+    assert.expect(1)
+
+    var $trigger = $('<a href="#" rel="tooltip" data-trigger="click" title="Another tooltip"/>')
+      .appendTo('#qunit-fixture')
+      .unikornTooltip({
+        popperConfig: {
+          placement: 'left'
+        }
+      })
+
+    var tooltip = $trigger.data('uni.tooltip')
+    var popperConfig = tooltip._getPopperConfig('top')
+
+    assert.strictEqual(popperConfig.placement, 'left')
+  })
 })

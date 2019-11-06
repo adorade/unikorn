@@ -39,7 +39,8 @@ const Tooltip = (($) => {
     boundary          : '(string|element)',
     sanitize          : 'boolean',
     sanitizeFn        : '(null|function)',
-    whiteList         : 'object'
+    whiteList         : 'object',
+    popperConfig      : '(null|object)'
   }
 
   const AttachmentMap = {
@@ -67,7 +68,8 @@ const Tooltip = (($) => {
     boundary          : 'scrollParent',
     sanitize          : true,
     sanitizeFn        : null,
-    whiteList         : DefaultWhitelist
+    whiteList         : DefaultWhitelist,
+    popperConfig      : null
   }
 
   const HoverState = {
@@ -113,12 +115,6 @@ const Tooltip = (($) => {
 
   class Tooltip {
     constructor(element, config) {
-
-      /**
-       * Check for Popper dependency
-       * Popper - https://popper.js.org
-       */
-
       if (typeof Popper === 'undefined') {
         throw new TypeError("UniKorn's tooltips require Popper.js (https://popper.js.org/)")
       }
@@ -194,7 +190,7 @@ const Tooltip = (($) => {
       $.removeData(this.element, this.constructor.DATA_KEY)
 
       $(this.element).off(this.constructor.EVENT_KEY)
-      $(this.element).closest('.modal').off('hide.uni.modal')
+      $(this.element).closest('.modal').off('hide.uni.modal', this._hideModalHandler)
 
       if (this.tip) {
         $(this.tip).remove()
@@ -262,29 +258,7 @@ const Tooltip = (($) => {
 
         $(this.element).trigger(this.constructor.Event.INSERTED)
 
-        this._popper = new Popper(this.element, tip, {
-          placement: attachment,
-          modifiers: {
-            offset: this._getOffset(),
-            flip: {
-              behavior: this.config.fallbackPlacement
-            },
-            arrow: {
-              element: Selector.ARROW
-            },
-            preventOverflow: {
-              boundariesElement: this.config.boundary
-            }
-          },
-          onCreate: (data) => {
-            if (data.originalPlacement !== data.placement) {
-              this._handlePopperPlacementChange(data)
-            }
-          },
-          onUpdate: (data) => {
-            this._handlePopperPlacementChange(data)
-          }
-        })
+        this._popper = new Popper(this.element, tip, this._getPopperConfig(attachment))
 
         $(tip).addClass(ClassName.SHOW)
 
@@ -439,6 +413,35 @@ const Tooltip = (($) => {
 
     // Private
 
+    _getPopperConfig(attachment) {
+      const defaultBsConfig = {
+        placement: attachment,
+        modifiers: {
+          offset: this._getOffset(),
+          flip: {
+            behavior: this.config.fallbackPlacement
+          },
+          arrow: {
+            element: Selector.ARROW
+          },
+          preventOverflow: {
+            boundariesElement: this.config.boundary
+          }
+        },
+        onCreate: (data) => {
+          if (data.originalPlacement !== data.placement) {
+            this._handlePopperPlacementChange(data)
+          }
+        },
+        onUpdate: (data) => this._handlePopperPlacementChange(data)
+      }
+
+      return {
+        ...defaultBsConfig,
+        ...this.config.popperConfig
+      }
+    }
+
     _getOffset() {
       const offset = {}
 
@@ -506,13 +509,15 @@ const Tooltip = (($) => {
         }
       })
 
+      this._hideModalHandler = () => {
+        if (this.element) {
+          this.hide()
+        }
+      }
+
       $(this.element).closest('.modal').on(
         'hide.uni.modal',
-        () => {
-          if (this.element) {
-            this.hide()
-          }
-        }
+        this._hideModalHandler
       )
 
       if (this.config.selector) {

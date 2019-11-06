@@ -256,74 +256,74 @@ $(function () {
   //   assert.strictEqual(toast._config.delay, defaultDelay)
   // })
 
-  // test('should not trigger shown if show is prevented', (assert) => {
-  //   assert.expect(1)
-  //   var done = assert.async()
+  test('should not trigger shown if show is prevented', (assert) => {
+    assert.expect(1)
+    var done = assert.async()
 
-  //   var toastHtml =
-  //     '<div class="toast" data-delay="1" data-autohide="false">' +
-  //     '<div class="toast-body">' +
-  //     'a simple toast' +
-  //     '</div>' +
-  //     '</div>'
+    var toastHtml =
+      '<div class="toast" data-delay="1" data-autohide="false">' +
+      '<div class="toast-body">' +
+      'a simple toast' +
+      '</div>' +
+      '</div>'
 
-  //   var $toast = $(toastHtml)
-  //     .unikornToast()
-  //     .appendTo($('#qunit-fixture'))
+    var $toast = $(toastHtml)
+      .unikornToast()
+      .appendTo($('#qunit-fixture'))
 
-  //   var shownCalled = false
-  //   function assertDone() {
-  //     setTimeout(function () {
-  //       assert.strictEqual(shownCalled, false)
-  //       done()
-  //     }, 20)
-  //   }
+    var shownCalled = false
+    function assertDone() {
+      setTimeout(function () {
+        assert.strictEqual(shownCalled, false)
+        done()
+      }, 20)
+    }
 
-  //   $toast
-  //     .on('show.uni.toast', function (event) {
-  //       event.preventDefault()
-  //       assertDone()
-  //     })
-  //     .on('shown.uni.toast', function () {
-  //       shownCalled = true
-  //     })
-  //     .unikornToast('show')
-  // })
+    $toast
+      .on('show.uni.toast', function (event) {
+        event.preventDefault()
+        assertDone()
+      })
+      .on('shown.uni.toast', function () {
+        shownCalled = true
+      })
+      .unikornToast('show')
+  })
 
-  // test('should not trigger hidden if hide is prevented', (assert) => {
-  //   assert.expect(1)
-  //   var done = assert.async()
+  test('should not trigger hidden if hide is prevented', (assert) => {
+    assert.expect(1)
+    var done = assert.async()
 
-  //   var toastHtml =
-  //     '<div class="toast" data-delay="1" data-autohide="false">' +
-  //     '<div class="toast-body">' +
-  //     'a simple toast' +
-  //     '</div>' +
-  //     '</div>'
+    var toastHtml =
+      '<div class="toast" data-delay="1" data-autohide="false">' +
+      '<div class="toast-body">' +
+      'a simple toast' +
+      '</div>' +
+      '</div>'
 
-  //   var $toast = $(toastHtml)
-  //     .unikornToast()
-  //     .appendTo($('#qunit-fixture'))
+    var $toast = $(toastHtml)
+      .unikornToast()
+      .appendTo($('#qunit-fixture'))
 
-  //   var hiddenCalled = false
-  //   function assertDone() {
-  //     setTimeout(function () {
-  //       assert.strictEqual(hiddenCalled, false)
-  //       done()
-  //     }, 20)
-  //   }
+    var hiddenCalled = false
+    function assertDone() {
+      setTimeout(function () {
+        assert.strictEqual(hiddenCalled, false)
+        done()
+      }, 20)
+    }
 
-  //   $toast
-  //     .on('shown.uni.toast', function () {
-  //       $toast.unikornToast('hide')
-  //     })
-  //     .on('hide.uni.toast', function (event) {
-  //       event.preventDefault()
-  //       assertDone()
-  //     })
-  //     .on('hidden.uni.toast', function () {
-  //       hiddenCalled = true
-  //     })
-  //     .unikornToast('show')
-  // })
+    $toast
+      .on('shown.uni.toast', function () {
+        $toast.unikornToast('hide')
+      })
+      .on('hide.uni.toast', function (event) {
+        event.preventDefault()
+        assertDone()
+      })
+      .on('hidden.uni.toast', function () {
+        hiddenCalled = true
+      })
+      .unikornToast('show')
+  })
 })
