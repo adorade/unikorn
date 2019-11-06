@@ -1634,4 +1634,45 @@ $(function () {
 
     dropdown.show(true)
   })
+
+  test('it should skip hidden element when using keyboard navigation', (assert) => {
+    assert.expect(3)
+    var done = assert.async()
+
+    var fixtureHtml = [
+      '<style>',
+      '  .d-none {',
+      '    display: none;',
+      '  }',
+      '</style>',
+      '<div class="dropdown">',
+      '  <button href="#" class="btn dropdown-toggle" data-toggle="dropdown">Dropdown</button>',
+      '  <div class="dropdown-menu">',
+      '    <button class="dropdown-item d-none" type="button">Hidden button by class</button>',
+      '    <a class="dropdown-item" href="#sub1" style="display: none">Hidden link</a>',
+      '    <a class="dropdown-item" href="#sub1" style="visibility: hidden">Hidden link</a>',
+      '    <a id="item1" class="dropdown-item" href="#">Another link</a>',
+      '  </div>',
+      '</div>'
+    ].join('')
+
+    $(fixtureHtml).appendTo('#qunit-fixture')
+
+    var $dropdownEl = $('.dropdown')
+    var $dropdown = $('[data-toggle="dropdown"]')
+      .unikornDropdown()
+
+    $dropdownEl.one('shown.uni.dropdown', function () {
+      $dropdown.trigger($.Event('keydown', {
+        which: 40
+      }))
+
+      assert.strictEqual($(document.activeElement).hasClass('d-none'), false, '.d-none not focused')
+      assert.strictEqual($(document.activeElement).css('display') === 'none', false, '"display: none" not focused')
+      assert.strictEqual(document.activeElement.style.visibility === 'hidden', false, '"visibility: hidden" not focused')
+      done()
+    })
+
+    $dropdown.trigger('click')
+  })
 })
