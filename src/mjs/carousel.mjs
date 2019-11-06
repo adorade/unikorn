@@ -234,6 +234,8 @@ const Carousel = (($) => {
 
       const direction = absDeltax / this.touchDeltaX
 
+      this.touchDeltaX = 0
+
       // swipe left
       if (direction > 0) {
         this.prev()
