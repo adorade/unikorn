@@ -167,9 +167,24 @@ const Util = (($) => {
       }
 
       return Util.findShadowRoot(element.parentNode)
+    },
+
+    jQueryDetection() {
+      if (typeof $ === 'undefined') {
+        throw new TypeError("UniKorn's JavaScript requires jQuery. jQuery must be included before UniKorn's JavaScript.")
+      } else {
+        ($ => {
+          const version = $.fn.jquery.split(' ')[0].split('.')
+
+          if (version[0] < 3 || version[0] >= 4) {
+            throw new Error("UniKorn's JavaScript requires at least jQuery v3.0.0 but less than v4.0.0")
+          }
+        })($)
+      }
     }
   }
 
+  Util.jQueryDetection()
   setTransitionEndSupport()
 
   return Util

@@ -168,4 +168,9 @@ $(function () {
       sandbox.restore()
     }
   })
+
+  test('Util.jQueryDetection should detect jQuery', (assert) => {
+    assert.expect(0)
+    Util.jQueryDetection()
+  })
 })
