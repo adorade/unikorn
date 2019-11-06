@@ -66,7 +66,12 @@ const Toast = (($) => {
     // Public
 
     show() {
-      $(this._element).trigger(Event.SHOW)
+      const showEvent = $.Event(Event.SHOW)
+
+      $(this._element).trigger(showEvent)
+      if (showEvent.isDefaultPrevented()) {
+        return
+      }
 
       if (this._config.animation) {
         this._element.classList.add(ClassName.FADE)
@@ -103,7 +108,12 @@ const Toast = (($) => {
         return
       }
 
-      $(this._element).trigger(Event.HIDE)
+      const hideEvent = $.Event(Event.HIDE)
+
+      $(this._element).trigger(hideEvent)
+      if (hideEvent.isDefaultPrevented()) {
+        return
+      }
 
       this._close()
     }
