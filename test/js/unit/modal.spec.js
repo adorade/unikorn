@@ -857,4 +857,26 @@ $(function () {
     })
       .unikornModal('show')
   })
+
+  test('should not close modal when clicking outside of modal-content if backdrop = static', (assert) => {
+    assert.expect(1)
+    var done = assert.async()
+    var $modal = $('<div class="modal" data-backdrop="static"><div class="modal-dialog" /></div>').appendTo('#qunit-fixture')
+
+    $modal.on('shown.uni.modal', function () {
+      $modal.trigger('click')
+      setTimeout(function () {
+        var modal = $modal.data('uni.modal')
+
+        assert.strictEqual(modal._isShown, true)
+        done()
+      }, 10)
+    })
+      .on('hidden.uni.modal', function () {
+        assert.strictEqual(true, false, 'should not hide the modal')
+      })
+      .unikornModal({
+        backdrop: 'static'
+      })
+  })
 })

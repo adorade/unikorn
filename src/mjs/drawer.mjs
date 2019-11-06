@@ -37,6 +37,7 @@ const Drawer = (($) => {
 
   const Event = {
     HIDE              : `hide${EVENT_KEY}`,
+    HIDE_PREVENTED    : `hidePrevented${EVENT_KEY}`,
     HIDDEN            : `hidden${EVENT_KEY}`,
     SHOW              : `show${EVENT_KEY}`,
     SHOWN             : `shown${EVENT_KEY}`,
@@ -55,7 +56,8 @@ const Drawer = (($) => {
     BACKDROP           : 'drawer-backdrop',
     OPEN               : 'drawer-open',
     FADE               : 'fade',
-    SHOW               : 'show'
+    SHOW               : 'show',
+    STATIC             : 'drawer-static'
   }
 
   const Selector = {
@@ -221,6 +223,29 @@ const Drawer = (($) => {
       return config
     }
 
+    _triggerBackdropTransition() {
+      if (this._config.backdrop === 'static') {
+        const hideEventPrevented = $.Event(Event.HIDE_PREVENTED)
+
+        $(this._element).trigger(hideEventPrevented)
+        if (hideEventPrevented.defaultPrevented) {
+          return
+        }
+
+        this._element.classList.add(ClassName.STATIC)
+
+        const drawerTransitionDuration = Util.getTransitionDurationFromElement(this._element)
+
+        $(this._element).one(Util.TRANSITION_END, () => {
+          this._element.classList.remove(ClassName.STATIC)
+        })
+          .emulateTransitionEnd(drawerTransitionDuration)
+        this._element.focus()
+      } else {
+        this.hide()
+      }
+    }
+
     _showElement(relatedTarget) {
       const transition = $(this._element).hasClass(ClassName.FADE)
       const drawerBody = this._dialog ? this._dialog.querySelector(Selector.DRAWER_BODY) : null
@@ -290,8 +315,7 @@ const Drawer = (($) => {
       if (this._isShown && this._config.keyboard) {
         $(this._element).on(Event.KEYDOWN_DISMISS, (event) => {
           if (event.which === ESCAPE_KEYCODE) {
-            event.preventDefault()
-            this.hide()
+            this._triggerBackdropTransition()
           }
         })
       } else if (!this._isShown) {
@@ -349,11 +373,8 @@ const Drawer = (($) => {
           if (event.target !== event.currentTarget) {
             return
           }
-          if (this._config.backdrop === 'static') {
-            this._element.focus()
-          } else {
-            this.hide()
-          }
+
+          this._triggerBackdropTransition()
         })
 
         if (animate) {

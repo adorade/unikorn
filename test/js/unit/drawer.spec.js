@@ -859,4 +859,26 @@ $(function () {
     })
       .unikornDrawer('show')
   })
+
+  test('should not close drawer when clicking outside of drawer-content if backdrop = static', (assert) => {
+    assert.expect(1)
+    var done = assert.async()
+    var $drawer = $('<div class="drawer" data-backdrop="static"><div class="drawer-dialog" /></div>').appendTo('#qunit-fixture')
+
+    $drawer.on('shown.uni.drawer', function () {
+      $drawer.trigger('click')
+      setTimeout(function () {
+        var drawer = $drawer.data('uni.drawer')
+
+        assert.strictEqual(drawer._isShown, true)
+        done()
+      }, 10)
+    })
+      .on('hidden.uni.drawer', function () {
+        assert.strictEqual(true, false, 'should not hide the drawer')
+      })
+      .unikornDrawer({
+        backdrop: 'static'
+      })
+  })
 })
