@@ -112,7 +112,6 @@ const Dropdown = (($) => {
         return
       }
 
-      const parent   = Dropdown._getParentFromElement(this._element)
       const isActive = $(this._menu).hasClass(ClassName.SHOW)
 
       Dropdown._clearMenus()
@@ -121,10 +120,19 @@ const Dropdown = (($) => {
         return
       }
 
+      this.show(true)
+    }
+
+    show(usePopper = false) {
+      if (this._element.disabled || $(this._element).hasClass(ClassName.DISABLED) || $(this._menu).hasClass(ClassName.SHOW)) {
+        return
+      }
+
       const relatedTarget = {
         relatedTarget: this._element
       }
       const showEvent = $.Event(Event.SHOW, relatedTarget)
+      const parent = Dropdown._getParentFromElement(this._element)
 
       $(parent).trigger(showEvent)
 
@@ -133,7 +141,7 @@ const Dropdown = (($) => {
       }
 
       // Disable totally Popper.js for Dropdown in Navbar and Drawer
-      if (!this._inNavbar) {
+      if (!this._inNavbar && usePopper) {
         /**
          * Check for Popper dependency
          * Popper - https://popper.js.org
@@ -183,29 +191,6 @@ const Dropdown = (($) => {
         .trigger($.Event(Event.SHOWN, relatedTarget))
     }
 
-    show() {
-      if (this._element.disabled || $(this._element).hasClass(ClassName.DISABLED) || $(this._menu).hasClass(ClassName.SHOW)) {
-        return
-      }
-
-      const relatedTarget = {
-        relatedTarget: this._element
-      }
-      const showEvent = $.Event(Event.SHOW, relatedTarget)
-      const parent = Dropdown._getParentFromElement(this._element)
-
-      $(parent).trigger(showEvent)
-
-      if (showEvent.isDefaultPrevented()) {
-        return
-      }
-
-      $(this._menu).toggleClass(ClassName.SHOW)
-      $(parent)
-        .toggleClass(ClassName.SHOW)
-        .trigger($.Event(Event.SHOWN, relatedTarget))
-    }
-
     hide() {
       if (this._element.disabled || $(this._element).hasClass(ClassName.DISABLED) || !$(this._menu).hasClass(ClassName.SHOW)) {
         return
@@ -221,6 +206,10 @@ const Dropdown = (($) => {
 
       if (hideEvent.isDefaultPrevented()) {
         return
+      }
+
+      if (this._popper) {
+        this._popper.destroy()
       }
 
       $(this._menu).toggleClass(ClassName.SHOW)

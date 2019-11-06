@@ -1600,4 +1600,38 @@ $(function () {
 
     dropdown1.toggle()
   })
+
+  test('should hide a dropdown and destroy popper', (assert) => {
+    assert.expect(1)
+    var done = assert.async()
+
+    var fixtureHtml = [
+      '<div class="dropdown">',
+      '  <button href="#" class="btn dropdown-toggle" data-toggle="dropdown">Dropdown</button>',
+      '  <div class="dropdown-menu">',
+      '    <a class="dropdown-item" href="#">Secondary link</a>',
+      '  </div>',
+      '</div>'
+    ].join('')
+
+    $(fixtureHtml).appendTo('#qunit-fixture')
+
+    var $dropdownEl = $('.dropdown')
+    var dropdown = $('[data-toggle="dropdown"]')
+      .unikornDropdown()
+      .data('uni.dropdown')
+    var spyPopper
+
+    $dropdownEl.one('shown.uni.dropdown', function () {
+      spyPopper = sinon.spy(dropdown._popper, 'destroy')
+      dropdown.hide()
+    })
+
+    $dropdownEl.one('hidden.uni.dropdown', function () {
+      assert.ok(spyPopper.called)
+      done()
+    })
+
+    dropdown.show(true)
+  })
 })
