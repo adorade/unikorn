@@ -91,6 +91,7 @@ const Toast = (($) => {
       }
 
       this._element.classList.remove(ClassName.HIDE)
+      Util.reflow(this._element)
       this._element.classList.add(ClassName.SHOWING)
       if (this._config.animation) {
         const transitionDuration = Util.getTransitionDurationFromElement(this._element)
