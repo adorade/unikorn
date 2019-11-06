@@ -123,13 +123,79 @@ $(function () {
     assert.strictEqual($btn.attr('aria-pressed'), 'true', 'btn aria-pressed state is true')
   })
 
+  test('should assign active class on page load to buttons with aria-pressed="true"', (assert) => {
+    assert.expect(1)
+    var done = assert.async()
+
+    var $btn = $('<button class="btn" data-toggle="button" aria-pressed="true">uni</button>')
+    $btn.appendTo('#qunit-fixture')
+
+    $(window).trigger($.Event('load'))
+    setTimeout(function () {
+      assert.ok($btn.hasClass('active'), 'button with aria-pressed="true" has been given class active')
+      done()
+    }, 5)
+  })
+
+  test('should assign active class on page load to button checkbox with checked attribute', (assert) => {
+    assert.expect(1)
+    var done = assert.async()
+
+    var groupHTML = '<div class="btn-group" data-toggle="buttons">' +
+        '<label class="btn btn-primary">' +
+        '<input type="checkbox" id="radio" checked> Checkbox' +
+        '</label>' +
+        '</div>'
+    var $group = $(groupHTML).appendTo('#qunit-fixture')
+    var $btn = $group.children().eq(0)
+
+    $(window).trigger($.Event('load'))
+    setTimeout(function () {
+      assert.ok($btn.hasClass('active'), 'checked checkbox button has been given class active')
+      done()
+    }, 5)
+  })
+
+  test('should remove active class on page load from buttons without aria-pressed="true"', (assert) => {
+    assert.expect(1)
+    var done = assert.async()
+
+    var $btn = $('<button class="btn active" data-toggle="button" aria-pressed="false">mdo</button>')
+    $btn.appendTo('#qunit-fixture')
+
+    $(window).trigger($.Event('load'))
+    setTimeout(function () {
+      assert.ok(!$btn.hasClass('active'), 'button without aria-pressed="true" has had active class removed')
+      done()
+    }, 5)
+  })
+
+  test('should remove active class on page load from button checkbox without checked attribute', (assert) => {
+    assert.expect(1)
+    var done = assert.async()
+
+    var groupHTML = '<div class="btn-group" data-toggle="buttons">' +
+        '<label class="btn btn-primary active">' +
+        '<input type="checkbox" id="radio"> Checkbox' +
+        '</label>' +
+        '</div>'
+    var $group = $(groupHTML).appendTo('#qunit-fixture')
+    var $btn = $group.children().eq(0)
+
+    $(window).trigger($.Event('load'))
+    setTimeout(function () {
+      assert.ok(!$btn.hasClass('active'), 'unchecked checkbox button has had active class removed')
+      done()
+    }, 5)
+  })
+
   test('should trigger input change event when toggled button has input field', (assert) => {
     assert.expect(1)
     var done = assert.async()
 
     var groupHTML = '<div class="btn-group" data-toggle="buttons">' +
         '<label class="btn btn-primary">' +
-        '<input type="radio" id="radio" autocomplete="off">Radio' +
+        '<input type="radio" id="radio">Radio' +
         '</label>' +
         '</div>'
     var $group = $(groupHTML).appendTo('#qunit-fixture')
@@ -184,8 +250,8 @@ $(function () {
     assert.expect(2)
 
     var groupHTML = '<div class="btn-group" data-toggle="buttons">' +
-        '<label class="btn btn-primary"><input type="checkbox" autocomplete="off"> Checkbox</label>' +
-        '<label class="btn btn-primary"><input type="radio" name="options" autocomplete="off"> Radio</label>' +
+        '<label class="btn btn-primary"><input type="checkbox"> Checkbox</label>' +
+        '<label class="btn btn-primary"><input type="radio" name="options"> Radio</label>' +
         '</div>'
     var $group = $(groupHTML).appendTo('#qunit-fixture')
 
@@ -204,7 +270,7 @@ $(function () {
 
     var groupHTML = '<div class="btn-group disabled" data-toggle="buttons" aria-disabled="true" disabled>' +
         '<label class="btn btn-danger disabled">' +
-        '<input type="checkbox" aria-disabled="true" autocomplete="off" disabled>' +
+        '<input type="checkbox" aria-disabled="true" disabled>' +
         '</label>' +
         '</div>'
     var $group = $(groupHTML).appendTo('#qunit-fixture')
@@ -225,7 +291,7 @@ $(function () {
 
     var groupHTML = '<div class="btn-group" data-toggle="buttons">' +
         '<label class="btn btn-danger">' +
-        '<input type="checkbox" autocomplete="off" disabled>' +
+        '<input type="checkbox" disabled>' +
         '</label>' +
         '</div>'
     var $group = $(groupHTML).appendTo('#qunit-fixture')
@@ -245,7 +311,7 @@ $(function () {
 
     var groupHTML = '<div class="btn-group" data-toggle="buttons">' +
         '<label class="btn">' +
-        '<input type="checkbox" autocomplete="off">' +
+        '<input type="checkbox">' +
         '</label>' +
         '</div>'
     var $group = $(groupHTML).appendTo('#qunit-fixture')
@@ -265,7 +331,7 @@ $(function () {
 
     var groupHTML = '<div class="btn-group" data-toggle="buttons">' +
         '<div class="btn">' +
-        '<input type="checkbox" autocomplete="off" aria-label="Check">' +
+        '<input type="checkbox" aria-label="Check">' +
         '</div>' +
         '</div>'
     var $group = $(groupHTML).appendTo('#qunit-fixture')
@@ -285,7 +351,7 @@ $(function () {
 
     var groupHTML = '<div class="btn-group" data-toggle="buttons">' +
         '<label class="btn">' +
-        '<input type="checkbox" autocomplete="off">' +
+        '<input type="checkbox">' +
         '</label>' +
         '</div>'
     var $group = $(groupHTML).appendTo('#qunit-fixture')
@@ -305,7 +371,7 @@ $(function () {
 
     var groupHTML = '<div class="btn-group" data-toggle="buttons">' +
         '<label class="btn">' +
-        '<input type="hidden" autocomplete="off">' +
+        '<input type="hidden">' +
         '</label>' +
         '</div>'
     var $group = $(groupHTML).appendTo('#qunit-fixture')
@@ -323,7 +389,7 @@ $(function () {
 
     var groupHTML = '<div class="btn-group" data-toggle="buttons">' +
         '<label class="btn">' +
-        '<input type="text" autocomplete="off">' +
+        '<input type="text">' +
         '</label>' +
         '</div>'
     var $group = $(groupHTML).appendTo('#qunit-fixture')
