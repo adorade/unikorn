@@ -830,7 +830,7 @@ $(function () {
 
     var $drawerBody = $('.drawer-body')
     $drawerBody.scrollTop(100)
-    assert.strictEqual($drawerBody.scrollTop(), 100)
+    assert.ok($drawerBody.scrollTop() > 95 && $drawerBody.scrollTop() <= 100)
 
     $drawer.on('shown.uni.drawer', function () {
       assert.strictEqual($drawerBody.scrollTop(), 0, 'drawer body scrollTop should be 0 when opened')
