@@ -194,7 +194,7 @@ const Tooltip = (($) => {
       $.removeData(this.element, this.constructor.DATA_KEY)
 
       $(this.element).off(this.constructor.EVENT_KEY)
-      $(this.element).closest('.modal').off('hide.uni.modal')
+      $(this.element).closest('.modal').off('hide.uni.modal', this._hideModalHandler)
 
       if (this.tip) {
         $(this.tip).remove()
@@ -506,13 +506,15 @@ const Tooltip = (($) => {
         }
       })
 
+      this._hideModalHandler = () => {
+        if (this.element) {
+          this.hide()
+        }
+      }
+
       $(this.element).closest('.modal').on(
         'hide.uni.modal',
-        () => {
-          if (this.element) {
-            this.hide()
-          }
-        }
+        this._hideModalHandler
       )
 
       if (this.config.selector) {
