@@ -429,6 +429,10 @@ const Dropdown = (($) => {
 
         toggles[i].setAttribute('aria-expanded', 'false')
 
+        if (context._popper) {
+          context._popper.destroy()
+        }
+
         $(dropdownMenu).removeClass(ClassName.SHOW)
         $(parent)
           .removeClass(ClassName.SHOW)

@@ -1556,4 +1556,48 @@ $(function () {
 
     assert.strictEqual(popperConfig.placement, 'left')
   })
+
+  test('should destroy old popper references on toggle', (assert) => {
+    assert.expect(3)
+    var done = assert.async()
+
+    var fixtureHtml = [
+      '<div class="first dropdown">',
+      '  <button href="#" class="firstBtn btn" data-toggle="dropdown" aria-expanded="false">Dropdown</button>',
+      '  <div class="dropdown-menu">',
+      '    <a class="dropdown-item" href="#">Secondary link</a>',
+      '  </div>',
+      '</div>',
+      '<div class="second dropdown">',
+      '  <button href="#" class="secondBtn btn" data-toggle="dropdown" aria-expanded="false">Dropdown</button>',
+      '  <div class="dropdown-menu">',
+      '    <a class="dropdown-item" href="#">Secondary link</a>',
+      '  </div>',
+      '</div>'
+    ].join('')
+
+    $(fixtureHtml).appendTo('#qunit-fixture')
+
+    var $btnDropdown1 = $('.firstBtn').unikornDropdown()
+    var $btnDropdown2 = $('.secondBtn').unikornDropdown()
+    var $firstDropdownEl = $('.first')
+    var $secondDropdownEl = $('.second')
+    var dropdown1 = $btnDropdown1.data('uni.dropdown')
+    var dropdown2 = $btnDropdown2.data('uni.dropdown')
+    var spyPopper
+
+    $firstDropdownEl.one('shown.uni.dropdown', function () {
+      assert.strictEqual($firstDropdownEl.hasClass('show'), true)
+      spyPopper = sinon.spy(dropdown1._popper, 'destroy')
+      dropdown2.toggle()
+    })
+
+    $secondDropdownEl.one('shown.uni.dropdown', function () {
+      assert.strictEqual($secondDropdownEl.hasClass('show'), true)
+      assert.ok(spyPopper.called)
+      done()
+    })
+
+    dropdown1.toggle()
+  })
 })
