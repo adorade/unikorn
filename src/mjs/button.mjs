@@ -73,15 +73,16 @@ const Button = (($) => {
                 $(activeElement).removeClass(ClassName.ACTIVE)
               }
             }
+          } else if (input.type === 'checkbox') {
+            if (this._element.tagName === 'LABEL' && input.checked === this._element.classList.contains(ClassName.ACTIVE)) {
+              triggerChangeEvent = false
+            }
+          } else {
+            // if it's not a radio button or checkbox don't add a pointless/invalid checked property to the input
+            triggerChangeEvent = false
           }
 
           if (triggerChangeEvent) {
-            if (input.hasAttribute('disabled') ||
-              rootElement.hasAttribute('disabled') ||
-              input.classList.contains('disabled') ||
-              rootElement.classList.contains('disabled')) {
-              return
-            }
             input.checked = !this._element.classList.contains(ClassName.ACTIVE)
             $(input).trigger('change')
           }
@@ -91,13 +92,15 @@ const Button = (($) => {
         }
       }
 
-      if (addAriaPressed) {
-        this._element.setAttribute('aria-pressed',
-          !this._element.classList.contains(ClassName.ACTIVE))
-      }
+      if (!(this._element.hasAttribute('disabled') || this._element.classList.contains('disabled'))) {
+        if (addAriaPressed) {
+          this._element.setAttribute('aria-pressed',
+            !this._element.classList.contains(ClassName.ACTIVE))
+        }
 
-      if (triggerChangeEvent) {
-        $(this._element).toggleClass(ClassName.ACTIVE)
+        if (triggerChangeEvent) {
+          $(this._element).toggleClass(ClassName.ACTIVE)
+        }
       }
     }
 
@@ -137,15 +140,24 @@ const Button = (($) => {
 
   $(document)
     .on(Event.CLICK_DATA_API, Selector.DATA_TOGGLE_CARROT, (event) => {
-      event.preventDefault()
-
       let button = event.target
 
       if (!$(button).hasClass(ClassName.BUTTON)) {
-        button = $(button).closest(Selector.BUTTON)
+        button = $(button).closest(Selector.BUTTON)[0]
       }
 
-      Button._jQueryInterface.call($(button), 'toggle')
+      if (!button || button.hasAttribute('disabled') || button.classList.contains('disabled')) {
+        event.preventDefault() // work around Firefox bug #1540995
+      } else {
+        const inputBtn = button.querySelector(Selector.INPUT)
+
+        if (inputBtn && (inputBtn.hasAttribute('disabled') || inputBtn.classList.contains('disabled'))) {
+          event.preventDefault() // work around Firefox bug #1540995
+          return
+        }
+
+        Button._jQueryInterface.call($(button), 'toggle')
+      }
     })
     .on(Event.FOCUS_BLUR_DATA_API, Selector.DATA_TOGGLE_CARROT, (event) => {
       const button = $(event.target).closest(Selector.BUTTON)[0]
