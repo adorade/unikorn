@@ -4,8 +4,8 @@
 
 // Base styles
 // ----------------------------
-// Kill the scroll on the body
 .modal-open {
+  // Kill the scroll on the body
   overflow: hidden;
 
   .modal {
@@ -51,14 +51,19 @@
   .modal.show & {
     transform: $modal-show-transform;
   }
+
+  // When trying to close, animate focus to scale
+  .modal.modal-static & {
+    transform: $modal-scale-transform;
+  }
 }
 
 .modal-dialog-scrollable {
   display: flex; // IE10/11
-  max-height: calc(100% - (#{$modal-dialog-margin * 2}));
+  max-height: subtract(100%, $modal-dialog-margin * 2);
 
   .modal-content {
-    max-height: calc(100vh - (#{$modal-dialog-margin * 2})); // IE10/11
+    max-height: subtract(100vh, $modal-dialog-margin * 2); // IE10/11
     overflow: hidden;
   }
 
@@ -75,12 +80,12 @@
 .modal-dialog-centered {
   display: flex;
   align-items: center;
-  min-height: calc(100% - (#{$modal-dialog-margin} * 2));
+  min-height: subtract(100%, $modal-dialog-margin * 2);
 
   // Ensure `modal-dialog-centered` extends the full height of the view (IE10/11)
   &::before {
     display: block; // IE10
-    height: calc(100vh - (#{$modal-dialog-margin} * 2));
+    height: subtract(100vh, $modal-dialog-margin * 2);
     content: "";
   }
 
@@ -121,8 +126,6 @@
 .modal-backdrop {
   position: fixed;
   top: 0;
-  right: 0;
-  bottom: 0;
   left: 0;
   z-index: $zindex-modal-backdrop;
   width: 100vw;
@@ -145,7 +148,7 @@
   justify-content: space-between; // Put modal header elements (title and dismiss) on opposite ends
   padding: $modal-header-padding;
   border-bottom: $modal-header-border-width solid $modal-header-border-color;
-  @include border-top-radius($modal-content-border-radius);
+  @include border-top-radius($modal-content-inner-border-radius);
 
   .close {
     padding: $modal-header-padding;
@@ -175,15 +178,19 @@
 // Modal footer (for actions)
 .modal-footer {
   display: flex;
+  flex-wrap: wrap;
   align-items: center; // vertically center
   justify-content: flex-end; // Right align buttons with flex property because text-align doesn't work on flex items
-  padding: $modal-inner-padding;
+  padding: ($modal-inner-padding - $modal-footer-margin-between / 2);
   border-top: $modal-footer-border-width solid $modal-footer-border-color;
-  @include border-bottom-radius($modal-content-border-radius);
+  @include border-bottom-radius($modal-content-inner-border-radius);
 
   // Easily place margin between footer elements
-  > :not(:first-child) { margin-left: .25rem; }
-  > :not(:last-child) { margin-right: .25rem; }
+  // > :not(:first-child) { margin-left: .25rem; }
+  // > :not(:last-child) { margin-right: .25rem; }
+  > * {
+    margin: $modal-footer-margin-between / 2;
+  }
 }
 
 // Measure scrollbar width for padding body during modal show/hide
@@ -206,18 +213,18 @@
   }
 
   .modal-dialog-scrollable {
-    max-height: calc(100% - #{$modal-dialog-margin-y-sm-up * 2});
+    max-height: subtract(100%, $modal-dialog-margin-y-sm-up * 2);
 
     .modal-content {
-      max-height: calc(100vh - #{$modal-dialog-margin-y-sm-up * 2});
+      max-height: subtract(100vh, $modal-dialog-margin-y-sm-up * 2);
     }
   }
 
   .modal-dialog-centered {
-    min-height: calc(100% - (#{$modal-dialog-margin-y-sm-up} * 2));
+    min-height: subtract(100%, $modal-dialog-margin-y-sm-up * 2);
 
     &::before {
-      height: calc(100vh - (#{$modal-dialog-margin-y-sm-up} * 2));
+      height: subtract(100vh, $modal-dialog-margin-y-sm-up * 2);
     }
   }
 

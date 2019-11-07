@@ -5,7 +5,7 @@
 // Responsive image
 //
 // Keep images from scaling beyond the width of their parents.
-@mixin img-fluid {
+@mixin img-fluid() {
   // Part 1: Set a maximum relative to the parent
   max-width: 100%;
 

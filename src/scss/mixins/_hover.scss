@@ -13,12 +13,12 @@
 // Issue: https://github.com/twbs/bootstrap/issues/25195
 
 // Hover
-@mixin hover {
+@mixin hover() {
   &:hover { @content; }
 }
 
 // Hover focus
-@mixin hover-focus {
+@mixin hover-focus() {
   &:hover,
   &:focus {
     @content;
@@ -26,7 +26,7 @@
 }
 
 // Plain hover focus
-@mixin plain-hover-focus {
+@mixin plain-hover-focus() {
   &,
   &:hover,
   &:focus {
@@ -35,7 +35,7 @@
 }
 
 // Hover focus active
-@mixin hover-focus-active {
+@mixin hover-focus-active() {
   &:hover,
   &:focus,
   &:active {
