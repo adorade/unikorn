@@ -44,21 +44,26 @@
 
   // When fading in the drawer, animate it to slide right
   .drawer.fade & {
-    transform: translate(-50%, 0);
+    transform: $drawer-fade-transform;
     @include transition($drawer-transition);
   }
 
   .drawer.show & {
-    transform: translate(0, 0);
+    transform: $drawer-show-transform;
+  }
+
+  // When trying to close, animate focus to scale
+  .modal.modal-static & {
+    transform: $drawer-scale-transform;
   }
 }
 
 .drawer-dialog-scrollable {
   display: flex; // IE10/11
-  max-height: calc(100% - (#{$drawer-dialog-margin * 2}));
+  max-height: subtract(100%, $modal-dialog-margin * 2);
 
   .drawer-content {
-    max-height: calc(100vh - (#{$drawer-dialog-margin * 2})); // IE10/11
+    max-height: subtract(100vh, $modal-dialog-margin * 2); // IE10/11
     overflow: hidden;
   }
 
@@ -75,12 +80,12 @@
 .modal-dialog-centered {
   display: flex;
   align-items: center;
-  min-height: calc(100% - (#{$drawer-dialog-margin} * 2));
+  min-height: subtract(100%, $modal-dialog-margin * 2);
 
   // Ensure `modal-dialog-centered` extends the full height of the view (IE10/11)
   &::before {
     display: block; // IE10
-    height: calc(100vh - (#{$drawer-dialog-margin} * 2));
+    height: subtract(100vh, $modal-dialog-margin * 2);
     content: "";
   }
 
@@ -174,7 +179,7 @@
   padding: $drawer-padding-y $drawer-padding-x;
   font-size: $drawer-brand-font-size;
 
-  @include hover-focus {
+  @include hover-focus() {
     text-decoration: none;
   }
 }
@@ -245,7 +250,7 @@
     padding: $drawer-padding-y $drawer-padding-x;
     color: $drawer-light-color;
 
-    @include hover-focus {
+    @include hover-focus() {
       background-color: $drawer-light-hover-bg;
       color: $drawer-light-hover-color;
     }
@@ -312,7 +317,7 @@
     padding: $drawer-padding-y ($drawer-padding-x * 2);
     color: $body-color;
 
-    @include hover-focus {
+    @include hover-focus() {
       background-color: $drawer-light-hover-bg;
       color: $drawer-light-hover-color;
       text-decoration: none;
@@ -366,7 +371,7 @@
   .drawer-brand {
     color: $drawer-light-color;
 
-    @include hover-focus {
+    @include hover-focus() {
       color: $drawer-light-hover-color;
     }
   }
@@ -389,7 +394,7 @@
     .nav-link {
       color: $drawer-light-color;
 
-      @include hover-focus {
+      @include hover-focus() {
         background-color: $drawer-light-hover-bg;
         color: $drawer-light-hover-color;
       }
@@ -421,7 +426,7 @@
     .dropdown-item {
       color: $drawer-light-color;
 
-      @include hover-focus {
+      @include hover-focus() {
         background-color: $drawer-light-hover-bg;
         color: $drawer-light-hover-color;
         text-decoration: none;
@@ -468,7 +473,7 @@
   .drawer-brand {
     color: $drawer-dark-color;
 
-    @include hover-focus {
+    @include hover-focus() {
       color: $drawer-dark-hover-color;
     }
   }
@@ -491,7 +496,7 @@
     .nav-link {
       color: $drawer-dark-color;
 
-      @include hover-focus {
+      @include hover-focus() {
         background-color: $drawer-dark-hover-bg;
         color: $drawer-dark-hover-color;
       }
@@ -523,7 +528,7 @@
     .dropdown-item {
       color: $drawer-dark-color;
 
-      @include hover-focus {
+      @include hover-focus() {
         background-color: $drawer-dark-hover-bg;
         color: $drawer-dark-hover-color;
         text-decoration: none;

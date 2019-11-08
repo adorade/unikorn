@@ -842,9 +842,11 @@ $drawer-light-disabled-color:       rgba($black, .38) !default;
 $drawer-light-border-color:         rgba($black, .12) !default;
 
 // Transition
-$timing:                            cubic-bezier(.4, 0, .2, 1) !default;
-$drawer-transition:                 transform .3s $timing !default;
-$drawer-transition-opacity:         opacity .3s $timing !default;
+$drawer-fade-transform:             translate(-50px, 0) !default;
+$drawer-show-transform:             none !default;
+$drawer-transition:                 transform .3s ease-out !default;
+$drawer-transition-opacity:         opacity .3s ease-out !default;
+$drawer-scale-transform:            scale(1.02) !default;
 
 
 // Pagination
