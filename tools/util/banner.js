@@ -5,6 +5,7 @@
  * ========================================================================== */
 
 const pkg = require(`${process.cwd()}/package.json`);
+const title = `${pkg.name.charAt(0).toUpperCase() + pkg.name.slice(1)}`;
 
 const year = new Date(
   process.env.SOURCE_DATE_EPOCH ? process.env.SOURCE_DATE_EPOCH * 1000 : new Date().getTime()
@@ -16,7 +17,7 @@ export function banner () {
   try {
     result = [
       '/*!',
-      ` * ${pkg.title} (v${pkg.version}): <%= file.relative %>`,
+      ` * ${title} (v${pkg.version}): <%= file.relative %>`,
       ` * ${pkg.description}`,
       ` * Copyright (c) ${year} ${pkg.author} (${pkg.homepage})`,
       ` * License under ${pkg.license} (${pkg.repository}/blob/master/LICENSE)`,
