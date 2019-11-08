@@ -12,7 +12,7 @@
   color: color-yiq($background);
   @include box-shadow($btn-box-shadow);
 
-  @include hover {
+  @include hover() {
     border-color: $hover-border;
     @include gradient-bg($hover-background);
     color: color-yiq($hover-background);
@@ -53,7 +53,7 @@
 
     &:focus {
       // Avoid using mixin so we can pass custom focus shadow properly
-      @if $enable-shadows {
+      @if $enable-shadows and $btn-active-box-shadow != none {
         box-shadow: $btn-active-box-shadow, 0 0 0 $btn-focus-width rgba(mix(color-yiq($background), $border, 15%), .5);
       } @else {
         box-shadow: 0 0 0 $btn-focus-width rgba(mix(color-yiq($background), $border, 15%), .5);
@@ -68,7 +68,7 @@
   border-color: $color;
   color: $color;
 
-  &:hover {
+  @include hover() {
     border-color: $active-border;
     background-color: $active-background;
     color: $color-hover;

@@ -80,7 +80,7 @@
 // Placed here since it has to come after the potential zebra striping
 .table-hover {
   tbody tr {
-    @include hover {
+    @include hover() {
       background-color: $table-hover-bg;
       color: $table-hover-color;
     }
@@ -136,14 +136,14 @@
   }
 
   &.table-striped {
-    tbody tr:nth-of-type(odd) {
+    tbody tr:nth-of-type(#{$table-striped-order}) {
       background-color: $table-dark-accent-bg;
     }
   }
 
   &.table-hover {
     tbody tr {
-      @include hover {
+      @include hover() {
         background-color: $table-dark-hover-bg;
         color: $table-dark-hover-color;
       }

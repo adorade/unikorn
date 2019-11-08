@@ -30,6 +30,21 @@
 
 // Form validation states.
 // Generate the form validation CSS for warnings, errors, and successes.
+// This mixin uses an `if()` technique to be compatible with Dart Sass
+// See https://github.com/sass/sass/issues/1873#issuecomment-152293725 for more details
+@mixin form-validation-state-selector($state) {
+  @if ($state == "valid" or $state == "invalid") {
+    .was-validated #{if(&, "&", "")}:#{$state},
+    #{if(&, "&", "")}.is-#{$state} {
+      @content;
+    }
+  } @else {
+    #{if(&, "&", "")}.is-#{$state} {
+      @content;
+    }
+  }
+}
+
 @mixin form-validation-state($state, $color, $icon) {
   .#{$state}-feedback {
     display: none;
@@ -54,9 +69,15 @@
     @include border-radius($form-feedback-tooltip-border-radius);
   }
 
+  @include form-validation-state-selector($state) {
+    ~ .#{$state}-feedback,
+    ~ .#{$state}-tooltip {
+      display: block;
+    }
+  }
+
   .form-control {
-    .was-validated &:#{$state},
-    &.is-#{$state} {
+    @include form-validation-state-selector($state) {
       border-color: $color;
 
       @if $enable-validation-icons {
@@ -71,18 +92,12 @@
         border-color: $color;
         box-shadow: 0 0 0 $input-focus-width rgba($color, .25);
       }
-
-      ~ .#{$state}-feedback,
-      ~ .#{$state}-tooltip {
-        display: block;
-      }
     }
   }
 
   // stylelint-disable-next-line selector-no-qualifying-type
   textarea.form-control {
-    .was-validated &:#{$state},
-    &.is-#{$state} {
+    @include form-validation-state-selector($state) {
       @if $enable-validation-icons {
         padding-right: $input-height-inner;
         background-position: top $input-height-inner-quarter right $input-height-inner-quarter;
@@ -91,8 +106,7 @@
   }
 
   .custom-select {
-    .was-validated &:#{$state},
-    &.is-#{$state} {
+    @include form-validation-state-selector($state) {
       border-color: $color;
 
       @if $enable-validation-icons {
@@ -104,27 +118,11 @@
         border-color: $color;
         box-shadow: 0 0 0 $input-focus-width rgba($color, .25);
       }
-
-      ~ .#{$state}-feedback,
-      ~ .#{$state}-tooltip {
-        display: block;
-      }
-    }
-  }
-
-  .form-control-file {
-    .was-validated &:#{$state},
-    &.is-#{$state} {
-      ~ .#{$state}-feedback,
-      ~ .#{$state}-tooltip {
-        display: block;
-      }
     }
   }
 
   .form-check-input {
-    .was-validated &:#{$state},
-    &.is-#{$state} {
+    @include form-validation-state-selector($state) {
       ~ .form-check-label {
         color: $color;
       }
@@ -137,19 +135,13 @@
   }
 
   .custom-control-input {
-    .was-validated &:#{$state},
-    &.is-#{$state} {
+    @include form-validation-state-selector($state) {
       ~ .custom-control-label {
         color: $color;
 
         &::before {
           border-color: $color;
         }
-      }
-
-      ~ .#{$state}-feedback,
-      ~ .#{$state}-tooltip {
-        display: block;
       }
 
       &:checked {
@@ -173,15 +165,9 @@
 
   // custom file
   .custom-file-input {
-    .was-validated &:#{$state},
-    &.is-#{$state} {
+    @include form-validation-state-selector($state) {
       ~ .custom-file-label {
         border-color: $color;
-      }
-
-      ~ .#{$state}-feedback,
-      ~ .#{$state}-tooltip {
-        display: block;
       }
 
       &:focus {

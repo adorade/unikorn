@@ -29,7 +29,7 @@
   }
 
   &:focus {
-    z-index: 2;
+    z-index: 3;
     outline: $pagination-focus-outline;
     box-shadow: $pagination-focus-box-shadow;
   }
@@ -50,7 +50,7 @@
   }
 
   &.active .page-link {
-    z-index: 1;
+    z-index: 3;
     border-color: $pagination-active-border-color;
     background-color: $pagination-active-bg;
     color: $pagination-active-color;
