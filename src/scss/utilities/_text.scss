@@ -58,7 +58,7 @@
 // Misc
 // ----------------------------
 .text-hide {
-  @include text-hide($ignore-warning: true);
+  @include text-hide();
 }
 
 .text-decoration-none { text-decoration: none !important; }
