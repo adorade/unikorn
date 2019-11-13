@@ -33,7 +33,7 @@ export const opts = {
   babel: {
     // see .babelrc.js
   },
-  treser: {
+  terser: {
     output: {
       comments: false
     },
