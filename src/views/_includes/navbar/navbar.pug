@@ -1,0 +1,20 @@
+//- _includes/navbar/navbar.pug
+nav.navbar.fixed-top.navbar-light.bg-transparent
+  .navbar-header.d-inline-flex
+    button.navbar-toggler(type="button" data-toggle="drawer" data-target="#drawer" aria-controls="drawer" aria-expanded="false" aria-label="Toggle drawer")
+      //- span.navbar-toggler-icon
+      i.material-icons menu
+    a.navbar-brand.d-flex.ml-3.py-1(href="./"): i.material-icons home
+
+  .navbar-nav.flex-row
+    a.nav-item.nav-link.d-flex.p-1(href="#toggle-search"): i.material-icons search
+    a.nav-item.nav-link.d-flex.p-1(href="#!"): i.material-icons invert_colors
+    //- a.nav-item.nav-link.d-flex.pl-2.py-1(href="#!"): i.material-icons more_vert
+    .nav-item.dropdown
+      a.nav-link.dropdown-toggle.d-flex.p-1#navbarDropdownMenuLink(href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"): i.material-icons more_vert
+      .dropdown-menu.dropdown-menu-right(aria-labelledby="navbarDropdownMenuLink")
+        a.dropdown-item(href="#!") Action
+        a.dropdown-item(href="#!") Another action
+        a.dropdown-item(href="#!") Something else here
+
+  include ../search/navbar-search

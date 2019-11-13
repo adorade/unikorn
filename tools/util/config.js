@@ -54,7 +54,8 @@ export const paths = {
     dest: `${dirs.dest}/static/`
   },
   views: {
-    src: [`${dirs.src}/views/**/*.pug`, `!${dirs.src}/views/**/_*.pug`],
+    // Ignore files from folders that start with '_'
+    src: [`${dirs.src}/views/**/*.pug`, `!${dirs.src}/views/**/_*/**`],
     all: `${dirs.src}/views/**/*.pug`,
     dest: `${dirs.dest}/`,
     del: `${dirs.dest}/*.html`

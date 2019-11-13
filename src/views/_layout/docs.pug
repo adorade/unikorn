@@ -1,0 +1,31 @@
+//- _layout/docs.pug
+doctype html
+html(lang="en")
+  //- include ../_partials/stamp
+  block setting
+
+  head
+    block head
+      //- include ../_partials/meta
+    block fonts
+      //- include ../_partials/fonts
+    block styles
+      //- include ../_partials/styles
+    block head-js
+      //- include ../_partials/analytics
+
+  body
+    block drawer
+      //- include ../_includes/drawer/drawer
+    .wrapper
+      block navigation
+        //- include ../_includes/navbar/navbar
+      main
+        block sidebar
+        block content
+      block footer
+        //- include ../_includes/footer/footer
+    //- include ../_includes/misc/back-to-top
+    block scripts
+      //- include ../_partials/scripts
+    block custom-js
