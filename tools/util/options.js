@@ -52,7 +52,7 @@ export const opts = {
   },
   pug: {
     doctype: 'html',
-    pretty: true
+    pretty: '  '
   },
   htmlmin: {
     collapseBooleanAttributes: true,
