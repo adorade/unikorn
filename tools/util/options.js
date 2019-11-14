@@ -45,6 +45,9 @@ export const opts = {
     jpeg: { progressive: true },
     png: { optimizationLevel: 4 },
     svg: { plugins: [{ removeViewBox: true }] },
+    general: {
+      silent: true
+    },
     webp: { // https://github.com/imagemin/imagemin-webp#options
       preset: 'default',
       quality: 60
@@ -52,7 +55,7 @@ export const opts = {
   },
   pug: {
     doctype: 'html',
-    pretty: true
+    pretty: '  '
   },
   htmlmin: {
     collapseBooleanAttributes: true,

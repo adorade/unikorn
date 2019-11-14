@@ -5,7 +5,7 @@
  * ========================================================================== */
 
 import {
-  src, dest, lastRun, plugins, paths, opts, bs, del, log, magenta, green
+  src, dest, lastRun, plugins, paths, opts, bs, fs, del, log, magenta, green
 } from '../util';
 
 // For debugging usage:
@@ -33,7 +33,13 @@ lintPages.description = 'Lint pug (views) files';
 
 export function pagile () {
   log(`${green('-> Generating Pages via Pug...')}`);
+
+  // Data from `global.json`
+  const dataFile = paths.views.datas + 'global.json';
+  const dataJson = JSON.parse(fs.readFileSync(dataFile));
+
   return src(paths.views.src)
+    .pipe(plugins.data(() => dataJson))
     .pipe(plugins.pug(opts.pug))
     .pipe(plugins.size(opts.size))
     .pipe(dest(paths.views.dest))

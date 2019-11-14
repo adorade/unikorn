@@ -54,7 +54,9 @@ export const paths = {
     src: [`${dirs.src}/views/**/*.pug`, `!${dirs.src}/views/**/_*/**`],
     all: `${dirs.src}/views/**/*.pug`,
     dest: `${dirs.dest}/`,
-    del: `${dirs.dest}/*.html`
+    del: `${dirs.dest}/*.html`,
+    data: `${dirs.src}/views/_data/**/*.json`,
+    datas: `${dirs.src}/views/_data/`
   },
   test: {
     js: `${dirs.test}/js/`,

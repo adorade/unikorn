@@ -57,6 +57,11 @@ export function serve (done) {
       name: 'Pages',
       paths: paths.views.all,
       tasks: [lintPages, pagile]
+    },
+    {
+      name: 'Data',
+      paths: paths.views.data,
+      tasks: [lintPages, pagile]
     }
   ];
 
