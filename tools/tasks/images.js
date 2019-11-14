@@ -30,7 +30,8 @@ export function imagine () {
       plugins.imagemin.jpegtran(opts.images.jpeg),
       plugins.imagemin.optipng(opts.images.png),
       plugins.imagemin.svgo(opts.images.svg)
-    ], { verbose: true }))
+    ], opts.images.general))
+    .pipe(plugins.size(opts.size))
     .pipe(dest(paths.images.dest))
     .pipe(bs.stream({ match: '**/*.{gif,jpg,jpeg,png,svg}' }));
 }
