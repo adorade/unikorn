@@ -49,7 +49,7 @@
     "gulp-autoprefixer": "^7.0.1",
     "gulp-better-rollup": "^4.0.1",
     "gulp-concat": "^2.6.1",
-    "gulp-csso": "^3.0.1",
+    "gulp-csso": "^4.0.0",
     "gulp-debug": "^4.0.0",
     "gulp-eslint": "^6.0.0",
     "gulp-header": "^2.0.9",
