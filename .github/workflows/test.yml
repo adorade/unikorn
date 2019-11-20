@@ -29,11 +29,19 @@ jobs:
       with:
         node-version: ${{ matrix.node_version }}
 
-    # install dependencies, verify and test
-    - name: Clean install dependencies and test
-      run: |
-        yarn install
-        yarn run verify
-        yarn run test
+    # install dependencies
+    - name: Clean install dependencies
+      run: yarn install
+      shell: bash
+
+    # verify build tools
+    - name: Verify build tools
+      run: yarn run verify
+      shell: bash
+
+    # test proccess
+    - name: Test proccess
+      run: yarn run test
+      shell: bash
       env:
-        CI: true
+        CI: ${{ true }}
