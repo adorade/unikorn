@@ -58,7 +58,7 @@ buildStatics.description = 'Build statics files';
 /**
  * Templates - processes templates files
  * -------------------------------------------------------------------------- */
-export const pages = series(lintPages, pagile);
+const pages = series(lintPages, pagile);
 export const buildPages = series(cleanPages, pages);
 buildPages.displayName = 'build:pages';
 buildPages.description = 'Build only html files';
