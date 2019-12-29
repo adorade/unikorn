@@ -11,10 +11,6 @@
  *   `gulp tester`
  */
 
-// For debug purpose
-// const { env } = process
-// const debug = env.DEBUG === 'true'
-
 module.exports = (config) => {
   config.set({
 
@@ -124,32 +120,20 @@ module.exports = (config) => {
       // enable/disable phantomjs support, default is true
       usePhantomJS: false,
 
-      // post processing of browsers list
+      // Post processing of browsers list
       // here you can edit the list of browsers used by karma
       postDetection: function (availableBrowsers) {
-        if (process.env.CI === true || availableBrowsers.includes('Chrome')) {
-          return ['ChromeHeadlessNoSandbox']
+        if (availableBrowsers.length > 0) {
+          if (process.env.CI === true || availableBrowsers.includes('Chrome')) {
+            return ['ChromeHeadlessNoSandbox']
+          }
+
+          if (availableBrowsers.includes('Firefox')) {
+            return ['FirefoxHeadless']
+          }
+        } else {
+          throw new Error('Please install Chrome or Firefox')
         }
-
-        if (availableBrowsers.includes('Firefox')) {
-          return ['FirefoxHeadless']
-        }
-
-        throw new Error('Please install Chrome or Firefox')
-
-        // if (availableBrowsers.length > 0) {
-        //   if (typeof process.env.TRAVIS_JOB_ID !== 'undefined' || availableBrowsers.indexOf('Chrome') > -1) {
-        //     return ['ChromeHeadless']
-        //     // return debug ? ['Chrome'] : ['ChromeHeadlessNoSandbox']
-        //   }
-
-        //   if (availableBrowsers.indexOf('Firefox') > -1) {
-        //     return ['FirefoxHeadless']
-        //     // return debug ? ['Firefox'] : ['FirefoxHeadless']
-        //   }
-        // } else {
-        //   throw new Error('Please install Chrome or Firefox')
-        // }
       }
     }
   })
