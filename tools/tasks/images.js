@@ -27,7 +27,7 @@ export function imagine () {
   })
     .pipe(plugins.imagemin([
       plugins.imagemin.gifsicle(opts.images.gif),
-      plugins.imagemin.jpegtran(opts.images.jpeg),
+      plugins.imagemin.mozjpeg(opts.images.jpeg),
       plugins.imagemin.optipng(opts.images.png),
       plugins.imagemin.svgo(opts.images.svg)
     ], opts.images.general))
