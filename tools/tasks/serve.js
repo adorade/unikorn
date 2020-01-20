@@ -8,8 +8,8 @@ import {
   lintSCSS, compile, lintMJS, transpile, lintPages, pagile, imagine, statica
 } from './';
 import {
-  series, watch, dirs, paths, opts, bs,
-  log, green, magenta, red, bgRed, bgBlue
+  series, watch, dirs, paths, opts, $, bs,
+  bgRed, bgBlue, green, magenta, red
 } from '../util';
 
 // Automatically reload assets or refresh your browser when changes occur
@@ -26,7 +26,7 @@ export function serve (done) {
   });
 
   function watchEvent (path, event, task) {
-    log(
+    $.log(
       `File ${magenta(path)} was ${green(event)} running ${red(task)}`
     );
   }
@@ -66,10 +66,10 @@ export function serve (done) {
   ];
 
   for (let watcher of watchers) {
-    log(bgRed(`Watching ${watcher.name}`));
+    $.log(bgRed(`Watching ${watcher.name}`));
 
     for (let p of [watcher.paths]) {
-      log(`${bgBlue('Source:')} ${magenta(p)}`);
+      $.log(`${bgBlue('Source:')} ${magenta(p)}`);
     }
 
     let taskNames = [];

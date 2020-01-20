@@ -5,7 +5,7 @@
  * ========================================================================== */
 
 import {
-  src, dest, lastRun, plugins, del, bs, fs, log, magenta, green,
+  src, dest, lastRun, $, bs, fs, green, magenta,
   dirs, paths, opts, banner, inputOpts, outputOpts
 } from '../util';
 
@@ -18,14 +18,14 @@ import gulpRollup from '../rollup';
 // with Rollup via Babel.js
 // -----------------------------------------------------------------------------
 export function cleanScripts () {
-  log(`${green('-> Clean all scripts')} in ${magenta(paths.scripts.dest)} folder`);
-  return del(paths.scripts.dest);
+  $.log(`${green('-> Clean all scripts')} in ${magenta(paths.scripts.dest)} folder`);
+  return $.del(paths.scripts.dest);
 }
 cleanScripts.displayName = 'clean:js';
 cleanScripts.description = 'Clean up scripts folder';
 
 export function lintMJS () {
-  log(`${green('-> Linting MJS files...')}`);
+  $.log(`${green('-> Linting MJS files...')}`);
 
   const outputDir = paths.logs.gulp;
   fs.mkdirSync(`${outputDir}`, { recursive: true });
@@ -34,23 +34,23 @@ export function lintMJS () {
   return src(paths.scripts.src, {
     since: lastRun(lintMJS)
   })
-    .pipe(plugins.eslint())
-    .pipe(plugins.eslint.format())
-    .pipe(plugins.eslint.format('stylish', output))
-    .pipe(plugins.eslint.failAfterError());
+    .pipe($.gEslint())
+    .pipe($.gEslint.format())
+    .pipe($.gEslint.format('stylish', output))
+    .pipe($.gEslint.failAfterError());
 }
 lintMJS.displayName = 'lint:mjs';
 lintMJS.description = 'Lint MJS files';
 
 export function transpile () {
-  log(`${green('-> Transpiling MJS via Babel...')}`);
+  $.log(`${green('-> Transpiling MJS via Babel...')}`);
 
   return src(`${dirs.src}/mjs/index.mjs`, {
     sourcemaps: true
   })
     .pipe(gulpRollup(inputOpts, outputOpts))
-    .pipe(plugins.header(banner()))
-    .pipe(plugins.size(opts.size))
+    .pipe($.header(banner()))
+    .pipe($.size(opts.size))
     .pipe(dest(paths.scripts.dest, { sourcemaps: './' }))
     .pipe(bs.stream({ match: '**/*.js' }));
 }
@@ -58,13 +58,13 @@ transpile.displayName = 'transpile:mjs';
 transpile.description = 'Transpile MJS via Babel';
 
 export function minifyJS () {
-  log(`${green('-> Minify JS...')}`);
+  $.log(`${green('-> Minify JS...')}`);
 
   return src(paths.scripts.filter)
-    .pipe(plugins.terser(opts.terser))
-    .pipe(plugins.rename({ extname: '.min.js' }))
-    .pipe(plugins.header(banner()))
-    .pipe(plugins.size(opts.size))
+    .pipe($.terser(opts.terser))
+    .pipe($.rename({ extname: '.min.js' }))
+    .pipe($.header(banner()))
+    .pipe($.size(opts.size))
     .pipe(dest(paths.scripts.dest))
     .pipe(bs.stream({ match: '**/*.js' }));
 }

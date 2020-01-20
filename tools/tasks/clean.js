@@ -4,20 +4,20 @@
  * Licensed under MIT (https://github.com/adorade/unikorn/blob/master/LICENSE)
  * ========================================================================== */
 
-import { series, dirs, del, log, magenta, green } from '../util';
+import { series, $, green, magenta, dirs } from '../util';
 
 // Clean all output folder
 // -----------------------------------------------------------------------------
 export function cleanDev () {
-  log(`${green('-> Clean all files')} in ${magenta(dirs.dest)} folder`);
-  return del(dirs.dest);
+  $.log(`${green('-> Clean all files')} in ${magenta(dirs.dest)} folder`);
+  return $.del(dirs.dest);
 }
 cleanDev.displayName = 'clean:dev';
 cleanDev.description = 'Clean development output';
 
 export function cleanLogs () {
-  log(`${green('(-> Clean all logs')} in ${magenta(dirs.logs)} folder`);
-  return del(dirs.logs);
+  $.log(`${green('(-> Clean all logs')} in ${magenta(dirs.logs)} folder`);
+  return $.del(dirs.logs);
 }
 cleanLogs.displayName = 'clean:logs';
 cleanLogs.description = 'Clean logs output';
