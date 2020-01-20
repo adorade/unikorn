@@ -4,17 +4,17 @@
  * Licensed under MIT (https://github.com/adorade/unikorn/blob/master/LICENSE)
  * ========================================================================== */
 
-import { tree, dirs, paths, opts, banner, log, green, magenta } from '../util';
+import { tree, $, green, magenta, dirs, paths, opts, banner } from '../util';
 
 // Check gulp configuration
 // -----------------------------------------------------------------------------
 export function checks (done) {
   const gulpTree = tree();
-  log(green('Gulp Tasks:\n'), gulpTree.nodes);
-  log(magenta('Directories configuration:\n'), dirs);
-  log(magenta('Paths configuration:\n'), paths);
-  log(magenta('Options configuration:\n'), opts);
-  log(green('Banner:\n'), banner());
+  $.log(green('Gulp Tasks:\n'), gulpTree.nodes);
+  $.log(magenta('Directories configuration:\n'), dirs);
+  $.log(magenta('Paths configuration:\n'), paths);
+  $.log(magenta('Options configuration:\n'), opts);
+  $.log(green('Banner:\n'), banner());
   done();
 }
 checks.displayName = 'check:settings';

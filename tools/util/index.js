@@ -7,8 +7,8 @@
 // Load plugins
 export {
   src, dest, series, parallel, lastRun, watch, tree,
-  args, taskTarget, plugins, bs, fs, karmaServer,
-  del, log, green, magenta, red, bgBlue, bgRed
+  args, taskTarget, $, bs, fs, karmaServer,
+  bgBlue, bgRed, green, magenta, red
 } from './plugins';
 
 // Banner and wrapper
