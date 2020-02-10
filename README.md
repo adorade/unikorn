@@ -9,7 +9,7 @@
 [![website](https://img.shields.io/website/https/uni.adorade.ro.svg?logo=google-chrome)](https://uni.adorade.ro/)
 [![devDependencies Status](https://img.shields.io/david/dev/adorade/unikorn.svg)](https://david-dm.org/adorade/unikorn?type=dev)
 [![Travis (.com)](https://img.shields.io/travis/com/adorade/unikorn?logo=travis)](https://travis-ci.com/adorade/unikorn)
-[![Greenkeeper badge](https://badges.greenkeeper.io/adorade/unikorn.svg)](https://greenkeeper.io/)
+[![Renovate badge](https://badges.renovateapi.com/github/adorade/uni-blocks)](https://renovateapp.com)
 [![GitHub Actions status](https://github.com/adorade/unikorn/workflows/Node%20CI/badge.svg)](https://github.com/adorade/unikorn/actions)
 
 Work in progress...
