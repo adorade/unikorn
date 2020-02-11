@@ -16,7 +16,7 @@ const Tooltip = (($) => {
    * ------------------------------------------------------------------------ */
 
   const NAME                  = 'tooltip'
-  const VERSION               = '4.3.1'
+  const VERSION               = Util.VERSION
   const DATA_KEY              = `uni.${NAME}`
   const EVENT_KEY             = `.${DATA_KEY}`
   const JQUERY_NO_CONFLICT    = $.fn[NAME]

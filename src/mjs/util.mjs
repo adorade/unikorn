@@ -63,6 +63,7 @@ const Util = (($) => {
   const Util = {
 
     TRANSITION_END: 'uniTransitionEnd',
+    VERSION: '4.4.1',
 
     getUID(prefix) {
       do {

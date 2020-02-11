@@ -4,6 +4,7 @@
  * -------------------------------------------------------------------------- */
 
 import $ from 'jquery'
+import Util from './util'
 import Tooltip from './tooltip'
 
 const Popover = (($) => {
@@ -14,7 +15,7 @@ const Popover = (($) => {
    * ------------------------------------------------------------------------ */
 
   const NAME                = 'popover'
-  const VERSION             = '4.3.1'
+  const VERSION             = Util.VERSION
   const DATA_KEY            = `uni.${NAME}`
   const EVENT_KEY           = `.${DATA_KEY}`
   const JQUERY_NO_CONFLICT  = $.fn[NAME]
