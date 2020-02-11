@@ -55,7 +55,8 @@
     @include box-shadow($custom-control-indicator-active-box-shadow);
   }
 
-  &[disabled] {
+  &[disabled],
+  &:disabled {
     ~ .custom-control-label {
       color: $custom-control-label-disabled-color;
 
@@ -312,7 +313,8 @@
     box-shadow: $custom-file-focus-box-shadow;
   }
 
-  &[disabled] ~ .custom-file-label {
+  &[disabled] ~ .custom-file-label,
+  &:disabled ~ .custom-file-label {
     background-color: $custom-file-disabled-bg;
   }
 

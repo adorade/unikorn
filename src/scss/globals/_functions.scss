@@ -72,17 +72,15 @@
   }
 }
 
-// Retrieve color Sass maps
+// Retrieve Color Sass maps
 @function color($key: "blue") {
   @return map-get($colors, $key);
 }
 
-// Retrieve theme-color Sass maps
 @function theme-color($key: "primary") {
   @return map-get($theme-colors, $key);
 }
 
-// Retrieve gray Sass maps
 @function gray($key: "100") {
   @return map-get($grays, $key);
 }
@@ -110,7 +108,7 @@
     @return $value1 + $value2;
   }
 
-  @return if($return-calc == true, calc(#{$value1} + #{$value2}), #{$value1} + #{$value2});
+  @return if($return-calc == true, calc(#{$value1} + #{$value2}), #{$value1} + unquote(" + ") + #{$value2});
 }
 
 @function subtract($value1, $value2, $return-calc: true) {
@@ -130,5 +128,5 @@
     @return $value1 - $value2;
   }
 
-  @return if($return-calc == true, calc(#{$value1} - #{$value2}), #{$value1} - #{$value2});
+  @return if($return-calc == true, calc(#{$value1} - #{$value2}), #{$value1} + unquote(" - ") +  #{$value2});
 }
