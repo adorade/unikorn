@@ -14,11 +14,18 @@ const Collapse = (($) => {
    * ------------------------------------------------------------------------ */
 
   const NAME               = 'collapse'
-  const VERSION            = '4.3.1'
+  const VERSION            = Util.VERSION
   const DATA_KEY           = `uni.${NAME}`
   const EVENT_KEY          = `.${DATA_KEY}`
   const DATA_API_KEY       = '.data-api'
   const JQUERY_NO_CONFLICT = $.fn[NAME]
+
+  const ClassName = {
+    SHOW       : 'show',
+    COLLAPSE   : 'collapse',
+    COLLAPSING : 'collapsing',
+    COLLAPSED  : 'collapsed'
+  }
 
   const Default = {
     toggle : true,
@@ -30,24 +37,17 @@ const Collapse = (($) => {
     parent : '(string|element)'
   }
 
+  const Dimension = {
+    WIDTH  : 'width',
+    HEIGHT : 'height'
+  }
+
   const Event = {
     SHOW           : `show${EVENT_KEY}`,
     SHOWN          : `shown${EVENT_KEY}`,
     HIDE           : `hide${EVENT_KEY}`,
     HIDDEN         : `hidden${EVENT_KEY}`,
     CLICK_DATA_API : `click${EVENT_KEY}${DATA_API_KEY}`
-  }
-
-  const ClassName = {
-    SHOW       : 'show',
-    COLLAPSE   : 'collapse',
-    COLLAPSING : 'collapsing',
-    COLLAPSED  : 'collapsed'
-  }
-
-  const Dimension = {
-    WIDTH  : 'width',
-    HEIGHT : 'height'
   }
 
   const Selector = {

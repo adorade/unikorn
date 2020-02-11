@@ -14,19 +14,11 @@ const Tab = (($) => {
    * ------------------------------------------------------------------------ */
 
   const NAME               = 'tab'
-  const VERSION            = '4.3.1'
+  const VERSION            = Util.VERSION
   const DATA_KEY           = `uni.${NAME}`
   const EVENT_KEY          = `.${DATA_KEY}`
   const DATA_API_KEY       = '.data-api'
   const JQUERY_NO_CONFLICT = $.fn[NAME]
-
-  const Event = {
-    HIDE           : `hide${EVENT_KEY}`,
-    HIDDEN         : `hidden${EVENT_KEY}`,
-    SHOW           : `show${EVENT_KEY}`,
-    SHOWN          : `shown${EVENT_KEY}`,
-    CLICK_DATA_API : `click${EVENT_KEY}${DATA_API_KEY}`
-  }
 
   const ClassName = {
     DROPDOWN_MENU : 'dropdown-menu',
@@ -34,6 +26,14 @@ const Tab = (($) => {
     DISABLED      : 'disabled',
     FADE          : 'fade',
     SHOW          : 'show'
+  }
+
+  const Event = {
+    HIDE           : `hide${EVENT_KEY}`,
+    HIDDEN         : `hidden${EVENT_KEY}`,
+    SHOW           : `show${EVENT_KEY}`,
+    SHOWN          : `shown${EVENT_KEY}`,
+    CLICK_DATA_API : `click${EVENT_KEY}${DATA_API_KEY}`
   }
 
   const Selector = {

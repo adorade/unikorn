@@ -4,6 +4,7 @@
  * -------------------------------------------------------------------------- */
 
 import $ from 'jquery'
+import Util from './util'
 
 const Button = (($) => {
 
@@ -13,7 +14,7 @@ const Button = (($) => {
    * ------------------------------------------------------------------------ */
 
   const NAME               = 'button'
-  const VERSION            = '4.3.1'
+  const VERSION            = Util.VERSION
   const DATA_KEY           = `uni.${NAME}`
   const EVENT_KEY          = `.${DATA_KEY}`
   const DATA_API_KEY       = '.data-api'
@@ -25,6 +26,13 @@ const Button = (($) => {
     FOCUS  : 'focus'
   }
 
+  const Event = {
+    CLICK_DATA_API      : `click${EVENT_KEY}${DATA_API_KEY}`,
+    FOCUS_BLUR_DATA_API : `focus${EVENT_KEY}${DATA_API_KEY} ` +
+                          `blur${EVENT_KEY}${DATA_API_KEY}`,
+    LOAD_DATA_API       : `load${EVENT_KEY}${DATA_API_KEY}`
+  }
+
   const Selector = {
     DATA_TOGGLE_CARROT   : '[data-toggle^="button"]',
     DATA_TOGGLES         : '[data-toggle="buttons"]',
@@ -33,13 +41,6 @@ const Button = (($) => {
     INPUT                : 'input:not([type="hidden"])',
     ACTIVE               : '.active',
     BUTTON               : '.btn'
-  }
-
-  const Event = {
-    CLICK_DATA_API      : `click${EVENT_KEY}${DATA_API_KEY}`,
-    FOCUS_BLUR_DATA_API : `focus${EVENT_KEY}${DATA_API_KEY} ` +
-                          `blur${EVENT_KEY}${DATA_API_KEY}`,
-    LOAD_DATA_API       : `load${EVENT_KEY}${DATA_API_KEY}`
   }
 
   /**
