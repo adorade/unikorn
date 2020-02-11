@@ -20,6 +20,7 @@ const Dropdown = (($) => {
   const EVENT_KEY                = `.${DATA_KEY}`
   const DATA_API_KEY             = '.data-api'
   const JQUERY_NO_CONFLICT       = $.fn[NAME]
+
   const ESCAPE_KEYCODE           = 27 // KeyboardEvent.which value for Escape (Esc) key
   const SPACE_KEYCODE            = 32 // KeyboardEvent.which value for space key
   const TAB_KEYCODE              = 9 // KeyboardEvent.which value for tab key
@@ -28,15 +29,15 @@ const Dropdown = (($) => {
   const RIGHT_MOUSE_BUTTON_WHICH = 3 // MouseEvent.which value for the right button (assuming a right-handed mouse)
   const REGEXP_KEYDOWN           = new RegExp(`${ARROW_UP_KEYCODE}|${ARROW_DOWN_KEYCODE}|${ESCAPE_KEYCODE}`)
 
-  const Event = {
-    HIDE             : `hide${EVENT_KEY}`,
-    HIDDEN           : `hidden${EVENT_KEY}`,
-    SHOW             : `show${EVENT_KEY}`,
-    SHOWN            : `shown${EVENT_KEY}`,
-    CLICK            : `click${EVENT_KEY}`,
-    CLICK_DATA_API   : `click${EVENT_KEY}${DATA_API_KEY}`,
-    KEYDOWN_DATA_API : `keydown${EVENT_KEY}${DATA_API_KEY}`,
-    KEYUP_DATA_API   : `keyup${EVENT_KEY}${DATA_API_KEY}`
+  const AttachmentMap = {
+    TOP       : 'top-start',
+    TOPEND    : 'top-end',
+    BOTTOM    : 'bottom-start',
+    BOTTOMEND : 'bottom-end',
+    RIGHT     : 'right-start',
+    RIGHTEND  : 'right-end',
+    LEFT      : 'left-start',
+    LEFTEND   : 'left-end'
   }
 
   const ClassName = {
@@ -48,26 +49,6 @@ const Dropdown = (($) => {
     MENURIGHT       : 'dropdown-menu-right',
     MENULEFT        : 'dropdown-menu-left',
     POSITION_STATIC : 'position-static'
-  }
-
-  const Selector = {
-    DATA_TOGGLE   : '[data-toggle="dropdown"]',
-    FORM_CHILD    : '.dropdown form',
-    MENU          : '.dropdown-menu',
-    NAVBAR_NAV    : '.navbar-nav',
-    DRAWER_NAV    : '.drawer-nav',
-    VISIBLE_ITEMS : '.dropdown-menu .dropdown-item:not(.disabled):not(:disabled)'
-  }
-
-  const AttachmentMap = {
-    TOP       : 'top-start',
-    TOPEND    : 'top-end',
-    BOTTOM    : 'bottom-start',
-    BOTTOMEND : 'bottom-end',
-    RIGHT     : 'right-start',
-    RIGHTEND  : 'right-end',
-    LEFT      : 'left-start',
-    LEFTEND   : 'left-end'
   }
 
   const Default = {
@@ -86,6 +67,26 @@ const Dropdown = (($) => {
     reference    : '(string|element)',
     display      : 'string',
     popperConfig : '(null|object)'
+  }
+
+  const Event = {
+    HIDE             : `hide${EVENT_KEY}`,
+    HIDDEN           : `hidden${EVENT_KEY}`,
+    SHOW             : `show${EVENT_KEY}`,
+    SHOWN            : `shown${EVENT_KEY}`,
+    CLICK            : `click${EVENT_KEY}`,
+    CLICK_DATA_API   : `click${EVENT_KEY}${DATA_API_KEY}`,
+    KEYDOWN_DATA_API : `keydown${EVENT_KEY}${DATA_API_KEY}`,
+    KEYUP_DATA_API   : `keyup${EVENT_KEY}${DATA_API_KEY}`
+  }
+
+  const Selector = {
+    DATA_TOGGLE   : '[data-toggle="dropdown"]',
+    FORM_CHILD    : '.dropdown form',
+    MENU          : '.dropdown-menu',
+    NAVBAR_NAV    : '.navbar-nav',
+    DRAWER_NAV    : '.drawer-nav',
+    VISIBLE_ITEMS : '.dropdown-menu .dropdown-item:not(.disabled):not(:disabled)'
   }
 
   /**
@@ -302,7 +303,6 @@ const Dropdown = (($) => {
       return $(this._element).closest('.drawer').length > 0
     }
 
-
     _getOffset() {
       const offset = {}
 
@@ -440,7 +440,6 @@ const Dropdown = (($) => {
       return parent || element.parentNode
     }
 
-    // eslint-disable-next-line complexity
     static _dataApiKeydownHandler(event) {
       // If not input/textarea:
       //  - And not a key in REGEXP_KEYDOWN => not a dropdown command

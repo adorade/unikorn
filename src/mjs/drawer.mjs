@@ -19,7 +19,18 @@ const Drawer = (($) => {
   const EVENT_KEY          = `.${DATA_KEY}`
   const DATA_API_KEY       = '.data-api'
   const JQUERY_NO_CONFLICT = $.fn[NAME]
+
   const ESCAPE_KEYCODE     = 27 // KeyboardEvent.which value for Escape (Esc) key
+
+  const ClassName = {
+    SCROLLABLE         : 'drawer-dialog-scrollable',
+    SCROLLBAR_MEASURER : 'drawer-scrollbar-measure',
+    BACKDROP           : 'drawer-backdrop',
+    OPEN               : 'drawer-open',
+    FADE               : 'fade',
+    SHOW               : 'show',
+    STATIC             : 'drawer-static'
+  }
 
   const Default = {
     backdrop : true,
@@ -48,16 +59,6 @@ const Drawer = (($) => {
     MOUSEUP_DISMISS   : `mouseup.dismiss${EVENT_KEY}`,
     MOUSEDOWN_DISMISS : `mousedown.dismiss${EVENT_KEY}`,
     CLICK_DATA_API    : `click${EVENT_KEY}${DATA_API_KEY}`
-  }
-
-  const ClassName = {
-    SCROLLABLE         : 'drawer-dialog-scrollable',
-    SCROLLBAR_MEASURER : 'drawer-scrollbar-measure',
-    BACKDROP           : 'drawer-backdrop',
-    OPEN               : 'drawer-open',
-    FADE               : 'fade',
-    SHOW               : 'show',
-    STATIC             : 'drawer-static'
   }
 
   const Selector = {

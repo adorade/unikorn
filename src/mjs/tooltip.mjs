@@ -24,31 +24,17 @@ const Tooltip = (($) => {
   const UNICLS_PREFIX_REGEX   = new RegExp(`(^|\\s)${CLASS_PREFIX}\\S+`, 'g')
   const DISALLOWED_ATTRIBUTES = ['sanitize', 'whiteList', 'sanitizeFn']
 
-  const DefaultType = {
-    animation         : 'boolean',
-    template          : 'string',
-    title             : '(string|element|function)',
-    trigger           : 'string',
-    delay             : '(number|object)',
-    html              : 'boolean',
-    selector          : '(string|boolean)',
-    placement         : '(string|function)',
-    offset            : '(number|string|function)',
-    container         : '(string|element|boolean)',
-    fallbackPlacement : '(string|array)',
-    boundary          : '(string|element)',
-    sanitize          : 'boolean',
-    sanitizeFn        : '(null|function)',
-    whiteList         : 'object',
-    popperConfig      : '(null|object)'
-  }
-
   const AttachmentMap = {
     AUTO   : 'auto',
     TOP    : 'top',
     RIGHT  : 'right',
     BOTTOM : 'bottom',
     LEFT   : 'left'
+  }
+
+  const ClassName = {
+    FADE : 'fade',
+    SHOW : 'show'
   }
 
   const Default = {
@@ -72,9 +58,23 @@ const Tooltip = (($) => {
     popperConfig      : null
   }
 
-  const HoverState = {
-    SHOW : 'show',
-    OUT  : 'out'
+  const DefaultType = {
+    animation         : 'boolean',
+    template          : 'string',
+    title             : '(string|element|function)',
+    trigger           : 'string',
+    delay             : '(number|object)',
+    html              : 'boolean',
+    selector          : '(string|boolean)',
+    placement         : '(string|function)',
+    offset            : '(number|string|function)',
+    container         : '(string|element|boolean)',
+    fallbackPlacement : '(string|array)',
+    boundary          : '(string|element)',
+    sanitize          : 'boolean',
+    sanitizeFn        : '(null|function)',
+    whiteList         : 'object',
+    popperConfig      : '(null|object)'
   }
 
   const Event = {
@@ -90,9 +90,9 @@ const Tooltip = (($) => {
     MOUSELEAVE : `mouseleave${EVENT_KEY}`
   }
 
-  const ClassName = {
-    FADE : 'fade',
-    SHOW : 'show'
+  const HoverState = {
+    SHOW : 'show',
+    OUT  : 'out'
   }
 
   const Selector = {
@@ -754,16 +754,16 @@ const Tooltip = (($) => {
       return VERSION
     }
 
+    static get DATA_KEY() {
+      return DATA_KEY
+    }
+
     static get Default() {
       return Default
     }
 
     static get DefaultType() {
       return DefaultType
-    }
-
-    static get DATA_KEY() {
-      return DATA_KEY
     }
 
     static get Event() {

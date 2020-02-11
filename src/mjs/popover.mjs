@@ -18,8 +18,14 @@ const Popover = (($) => {
   const DATA_KEY            = `uni.${NAME}`
   const EVENT_KEY           = `.${DATA_KEY}`
   const JQUERY_NO_CONFLICT  = $.fn[NAME]
+
   const CLASS_PREFIX        = `uni-${NAME}`
   const UNICLS_PREFIX_REGEX = new RegExp(`(^|\\s)${CLASS_PREFIX}\\S+`, 'g')
+
+  const ClassName = {
+    FADE : 'fade',
+    SHOW : 'show'
+  }
 
   const Default = {
     ...Tooltip.Default,
@@ -37,16 +43,6 @@ const Popover = (($) => {
     content : '(string|element|function)'
   }
 
-  const ClassName = {
-    FADE : 'fade',
-    SHOW : 'show'
-  }
-
-  const Selector = {
-    TITLE   : '.popover-header',
-    CONTENT : '.popover-body'
-  }
-
   const Event = {
     HIDE       : `hide${EVENT_KEY}`,
     HIDDEN     : `hidden${EVENT_KEY}`,
@@ -58,6 +54,11 @@ const Popover = (($) => {
     FOCUSOUT   : `focusout${EVENT_KEY}`,
     MOUSEENTER : `mouseenter${EVENT_KEY}`,
     MOUSELEAVE : `mouseleave${EVENT_KEY}`
+  }
+
+  const Selector = {
+    TITLE   : '.popover-header',
+    CONTENT : '.popover-body'
   }
 
   /**
@@ -146,16 +147,16 @@ const Popover = (($) => {
       return VERSION
     }
 
+    static get DATA_KEY() {
+      return DATA_KEY
+    }
+
     static get Default() {
       return Default
     }
 
     static get DefaultType() {
       return DefaultType
-    }
-
-    static get DATA_KEY() {
-      return DATA_KEY
     }
 
     static get Event() {

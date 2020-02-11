@@ -20,8 +20,10 @@ const Alert = (($) => {
   const DATA_API_KEY       = '.data-api'
   const JQUERY_NO_CONFLICT = $.fn[NAME]
 
-  const Selector = {
-    DISMISS : '[data-dismiss="alert"]'
+  const ClassName = {
+    ALERT : 'alert',
+    FADE  : 'fade',
+    SHOW  : 'show'
   }
 
   const Event = {
@@ -30,10 +32,8 @@ const Alert = (($) => {
     CLICK_DATA_API : `click${EVENT_KEY}${DATA_API_KEY}`
   }
 
-  const ClassName = {
-    ALERT : 'alert',
-    FADE  : 'fade',
-    SHOW  : 'show'
+  const Selector = {
+    DISMISS : '[data-dismiss="alert"]'
   }
 
   /**

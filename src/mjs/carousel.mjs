@@ -19,10 +19,23 @@ const Carousel = (($) => {
   const EVENT_KEY              = `.${DATA_KEY}`
   const DATA_API_KEY           = '.data-api'
   const JQUERY_NO_CONFLICT     = $.fn[NAME]
+
   const ARROW_LEFT_KEYCODE     = 37 // KeyboardEvent.which value for left arrow key
   const ARROW_RIGHT_KEYCODE    = 39 // KeyboardEvent.which value for right arrow key
   const TOUCHEVENT_COMPAT_WAIT = 500 // Time for mouse compat events to fire after touch
   const SWIPE_THRESHOLD        = 40
+
+  const ClassName = {
+    CAROUSEL      : 'carousel',
+    ACTIVE        : 'active',
+    SLIDE         : 'slide',
+    RIGHT         : 'carousel-item-right',
+    LEFT          : 'carousel-item-left',
+    NEXT          : 'carousel-item-next',
+    PREV          : 'carousel-item-prev',
+    ITEM          : 'carousel-item',
+    POINTER_EVENT : 'pointer-event'
+  }
 
   const Default = {
     interval : 5000,
@@ -65,16 +78,9 @@ const Carousel = (($) => {
     CLICK_DATA_API : `click${EVENT_KEY}${DATA_API_KEY}`
   }
 
-  const ClassName = {
-    CAROUSEL      : 'carousel',
-    ACTIVE        : 'active',
-    SLIDE         : 'slide',
-    RIGHT         : 'carousel-item-right',
-    LEFT          : 'carousel-item-left',
-    NEXT          : 'carousel-item-next',
-    PREV          : 'carousel-item-prev',
-    ITEM          : 'carousel-item',
-    POINTER_EVENT : 'pointer-event'
+  const PointerType = {
+    TOUCH : 'touch',
+    PEN   : 'pen'
   }
 
   const Selector = {
@@ -86,11 +92,6 @@ const Carousel = (($) => {
     INDICATORS  : '.carousel-indicators',
     DATA_SLIDE  : '[data-slide], [data-slide-to]',
     DATA_RIDE   : '[data-ride="carousel"]'
-  }
-
-  const PointerType = {
-    TOUCH : 'touch',
-    PEN   : 'pen'
   }
 
   /**

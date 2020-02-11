@@ -19,7 +19,18 @@ const Modal = (($) => {
   const EVENT_KEY          = `.${DATA_KEY}`
   const DATA_API_KEY       = '.data-api'
   const JQUERY_NO_CONFLICT = $.fn[NAME]
+
   const ESCAPE_KEYCODE     = 27 // KeyboardEvent.which value for Escape (Esc) key
+
+  const ClassName = {
+    SCROLLABLE         : 'modal-dialog-scrollable',
+    SCROLLBAR_MEASURER : 'modal-scrollbar-measure',
+    BACKDROP           : 'modal-backdrop',
+    OPEN               : 'modal-open',
+    FADE               : 'fade',
+    SHOW               : 'show',
+    STATIC             : 'modal-static'
+  }
 
   const Default = {
     backdrop : true,
@@ -48,16 +59,6 @@ const Modal = (($) => {
     MOUSEUP_DISMISS   : `mouseup.dismiss${EVENT_KEY}`,
     MOUSEDOWN_DISMISS : `mousedown.dismiss${EVENT_KEY}`,
     CLICK_DATA_API    : `click${EVENT_KEY}${DATA_API_KEY}`
-  }
-
-  const ClassName = {
-    SCROLLABLE         : 'modal-dialog-scrollable',
-    SCROLLBAR_MEASURER : 'modal-scrollbar-measure',
-    BACKDROP           : 'modal-backdrop',
-    OPEN               : 'modal-open',
-    FADE               : 'fade',
-    SHOW               : 'show',
-    STATIC             : 'modal-static'
   }
 
   const Selector = {
@@ -509,7 +510,7 @@ const Modal = (($) => {
       document.body.style.paddingRight = padding ? padding : ''
     }
 
-    _getScrollbarWidth() { // thx d.walsh
+    _getScrollbarWidth() {
       const scrollDiv = document.createElement('div')
       scrollDiv.className = ClassName.SCROLLBAR_MEASURER
       document.body.appendChild(scrollDiv)

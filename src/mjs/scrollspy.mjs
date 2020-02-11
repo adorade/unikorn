@@ -20,6 +20,12 @@ const ScrollSpy = (($) => {
   const DATA_API_KEY       = '.data-api'
   const JQUERY_NO_CONFLICT = $.fn[NAME]
 
+  const ClassName = {
+    DROPDOWN_ITEM : 'dropdown-item',
+    DROPDOWN_MENU : 'dropdown-menu',
+    ACTIVE        : 'active'
+  }
+
   const Default = {
     offset : 10,
     method : 'auto',
@@ -38,10 +44,9 @@ const ScrollSpy = (($) => {
     LOAD_DATA_API : `load${EVENT_KEY}${DATA_API_KEY}`
   }
 
-  const ClassName = {
-    DROPDOWN_ITEM : 'dropdown-item',
-    DROPDOWN_MENU : 'dropdown-menu',
-    ACTIVE        : 'active'
+  const OffsetMethod = {
+    OFFSET   : 'offset',
+    POSITION : 'position'
   }
 
   const Selector = {
@@ -54,11 +59,6 @@ const ScrollSpy = (($) => {
     DROPDOWN        : '.dropdown',
     DROPDOWN_ITEMS  : '.dropdown-item',
     DROPDOWN_TOGGLE : '.dropdown-toggle'
-  }
-
-  const OffsetMethod = {
-    OFFSET   : 'offset',
-    POSITION : 'position'
   }
 
   /**

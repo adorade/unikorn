@@ -19,19 +19,17 @@ const Toast = (($) => {
   const EVENT_KEY          = `.${DATA_KEY}`
   const JQUERY_NO_CONFLICT = $.fn[NAME]
 
-  const Event = {
-    CLICK_DISMISS : `click.dismiss${EVENT_KEY}`,
-    HIDE          : `hide${EVENT_KEY}`,
-    HIDDEN        : `hidden${EVENT_KEY}`,
-    SHOW          : `show${EVENT_KEY}`,
-    SHOWN         : `shown${EVENT_KEY}`
-  }
-
   const ClassName = {
     FADE    : 'fade',
     HIDE    : 'hide',
     SHOW    : 'show',
     SHOWING : 'showing'
+  }
+
+  const Default = {
+    animation : true,
+    autohide  : true,
+    delay     : 500
   }
 
   const DefaultType = {
@@ -40,10 +38,12 @@ const Toast = (($) => {
     delay     : 'number'
   }
 
-  const Default = {
-    animation : true,
-    autohide  : true,
-    delay     : 500
+  const Event = {
+    CLICK_DISMISS : `click.dismiss${EVENT_KEY}`,
+    HIDE          : `hide${EVENT_KEY}`,
+    HIDDEN        : `hidden${EVENT_KEY}`,
+    SHOW          : `show${EVENT_KEY}`,
+    SHOWN         : `shown${EVENT_KEY}`
   }
 
   const Selector = {
@@ -207,12 +207,12 @@ const Toast = (($) => {
       return VERSION
     }
 
-    static get DefaultType() {
-      return DefaultType
-    }
-
     static get Default() {
       return Default
+    }
+
+    static get DefaultType() {
+      return DefaultType
     }
   }
 
