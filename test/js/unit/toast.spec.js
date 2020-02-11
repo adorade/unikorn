@@ -236,25 +236,25 @@ $(function () {
       .unikornToast('show')
   })
 
-  // test('should expose default setting to allow to override them', (assert) => {
-  //   assert.expect(1)
+  test('should expose default setting to allow to override them', (assert) => {
+    assert.expect(1)
 
-  //   var defaultDelay = 1000
-  //   Toast.Default.delay = defaultDelay
+    var defaultDelay = 1000
+    Toast.Default.delay = defaultDelay
 
-  //   var toastHtml =
-  //     '<div class="toast" data-autohide="false" data-animation="false">' +
-  //     '<button type="button" class="ml-2 mb-1 close" data-dismiss="toast">' +
-  //     'close' +
-  //     '</button>' +
-  //     '</div>'
+    var toastHtml =
+      '<div class="toast" data-autohide="false" data-animation="false">' +
+      '<button type="button" class="ml-2 mb-1 close" data-dismiss="toast">' +
+      'close' +
+      '</button>' +
+      '</div>'
 
-  //   var $toast = $(toastHtml)
-  //     .unikornToast()
+    var $toast = $(toastHtml)
+      .unikornToast()
 
-  //   var toast = $toast.data('uni.toast')
-  //   assert.strictEqual(toast._config.delay, defaultDelay)
-  // })
+    var toast = $toast.data('uni.toast')
+    assert.strictEqual(toast._config.delay, defaultDelay)
+  })
 
   test('should not trigger shown if show is prevented', (assert) => {
     assert.expect(1)
