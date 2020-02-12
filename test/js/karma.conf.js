@@ -1,8 +1,7 @@
 /*!
- * UniKorn (v1.0.0): karma.conf.js
- *
+ * UniKorn (v1.0.0): test/js/karma.conf.js
  * Karma configuration.
- * Copyright (c) 2018 - 2019 Adorade (https://adorade.ro)
+ * Copyright (c) 2020 Adorade (https://adorade.ro)
  * Licensed under MIT (https://github.com/adorade/unikorn/blob/master/LICENSE)
  * ============================================================================
  *

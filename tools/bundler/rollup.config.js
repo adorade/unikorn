@@ -1,6 +1,7 @@
 /*!
- * UniKorn (v1.0.0): rollup.config.js
- * Copyright (c) 2018 - 2019 Adorade (https://adorade.ro)
+ * UniKorn (v1.0.0): tools/bundler/rollup.config.js
+ * Rollup configuration file
+ * Copyright (c) 2020 Adorade (https://adorade.ro)
  * Licensed under MIT (https://github.com/adorade/unikorn/blob/master/LICENSE)
  * ========================================================================== */
 
