@@ -1,7 +1,14 @@
 {
   "extends": [
     "config:base",
+    ":maintainLockFilesWeekly",
     "schedule:nonOfficeHours"
   ],
-  "timezone": "Europe/Bucharest"
+  "timezone": "Europe/Bucharest",
+  "packageRules": [
+    {
+      "packagePatterns": ["eslint", "stylelint^"],
+      "groupName": "linters"
+    }
+  ]
 }
