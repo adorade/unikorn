@@ -1,4 +1,8 @@
-# Copyright 2018 Adorade. All Rights Reserved.
+#
+# UmiKorn (v1.0.0): .travis.yml
+# Copyright (c) 2020 Adorade (https://adorade.ro)
+# Licensed under MIT (https://github.com/adorade/unikorn/blob/master/LICENSE)
+# ============================================================================
 #
 # Travis continuous integration system configuration file.
 # Overview on how to customize the configuration is located at:

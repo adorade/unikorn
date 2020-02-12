@@ -1,7 +1,7 @@
 /*!
  * UniKorn (v1.0.0): .eslintrc.js
- * Copyright (c) 2019 Adorade (https://adorade.ro)
- * Licensed under MIT
+ * Copyright (c) 2020 Adorade (https://adorade.ro)
+ * Licensed under MIT (https://github.com/adorade/unikorn/blob/master/LICENSE)
  * ========================================================================== */
 
 module.exports = {

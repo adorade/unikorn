@@ -1,8 +1,7 @@
 /*!
- * UniKorn (v1.0.0): plugins.config.js
- *
+ * UniKorn (v1.0.0): tools/bundler/plugins.config.js
  * Script to build our plugins to use them separately.
- * Copyright (c) 2018 - 2019 Adorade (https://adorade.ro)
+ * Copyright (c) 2020 Adorade (https://adorade.ro)
  * Licensed under MIT (https://github.com/adorade/unikorn/blob/master/LICENSE)
  * ========================================================================== */
 
