@@ -53,17 +53,17 @@
   }
 
   // When trying to close, animate focus to scale
-  .modal.modal-static & {
+  .drawer.drawer-static & {
     transform: $drawer-scale-transform;
   }
 }
 
 .drawer-dialog-scrollable {
   display: flex; // IE10/11
-  max-height: subtract(100%, $modal-dialog-margin * 2);
+  max-height: subtract(100%, $drawer-dialog-margin * 2);
 
   .drawer-content {
-    max-height: subtract(100vh, $modal-dialog-margin * 2); // IE10/11
+    max-height: subtract(100vh, $drawer-dialog-margin * 2); // IE10/11
     overflow: hidden;
   }
 
@@ -77,25 +77,25 @@
   }
 }
 
-.modal-dialog-centered {
+.drawer-dialog-centered {
   display: flex;
   align-items: center;
-  min-height: subtract(100%, $modal-dialog-margin * 2);
+  min-height: subtract(100%, $drawer-dialog-margin * 2);
 
-  // Ensure `modal-dialog-centered` extends the full height of the view (IE10/11)
+  // Ensure `drawer-dialog-centered` extends the full height of the view (IE10/11)
   &::before {
     display: block; // IE10
-    height: subtract(100vh, $modal-dialog-margin * 2);
+    height: subtract(100vh, $drawer-dialog-margin * 2);
     content: "";
   }
 
-  // Ensure `.modal-body` shows scrollbar (IE10/11)
-  &.modal-dialog-scrollable {
+  // Ensure `.drawer-body` shows scrollbar (IE10/11)
+  &.drawer-dialog-scrollable {
     flex-direction: column;
     justify-content: center;
     height: 100%;
 
-    .modal-content {
+    .drawer-content {
       max-height: none;
     }
 
@@ -145,7 +145,7 @@
 }
 
 
-// Modal structure
+// Drawer structure
 // ----------------------------
 // Drawer Header
 .drawer-header {
@@ -202,7 +202,7 @@
   position: relative;
 
   // Enable `flex-grow: 1` so that the body take up as much space as possible
-  // when should there be a fixed height on `.modal-dialog`.
+  // when should there be a fixed height on `.drawer-dialog`.
   flex: 1 1 auto;
   padding: $drawer-inner-padding;
 }
