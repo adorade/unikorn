@@ -5,7 +5,7 @@
  * ========================================================================== */
 
 const pkg = require(`${process.cwd()}/package.json`);
-const title = `${pkg.name.charAt(0).toUpperCase() + pkg.name.slice(1)}`;
+const title = `${pkg.name.charAt(0).toUpperCase()}${pkg.name.slice(1,3)}${pkg.name.charAt(3).toUpperCase()}${pkg.name.slice(4)}`;
 
 const year = new Date(
   process.env.SOURCE_DATE_EPOCH ? process.env.SOURCE_DATE_EPOCH * 1000 : new Date().getTime()
