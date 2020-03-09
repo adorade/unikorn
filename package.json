@@ -76,7 +76,7 @@
     "qunit": "2.9.3",
     "rimraf": "3.0.2",
     "rollup": "2.0.2",
-    "rollup-plugin-babel": "4.3.3",
+    "rollup-plugin-babel": "4.4.0",
     "rollup-plugin-terser": "5.2.0",
     "sinon": "9.0.0",
     "stylelint": "13.2.0",
