@@ -5,23 +5,15 @@
  * Licensed under MIT (https://github.com/adorade/unikorn/blob/master/LICENSE)
  * ========================================================================== */
 
-const Transform = require('stream').Transform;
-const File = require('vinyl');
-const PluginError = require('plugin-error');
-const path = require('path');
+import { Transform } from 'stream';
+import path from 'path';
+
+import { rollup } from 'rollup';
+import File from 'vinyl';
+import PluginError from 'plugin-error';
 const applySourceMap = require('vinyl-sourcemaps-apply');
-const camelCase = require('lodash.camelcase');
 
 const PLUGIN_NAME = 'gulp-uni-rollup';
-
-try {
-  var rollup = require('rollup');
-} catch (err) {
-  console.error('ROLLUP NOT FOUND');
-  console.warn(
-    `${PLUGIN_NAME} require rollup. You need to install rollup.`
-  );
-}
 
 // Map object storing rollup cache objects for each input file
 let rollupCache = {};
@@ -40,15 +32,25 @@ function assignCertainProperties (toObject, fromObject, properties = []) {
   }
 }
 
-// transformer class
+// Transformer class
 class GulpRollup extends Transform {
   _transform (file, encoding, cb) {
+    // Check rollup reference
+    if (typeof rollup === 'undefined') {
+      cb(new PluginError({
+        plugin: PLUGIN_NAME,
+        message: `${PLUGIN_NAME} require rollup. You need to install rollup.`,
+        showProperties: false
+      }));
+    }
+
     // Cannot handle empty or unavailable files
-    if (file.isNull()) return cb(null, file);
+    if (file.isNull()) cb(null, file);
 
     // Cannot handle streams
-    if (file.isStream()) return cb(new PluginError(PLUGIN_NAME, 'Streaming not supported'));
+    if (file.isStream()) cb(new PluginError(PLUGIN_NAME, 'Streaming not supported'));
 
+    // Create input object from `arg`
     if (this.arg2) {
       inputOptions = Object.assign({}, this.arg1);
       bundleList = parseBundles(this.arg2);
@@ -72,27 +74,29 @@ class GulpRollup extends Transform {
       inputOptions.cache = rollupCache[inputOptions.input] || null;
     }
 
-    // enable sourcemap is gulp-sourcemaps plugin is enabled
+    // Enable sourcemap is gulp-sourcemaps plugin is enabled
     const createSourceMap = file.sourceMap !== undefined;
 
     const originalCwd = file.cwd;
     const originalPath = file.path;
-    const moduleName = camelCase(path.basename(file.path, path.extname(file.path)));
+    const moduleName = path.basename(file.path, path.extname(file.path));
 
     function generateAndApplyBundle (bundle, outputOptions, targetFile) {
-      // Sugaring the API by copying convinience objects and properties from inputOptions
-      // to outputOptions (if not defined)
-      // Directly copied from https://rollupjs.org/guide/en#outputoptions
+      // Sugaring the API by copying convinience objects and properties
+      // from `inputOptions` to `outputOptions` (if not defined)
+      // Directly copied from https://rollupjs.org/guide/en/#outputoptions-object
       const propsToCopy = [
         // core options
-        'dir', 'file', 'format', 'globals' /*'name',*/,
+        'dir', 'file', 'format', 'globals', /*'name', 'plugins',*/
 
         // advanced options
-        'assetFileNames','banner','chunkFileNames','compact','entryFileNames','extend','footer','interop','intro','outro',
-        'paths', 'sourcemap', 'sourcemapExcludeSources', 'sourcemapFile', 'sourcemapPathTransform',
+        'assetFileNames', 'banner', 'chunkFileNames', 'compact', 'entryFileNames', 'extend',
+        'footer', 'interop', 'intro', 'outro', 'paths',
+        'sourcemap', 'sourcemapExcludeSources', 'sourcemapFile', 'sourcemapPathTransform',
 
         // danger zone
-        /*'amd',*/ 'esModule', 'exports', 'freeze', 'indent', 'namespaceToStringTag', 'noConflict', 'preferConst', 'strict'
+        /*'amd',*/ 'dynamicImportFunction', 'esModule', 'exports', 'freeze', 'indent',
+        'namespaceToStringTag', 'noConflict', 'preferConst', 'strict'
       ];
 
       assignCertainProperties(outputOptions, inputOptions, propsToCopy);
@@ -110,13 +114,13 @@ class GulpRollup extends Transform {
       // Enable sourcemap
       outputOptions.sourcemap = createSourceMap;
 
-      // generate bundle according to given or autocompleted options
+      // Generate bundle according to given or autocompleted options
       return bundle.generate(outputOptions).then(result => {
         if (result === undefined) return;
 
         const output = result.output[0];
 
-        // Pass sourcemap content and metadata to gulp-sourcemaps plugin to handle
+        // pass sourcemap content and metadata to gulp-sourcemaps plugin to handle
         // destination (and custom name) was given, possibly multiple output bundles.
         if (createSourceMap) {
           output.map.file = path.relative(originalCwd, originalPath);
@@ -132,7 +136,7 @@ class GulpRollup extends Transform {
     }
 
     const createBundle = (bundle, outputOptions, injectNewFile) => {
-      // custom output name might be set
+      // Custom output name might be set
       if (outputOptions.file) {
         // setup filename name from outputOptions.file
         const newFileName = path.basename(outputOptions.file);
@@ -174,22 +178,25 @@ class GulpRollup extends Transform {
     rollup = inputOptions.rollup || rollup;
     delete inputOptions.rollup;
 
-    rollup
-      // Pass basic options to rollup
-      .rollup(inputOptions)
+    // Pass basic options to rollup
+    rollup(inputOptions)
+
       // After the magic is done, configure the output format
       .then(bundle => {
-        // Watch files
+        // watch files
         // console.log(bundle.watchFiles);
 
-        // Cache rollup object if caching is enabled
+        // cache rollup object if caching is enabled
         if (inputOptions.cache !== false) rollupCache[inputOptions.input] = bundle;
 
-        // Generate ouput according to (each of) given outputOptions
+        // generate ouput according to (each of) given outputOptions
         return Promise.all(bundleList.map((outputOptions, i) => createBundle(bundle, outputOptions, i)));
       })
+
       // Pass file to gulp and end stream
       .then(() => cb(null, file))
+
+      // Catch the `error`
       .catch(err => {
         if (inputOptions.cache !== false) rollupCache[inputOptions.input] = null;
 
@@ -205,9 +212,11 @@ class GulpRollup extends Transform {
 export default function factory (arg1, arg2) {
   // instantiate the stream class
   const stream = new GulpRollup({ objectMode: true });
+
   // pass in options objects
   stream.arg1 = arg1;
   stream.arg2 = arg2;
+
   // return the stream instance
   return stream;
 }
