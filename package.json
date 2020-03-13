@@ -13,7 +13,7 @@
     "verify": "node -v && npm -v && yarn -v && git --version && gulp -v",
     "prebuild": "rimraf dist",
     "build:gulp": "gulp build",
-    "build:js": "npm-run-all js:dev js:prod js:plugins js:coverage",
+    "build:js": "npm-run-all js:bundle js:for:test",
     "build": "npm-run-all build:gulp build:js",
     "lint:scss": "stylelint src/scss/**/*.scss --syntax scss --fix > logs/cli/lint-style.txt",
     "lint:mjs": "eslint src/mjs/**/*.mjs > logs/cli/lint-script.txt",
