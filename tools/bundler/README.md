@@ -1,5 +1,5 @@
 # Files for rollup builder
 
-Bundle files in `esm` and `umd` module for unikorn.
+Bundle files in `es` and `umd` format for UniKorn.
 
-Bundle plugins and coverage in `umd` module.
+Bundle plugins and coverage in `umd` format.

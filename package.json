@@ -8,7 +8,7 @@
   "style": "dist/css/unikorn.css",
   "sass": "src/scss/unikorn.scss",
   "main": "dist/js/unikorn.js",
-  "module": "dist/js/bundler/unikorn.esm.js",
+  "module": "dist/js/bundler/unikorn.es.js",
   "scripts": {
     "verify": "node -v && npm -v && yarn -v && git --version && gulp -v",
     "prebuild": "rimraf dist",
