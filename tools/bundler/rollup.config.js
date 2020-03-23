@@ -39,7 +39,8 @@ const plugins = [
       'createClass',
       'inheritsLoose',
       'defineProperty',
-      'objectSpread2'
+      'objectSpread2',
+      'createSuper'
     ]
   }),
   isProd ? terser({
@@ -58,7 +59,7 @@ const globals = {
 const sourcemap = isProd ? false : true;
 
 // Different formats of the generated bundle.
-const formats = ['esm', 'umd'];
+const formats = ['es', 'umd'];
 const output = [];
 for (let value of Object.keys(formats)) {
   let format = formats[value];
