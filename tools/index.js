@@ -8,7 +8,7 @@ export {
   checks,                                             // Checks
   cleanDev, cleanLogs, cleaner,                       // Cleaners
   cleanStyles, lintSCSS, compile, minifyCSS,          // Styles
-  cleanScripts, lintMJS, transpile, minifyJS,         // Scripts
+  cleanScripts, lintJS, copyJS, transpile, minifyJS,  // Scripts
   cleanPages, lintPages, pagile,                      // Pages
   cleanStatics, statica,                              // Statics
   cleanImages, imagine,                               // Images
