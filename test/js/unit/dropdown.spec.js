@@ -853,6 +853,7 @@ $(function () {
         '<div class="dropdown-menu">' +
         '<a class="dropdown-item" id="item" href="#">Menu item</a>' +
         '</div>' +
+        '</div>' +
         '</div>'
     var $dropdown = $(dropdownHTML)
       .appendTo('#qunit-fixture')
@@ -866,7 +867,7 @@ $(function () {
       .parent('.dropdown')
       .on('shown.uni.dropdown', function () {
         // Forcibly focus first item
-        $item.focus()
+        $item[0].focus()
         assert.ok($(document.activeElement)[0] === $item[0], 'menu item initial focus set')
 
         // Key escape
