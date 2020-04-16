@@ -5,7 +5,7 @@
  * ========================================================================== */
 
 import {
-  lintSCSS, compile, lintMJS, transpile, lintPages, pagile, imagine, statica
+  lintSCSS, compile, lintJS, copyJS, transpile, lintPages, pagile, imagine, statica
 } from './';
 import {
   series, watch, dirs, paths, opts, $, bs,
@@ -41,7 +41,7 @@ export function serve (done) {
     {
       name: 'Scripts',
       paths: paths.scripts.src,
-      tasks: [lintMJS, transpile]
+      tasks: [lintJS, copyJS, transpile]
     },
     {
       name: 'Images',

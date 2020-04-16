@@ -24,23 +24,38 @@ export function cleanScripts () {
 cleanScripts.displayName = 'clean:js';
 cleanScripts.description = 'Clean up scripts folder';
 
-export function lintMJS () {
-  $.log(`${green('-> Linting MJS files...')}`);
+export function lintJS () {
+  $.log(`${green('-> Linting JS files...')}`);
 
   const outputDir = paths.logs.gulp;
   fs.mkdirSync(`${outputDir}`, { recursive: true });
   const output = fs.createWriteStream( `${outputDir}/scripts.txt` );
 
   return src(paths.scripts.src, {
-    since: lastRun(lintMJS)
+    since: lastRun(lintJS)
   })
     .pipe($.gEslint())
     .pipe($.gEslint.format())
     .pipe($.gEslint.format('stylish', output))
     .pipe($.gEslint.failAfterError());
 }
-lintMJS.displayName = 'lint:mjs';
-lintMJS.description = 'Lint MJS files';
+lintJS.displayName = 'lint:js';
+lintJS.description = 'Lint JS files';
+
+export function copyJS () {
+  $.log(`${green('-> Copy JS...')}`);
+
+  return src(paths.scripts.js, {
+    sourcemaps: true,
+    since: lastRun(copyJS)
+  })
+    .pipe($.header(banner()))
+    .pipe($.size(opts.size))
+    .pipe(dest(paths.scripts.dest, { sourcemaps: './' }))
+    .pipe(bs.stream({ match: '**/*.js' }));
+}
+copyJS.displayName = 'copy:js';
+copyJS.description = 'Copy JS files';
 
 export function transpile () {
   $.log(`${green('-> Transpiling MJS via Babel...')}`);

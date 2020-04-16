@@ -22,7 +22,8 @@ export const paths = {
     filter: `${dirs.dest}/css/*.css`
   },
   scripts: {
-    src: `${dirs.src}/mjs/**/*.mjs`,
+    src: [`${dirs.src}/mjs/**/*.mjs`, `${dirs.src}/js/**/*.js`],
+    js: `${dirs.src}/js/**/*.js`,
     dest: `${dirs.dest}/js/`,
     filter: [`${dirs.dest}/js/*.js`, '!**/js/*.min.js'],
     order: [
