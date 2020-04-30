@@ -5,8 +5,10 @@
  * Licensed under MIT (https://github.com/adorade/unikorn/blob/master/LICENSE)
  * ========================================================================== */
 
-import babel from 'rollup-plugin-babel';              // https://github.com/rollup/rollup-plugin-babel
-import { terser } from 'rollup-plugin-terser';        // https://github.com/TrySound/rollup-plugin-terser
+// https://github.com/rollup/plugins/tree/master/packages/babel
+import babel from '@rollup/plugin-babel';
+// https://github.com/TrySound/rollup-plugin-terser
+import { terser } from 'rollup-plugin-terser';
 import pkg from '../../package.json';
 const getBanner = require('./banner');
 
@@ -33,20 +35,12 @@ const external = [...Object.keys(pkg.dependencies || {})];
 const plugins = [
   babel({
     // for more options see: .babelrc.js,
-    exclude: 'node_modules/**', // Only transpile our source code
-    externalHelpersWhitelist: [ // Include only required helpers
-      'defineProperties',
-      'createClass',
-      'inheritsLoose',
-      'defineProperty',
-      'objectSpread2',
-      'createSuper'
-    ]
+    babelHelpers: 'bundled'
   }),
   isProd ? terser({
     sourcemap: false,
     output: {
-      comments: 'all' // keep all comments (e.g. license header)
+      // comments: 'false'  // inherit from .babelrc.js
     },
     keep_classnames: true,
     keep_fnames: true

@@ -7,7 +7,7 @@
 
 const path   = require('path');
 const rollup = require('rollup');
-const babel  = require('rollup-plugin-babel');
+const { babel } = require('@rollup/plugin-babel');
 const banner = require('./banner');
 
 // Replace console.log
@@ -27,15 +27,7 @@ if (mode !== 'test') {
 const plugins = [
   babel({
     // for more options see: .babelrc.js,
-    exclude: 'node_modules/**', // Only transpile our source code
-    externalHelpersWhitelist: [ // Include only required helpers
-      'defineProperties',
-      'createClass',
-      'inheritsLoose',
-      'defineProperty',
-      'objectSpread2',
-      'createSuper'
-    ]
+    babelHelpers: 'bundled'
   })
 ];
 
