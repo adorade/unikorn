@@ -4,7 +4,7 @@
  * Licensed under MIT (https://github.com/adorade/unikorn/blob/master/LICENSE)
  * ========================================================================== */
 
-import babel from 'rollup-plugin-babel';
+import babel from '@rollup/plugin-babel';
 
 const pkg = require(`${process.cwd()}/package.json`);
 const filename = `${pkg.name}`;
@@ -14,15 +14,7 @@ const external = [...Object.keys(pkg.dependencies || {})]; // 'jquery', 'popper.
 const plugins = [
   babel({
     // for more options see: .babelrc.js,
-    exclude: 'node_modules/**', // Only transpile our source code
-    externalHelpersWhitelist: [ // Include only required helpers
-      'defineProperties',
-      'createClass',
-      'inheritsLoose',
-      'defineProperty',
-      'objectSpread2',
-      'createSuper'
-    ]
+    babelHelpers: 'bundled'
   })
 ];
 
