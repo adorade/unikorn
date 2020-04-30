@@ -7,8 +7,21 @@
   "timezone": "Europe/Bucharest",
   "packageRules": [
     {
-      "packagePatterns": ["eslint", "stylelint^"],
-      "groupName": "linters"
+      "packagePatterns": ["^@babel/"],
+      "groupName": "babel packages"
+    },
+    {
+      "packagePatterns": ["^eslint|eslint$"],
+      "groupName": "eslint packages"
+    },
+    {
+      "packagePatterns": ["^rollup|^@rollup/"],
+      "groupName": "rollup packages",
+      "schedule": ["after 5pm on friday"]
+    },
+    {
+      "packagePatterns": ["^stylelint|stylelint$"],
+      "groupName": "stylelint packages"
     }
   ]
 }
