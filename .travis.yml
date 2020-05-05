@@ -17,24 +17,32 @@ os:
   - linux
   - osx
 
+dist: bionic
+
 addons:
   chrome: stable
 
 git:
   depth: 10
 
-before_install:
-  - npm install -g yarn
-
 cache:
   yarn: true
   directories:
     - node_modules
 
+before_install:
+  - npm install -g yarn
+
 before_script:
   - yarn global add gulp-cli
 
-script:
-  - yarn run verify
-  - yarn run test
-  - yarn run build
+jobs:
+  include:
+    - stage: "Verify"
+      script: yarn run verify
+    - stage: "Build"
+      if: branch != tests
+      script: yarn run build
+    - stage: "Test"
+      if: branch = tests
+      script: yarn run test
