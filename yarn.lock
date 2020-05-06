@@ -5346,10 +5346,10 @@ karma-firefox-launcher@1.3.0:
   dependencies:
     is-wsl "^2.1.0"
 
-karma-qunit@4.1.0:
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/karma-qunit/-/karma-qunit-4.1.0.tgz#effd166d998ff657233af8441f80f1f87df84edd"
-  integrity sha512-wH6hCWfR9zqyFVWGYAQp18vrmbBFtkP/BaKIzdb4wL3bMc5K2zwlNEgIwwttaglyABrY/zJLg35qHojv7t/QhQ==
+karma-qunit@4.1.1:
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/karma-qunit/-/karma-qunit-4.1.1.tgz#b097e90bf8ed1e65688ac6903f8ade239ff82d76"
+  integrity sha512-sl4rSTGK1fXWyXdNu8ySQvsf77OuJ1gQg9gbHIj0V05h4FvcNogpirO7R4ijU4L7ioXk8WupvSJZHE7QI9B7uQ==
 
 karma-sinon@1.0.5:
   version "1.0.5"
