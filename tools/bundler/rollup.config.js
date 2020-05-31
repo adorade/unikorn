@@ -38,7 +38,6 @@ const plugins = [
     babelHelpers: 'bundled'
   }),
   isProd ? terser({
-    sourcemap: false,
     output: {
       // comments: 'false'  // inherit from .babelrc.js
     },
