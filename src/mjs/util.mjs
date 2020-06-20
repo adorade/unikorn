@@ -18,6 +18,10 @@ const Util = (($) => {
 
   // Shoutout AngusCroll (https://goo.gl/pxwQGp)
   function toType(obj) {
+    if (obj === null || typeof obj === 'undefined') {
+      return `${obj}`
+    }
+
     return {}.toString.call(obj).match(/\s([a-z]+)/i)[1].toLowerCase()
   }
 
@@ -63,7 +67,7 @@ const Util = (($) => {
   const Util = {
 
     TRANSITION_END: 'uniTransitionEnd',
-    VERSION: '1.0.0',
+    VERSION: '1.1.0',
 
     getUID(prefix) {
       do {

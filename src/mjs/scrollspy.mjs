@@ -22,7 +22,6 @@ const ScrollSpy = (($) => {
 
   const ClassName = {
     DROPDOWN_ITEM : 'dropdown-item',
-    DROPDOWN_MENU : 'dropdown-menu',
     ACTIVE        : 'active'
   }
 
@@ -51,7 +50,6 @@ const ScrollSpy = (($) => {
 
   const Selector = {
     DATA_SPY        : '[data-spy="scroll"]',
-    ACTIVE          : '.active',
     NAV_LIST_GROUP  : '.nav, .list-group',
     NAV_LINKS       : '.nav-link',
     NAV_ITEMS       : '.nav-item',
@@ -154,7 +152,7 @@ const ScrollSpy = (($) => {
         ...typeof config === 'object' && config ? config : {}
       }
 
-      if (typeof config.target !== 'string') {
+      if (typeof config.target !== 'string' && Util.isElement(config.target)) {
         let id = $(config.target).attr('id')
         if (!id) {
           id = Util.getUID(NAME)
@@ -188,9 +186,7 @@ const ScrollSpy = (($) => {
     _process() {
       const scrollTop    = this._getScrollTop() + this._config.offset
       const scrollHeight = this._getScrollHeight()
-      const maxScroll    = this._config.offset +
-        scrollHeight -
-        this._getOffsetHeight()
+      const maxScroll    = this._config.offset + scrollHeight - this._getOffsetHeight()
 
       if (this._scrollHeight !== scrollHeight) {
         this.refresh()
@@ -211,8 +207,7 @@ const ScrollSpy = (($) => {
         return
       }
 
-      const offsetLength = this._offsets.length
-      for (let i = offsetLength; i--;) {
+      for (let i = this._offsets.length; i--;) {
         const isActiveTarget = this._activeTarget !== this._targets[i] &&
             scrollTop >= this._offsets[i] &&
             (typeof this._offsets[i + 1] === 'undefined' ||
@@ -236,16 +231,23 @@ const ScrollSpy = (($) => {
       const $link = $([].slice.call(document.querySelectorAll(queries.join(','))))
 
       if ($link.hasClass(ClassName.DROPDOWN_ITEM)) {
-        $link.closest(Selector.DROPDOWN).find(Selector.DROPDOWN_TOGGLE).addClass(ClassName.ACTIVE)
+        $link.closest(Selector.DROPDOWN)
+          .find(Selector.DROPDOWN_TOGGLE)
+          .addClass(ClassName.ACTIVE)
         $link.addClass(ClassName.ACTIVE)
       } else {
         // Set triggered link as active
         $link.addClass(ClassName.ACTIVE)
         // Set triggered links parents as active
         // With both <ul> and <nav> markup a parent is the previous sibling of any nav ancestor
-        $link.parents(Selector.NAV_LIST_GROUP).prev(`${Selector.NAV_LINKS}, ${Selector.LIST_ITEMS}`).addClass(ClassName.ACTIVE)
+        $link.parents(Selector.NAV_LIST_GROUP)
+          .prev(`${Selector.NAV_LINKS}, ${Selector.LIST_ITEMS}`)
+          .addClass(ClassName.ACTIVE)
         // Handle special case when .nav-link is inside .nav-item
-        $link.parents(Selector.NAV_LIST_GROUP).prev(Selector.NAV_ITEMS).children(Selector.NAV_LINKS).addClass(ClassName.ACTIVE)
+        $link.parents(Selector.NAV_LIST_GROUP)
+          .prev(Selector.NAV_ITEMS)
+          .children(Selector.NAV_LINKS)
+          .addClass(ClassName.ACTIVE)
       }
 
       $(this._scrollElement).trigger(Event.ACTIVATE, {

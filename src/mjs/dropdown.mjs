@@ -29,15 +29,13 @@ const Dropdown = (($) => {
   const RIGHT_MOUSE_BUTTON_WHICH = 3 // MouseEvent.which value for the right button (assuming a right-handed mouse)
   const REGEXP_KEYDOWN           = new RegExp(`${ARROW_UP_KEYCODE}|${ARROW_DOWN_KEYCODE}|${ESCAPE_KEYCODE}`)
 
-  const AttachmentMap = {
+  const Placement = {
     TOP       : 'top-start',
     TOPEND    : 'top-end',
     BOTTOM    : 'bottom-start',
     BOTTOMEND : 'bottom-end',
     RIGHT     : 'right-start',
-    RIGHTEND  : 'right-end',
-    LEFT      : 'left-start',
-    LEFTEND   : 'left-end'
+    LEFT      : 'left-start'
   }
 
   const ClassName = {
@@ -47,7 +45,6 @@ const Dropdown = (($) => {
     DROPRIGHT       : 'dropright',
     DROPLEFT        : 'dropleft',
     MENURIGHT       : 'dropdown-menu-right',
-    MENULEFT        : 'dropdown-menu-left',
     POSITION_STATIC : 'position-static'
   }
 
@@ -277,20 +274,19 @@ const Dropdown = (($) => {
 
     _getPlacement() {
       const $parentDropdown = $(this._element.parentNode)
-      let placement = AttachmentMap.BOTTOM
+      let placement = Placement.BOTTOM
 
       // Handle dropup
       if ($parentDropdown.hasClass(ClassName.DROPUP)) {
-        placement = AttachmentMap.TOP
-        if ($(this._menu).hasClass(ClassName.MENURIGHT)) {
-          placement = AttachmentMap.TOPEND
-        }
+        placement = $(this._menu).hasClass(ClassName.MENURIGHT)
+          ? Placement.TOPEND
+          : Placement.TOP
       } else if ($parentDropdown.hasClass(ClassName.DROPRIGHT)) {
-        placement = AttachmentMap.RIGHT
+        placement = Placement.RIGHT
       } else if ($parentDropdown.hasClass(ClassName.DROPLEFT)) {
-        placement = AttachmentMap.LEFT
+        placement = Placement.LEFT
       } else if ($(this._menu).hasClass(ClassName.MENURIGHT)) {
-        placement = AttachmentMap.BOTTOMEND
+        placement = Placement.BOTTOMEND
       }
       return placement
     }
@@ -455,9 +451,6 @@ const Dropdown = (($) => {
         return
       }
 
-      event.preventDefault()
-      event.stopPropagation()
-
       if (this.disabled || $(this).hasClass(ClassName.DISABLED)) {
         return
       }
@@ -469,10 +462,12 @@ const Dropdown = (($) => {
         return
       }
 
+      event.preventDefault()
+      event.stopPropagation()
+
       if (!isActive || isActive && (event.which === ESCAPE_KEYCODE || event.which === SPACE_KEYCODE)) {
         if (event.which === ESCAPE_KEYCODE) {
-          const toggle = parent.querySelector(Selector.DATA_TOGGLE)
-          $(toggle).trigger('focus')
+          $(parent.querySelector(Selector.DATA_TOGGLE)).trigger('focus')
         }
 
         $(this).trigger('click')
