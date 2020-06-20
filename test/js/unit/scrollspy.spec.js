@@ -1,11 +1,14 @@
-$(function () {
-  'use strict'
-
+$(() => {
   const { module, test } = QUnit
 
   window.ScrollSpy = typeof unikorn !== 'undefined' ? unikorn.ScrollSpy : ScrollSpy
 
   module('scrollspy plugin', () => {
+    test('should return `Scrollspy` plugin version', (assert) => {
+      assert.expect(1)
+      assert.strictEqual(typeof ScrollSpy.VERSION, 'string')
+    })
+
     test('should be defined on jquery object', (assert) => {
       assert.expect(1)
       assert.ok($(document.body).scrollspy, 'scrollspy method is defined')
@@ -29,11 +32,6 @@ $(function () {
     assert.strictEqual(typeof $.fn.scrollspy, 'undefined', 'scrollspy was set back to undefined (org value)')
   })
 
-  test('should return scrollspy version', (assert) => {
-    assert.expect(1)
-    assert.strictEqual(typeof ScrollSpy.VERSION, 'string')
-  })
-
   test('should throw explicit error on undefined method', (assert) => {
     assert.expect(1)
 
@@ -49,8 +47,10 @@ $(function () {
 
   test('should return jquery collection containing the element', (assert) => {
     assert.expect(2)
+
     var $el = $('<div/>').appendTo('#qunit-fixture')
     var $scrollspy = $el.unikornScrollspy()
+
     assert.ok($scrollspy instanceof $, 'returns jquery collection')
     assert.strictEqual($scrollspy[0], $el[0], 'collection contains element')
   })
@@ -135,7 +135,103 @@ $(function () {
     var $scrollspy = $section
       .show()
       .find('#scrollspy-example')
-      .unikornScrollspy({ target: document.getElementById('#ss-target') })
+      .unikornScrollspy({ target: document.getElementById('ss-target') })
+
+    $scrollspy.one('scroll', function () {
+      assert.ok($section.hasClass('active'), '"active" class still on root node')
+      done()
+    })
+
+    $scrollspy.scrollTop(350)
+  })
+
+  test('should only switch "active" class on current target specified w jQuery element', (assert) => {
+    assert.expect(1)
+    var done = assert.async()
+
+    var sectionHTML = '<div id="root" class="active">' +
+        '<div class="topbar">' +
+        '<div class="topbar-inner">' +
+        '<div class="container" id="ss-target">' +
+        '<ul class="nav">' +
+        '<li class="nav-item"><a href="#masthead">Overview</a></li>' +
+        '<li class="nav-item"><a href="#detail">Detail</a></li>' +
+        '</ul>' +
+        '</div>' +
+        '</div>' +
+        '</div>' +
+        '<div id="scrollspy-example" style="height: 100px; overflow: auto;">' +
+        '<div style="height: 200px;">' +
+        '<h4 id="masthead">Overview</h4>' +
+        '<p style="height: 200px">' +
+        'Ad leggings keytar, brunch id art party dolor labore.' +
+        '</p>' +
+        '</div>' +
+        '<div style="height: 200px;">' +
+        '<h4 id="detail">Detail</h4>' +
+        '<p style="height: 200px">' +
+        'Veniam marfa mustache skateboard, adipisicing fugiat velit pitchfork beard.' +
+        '</p>' +
+        '</div>' +
+        '</div>' +
+        '</div>'
+    var $section = $(sectionHTML).appendTo('#qunit-fixture')
+
+    var $scrollspy = $section
+      .show()
+      .find('#scrollspy-example')
+      .unikornScrollspy({
+        target: $('#ss-target')
+      })
+
+    $scrollspy.one('scroll', function () {
+      assert.ok($section.hasClass('active'), '"active" class still on root node')
+      done()
+    })
+
+    $scrollspy.scrollTop(350)
+  })
+
+  test('should only switch "active" class on current target specified without ID', (assert) => {
+    assert.expect(2)
+    var done = assert.async()
+
+    var sectionHTML = '<div id="root" class="active">' +
+        '<div class="topbar">' +
+        '<div class="topbar-inner">' +
+        '<div class="container">' +
+        '<ul class="nav">' +
+        '<li class="nav-item"><a href="#masthead">Overview</a></li>' +
+        '<li class="nav-item"><a href="#detail">Detail</a></li>' +
+        '</ul>' +
+        '</div>' +
+        '</div>' +
+        '</div>' +
+        '<div id="scrollspy-example" style="height: 100px; overflow: auto;">' +
+        '<div style="height: 200px;">' +
+        '<h4 id="masthead">Overview</h4>' +
+        '<p style="height: 200px">' +
+        'Ad leggings keytar, brunch id art party dolor labore.' +
+        '</p>' +
+        '</div>' +
+        '<div style="height: 200px;">' +
+        '<h4 id="detail">Detail</h4>' +
+        '<p style="height: 200px">' +
+        'Veniam marfa mustache skateboard, adipisicing fugiat velit pitchfork beard.' +
+        '</p>' +
+        '</div>' +
+        '</div>' +
+        '</div>'
+    var $section = $(sectionHTML).appendTo('#qunit-fixture')
+
+    var $scrollspy = $section
+      .show()
+      .find('#scrollspy-example')
+      .unikornScrollspy({
+        target: $('.container')
+      })
+
+    assert.ok($('.container').attr('id').length > 0, '`target` has an ID attribute')
 
     $scrollspy.one('scroll', function () {
       assert.ok($section.hasClass('active'), '"active" class still on root node')
@@ -181,6 +277,7 @@ $(function () {
 
   test('should add the active class to the correct element', (assert) => {
     assert.expect(2)
+
     var navbarHtml = '<nav class="navbar">' +
         '<ul class="nav">' +
         '<li class="nav-item"><a class="nav-link" id="a-1" href="#div-1">div 1</a></li>' +
@@ -274,6 +371,7 @@ $(function () {
 
   test('should add the active class to the correct element (list-group markup)', (assert) => {
     assert.expect(2)
+
     var navbarHtml = '<nav class="navbar">' +
         '<div class="list-group">' +
         '<a class="list-group-item" id="a-1" href="#div-1">div 1</a>' +
@@ -315,6 +413,7 @@ $(function () {
     assert.expect(6)
     var times = 0
     var done = assert.async()
+
     var navbarHtml = '<nav id="navigation" class="navbar">' +
         '<ul class="nav">' +
         '<li class="nav-item"><a id="a-1" class="nav-link" href="#div-1">div 1</a>' +
@@ -324,7 +423,6 @@ $(function () {
         '</li>' +
         '</ul>' +
         '</nav>'
-
     var contentHtml = '<div class="content" style="position: absolute; top: 0px; overflow: auto; height: 50px">' +
         '<div id="div-1" style="padding: 0; margin: 0">' +
         '<div id="div-2" style="height: 200px; padding: 0; margin: 0">div 2</div>' +
@@ -332,7 +430,6 @@ $(function () {
         '</div>'
 
     $(navbarHtml).appendTo('#qunit-fixture')
-
     var $content = $(contentHtml)
       .appendTo('#qunit-fixture')
       .unikornScrollspy({ offset: 0, target: '#navigation' })
@@ -356,6 +453,7 @@ $(function () {
     assert.expect(6)
     var done = assert.async()
     var times = 0
+
     var navbarHtml = '<nav id="navigation" class="navbar">' +
         '<nav class="nav">' +
         '<a id="a-1" class="nav-link" href="#div-1">div 1</a>' +
@@ -364,13 +462,11 @@ $(function () {
         '</nav>' +
         '</nav>' +
         '</nav>'
-
     var contentHtml = '<div class="content" style="position: absolute; top: 0px; overflow: auto; height: 50px">' +
         '<div id="div-1" style="padding: 0; margin: 0">' +
         '<div id="div-2" style="height: 200px; padding: 0; margin: 0">div 2</div>' +
         '</div>' +
         '</div>'
-
     $(navbarHtml).appendTo('#qunit-fixture')
 
     var $content = $(contentHtml)
@@ -396,6 +492,7 @@ $(function () {
     assert.expect(6)
     var done = assert.async()
     var times = 0
+
     var navbarHtml = '<nav id="navigation" class="navbar">' +
         '<ul class="nav">' +
         '<li class="nav-item"><a id="a-1" class="nav-link" href="#div-1">div 1</a></li>' +
@@ -404,7 +501,6 @@ $(function () {
         '</ul>' +
         '</ul>' +
         '</nav>'
-
     var contentHtml = '<div class="content" style="position: absolute; top: 0px; overflow: auto; height: 50px">' +
         '<div id="div-1" style="padding: 0; margin: 0">' +
         '<div id="div-2" style="height: 200px; padding: 0; margin: 0">div 2</div>' +
@@ -412,7 +508,6 @@ $(function () {
         '</div>'
 
     $(navbarHtml).appendTo('#qunit-fixture')
-
     var $content = $(contentHtml)
       .appendTo('#qunit-fixture')
       .unikornScrollspy({ offset: 0, target: '#navigation' })
@@ -436,6 +531,7 @@ $(function () {
     assert.expect(6)
     var times = 0
     var done = assert.async()
+
     var navbarHtml = '<nav id="navigation" class="navbar">' +
         '<div class="list-group">' +
         '<a id="a-1" class="list-group-item" href="#div-1">div 1</a>' +
@@ -444,7 +540,6 @@ $(function () {
         '</div>' +
         '</div>' +
         '</nav>'
-
     var contentHtml = '<div class="content" style="position: absolute; top: 0px; overflow: auto; height: 50px">' +
         '<div id="div-1" style="padding: 0; margin: 0">' +
         '<div id="div-2" style="height: 200px; padding: 0; margin: 0">div 2</div>' +
@@ -452,7 +547,6 @@ $(function () {
         '</div>'
 
     $(navbarHtml).appendTo('#qunit-fixture')
-
     var $content = $(contentHtml)
       .appendTo('#qunit-fixture')
       .unikornScrollspy({
@@ -532,9 +626,6 @@ $(function () {
         '</nav>'
     $(sectionHTML).appendTo('#qunit-fixture')
 
-    var negativeHeight = -10
-    var startOfSectionTwo = 101
-
     var scrollspyHTML = '<div id="content" style="height: 200px; overflow-y: auto;">' +
         '<div id="one" style="height: 100px;"></div>' +
         '<div id="two" style="height: 100px;"></div>' +
@@ -542,6 +633,9 @@ $(function () {
         '<div id="spacer" style="height: 100px;"></div>' +
         '</div>'
     var $scrollspy = $(scrollspyHTML).appendTo('#qunit-fixture')
+
+    var negativeHeight = -10
+    var startOfSectionTwo = 101
 
     $scrollspy
       .unikornScrollspy({
@@ -708,5 +802,43 @@ $(function () {
 
     testOffsetMethod('js')
     testOffsetMethod('data')
+  })
+
+  test('should raise exception to avoid xss on target', (assert) => {
+    assert.expect(1)
+
+    assert.throws(function () {
+      var sectionHTML = '<div id="root" class="active">' +
+          '<div class="topbar">' +
+          '<div class="topbar-inner">' +
+          '<div class="container" id="ss-target">' +
+          '<ul class="nav">' +
+          '<li class="nav-item"><a href="#masthead">Overview</a></li>' +
+          '<li class="nav-item"><a href="#detail">Detail</a></li>' +
+          '</ul>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '<div id="scrollspy-example" style="height: 100px; overflow: auto;">' +
+          '<div style="height: 200px;">' +
+          '<h4 id="masthead">Overview</h4>' +
+          '<p style="height: 200px">' +
+          'Ad leggings keytar, brunch id art party dolor labore.' +
+          '</p>' +
+          '</div>' +
+          '<div style="height: 200px;">' +
+          '<h4 id="detail">Detail</h4>' +
+          '<p style="height: 200px">' +
+          'Veniam marfa mustache skateboard, adipisicing fugiat velit pitchfork beard.' +
+          '</p>' +
+          '</div>' +
+          '</div>' +
+          '</div>'
+      $(sectionHTML).appendTo('#qunit-fixture')
+
+      $('#ss-target').unikornScrollspy({
+        target: '<img src=1 onerror=\'alert(0)\'>'
+      })
+    }, /SyntaxError/)
   })
 })

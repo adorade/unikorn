@@ -1,12 +1,15 @@
-$(function () {
-  'use strict'
-
+$(() => {
   const { module, test } = QUnit
   const $drawerScrollbarMeasure = $('<style> .drawer-scrollbar-measure { position: absolute; top: -9999px; width: 50px; height: 50px; overflow: scroll; } </style>')
 
   window.Drawer = typeof unikorn !== 'undefined' ? unikorn.Drawer : Drawer
 
   module('drawer plugin', () => {
+    test('should return `Drawer` plugin version', (assert) => {
+      assert.expect(1)
+      assert.strictEqual(typeof Drawer.VERSION, 'string')
+    })
+
     test('should be defined on jquery object', (assert) => {
       assert.expect(1)
       assert.ok($(document.body).drawer, 'drawer method is defined')
@@ -39,18 +42,13 @@ $(function () {
       $drawerScrollbarMeasure.remove()
       // Restore scrollbars
       $('html').removeAttr('style')
-      // $('body').removeAttr('class style')
+      $('body').removeAttr('class style')
     }
   })
 
   test('should provide no conflict', (assert) => {
     assert.expect(1)
     assert.strictEqual(typeof $.fn.drawer, 'undefined', 'drawer was set back to undefined (org value)')
-  })
-
-  test('should return drawer version', (assert) => {
-    assert.expect(1)
-    assert.strictEqual(typeof Drawer.VERSION, 'string')
   })
 
   test('should throw explicit error on undefined method', (assert) => {
@@ -87,7 +85,7 @@ $(function () {
 
     $('<div id="drawer-test"/>')
       .on('shown.uni.drawer', function () {
-        assert.notEqual($('#drawer-test').length, 0, 'drawer inserted into dom')
+        assert.notStrictEqual($('#drawer-test').length, 0, 'drawer inserted into dom')
         done()
       })
       .unikornDrawer('show')
@@ -128,7 +126,7 @@ $(function () {
     $('<div id="drawer-test"/>')
       .on('shown.uni.drawer', function () {
         assert.ok($('#drawer-test').is(':visible'), 'drawer visible')
-        assert.notEqual($('#drawer-test').length, 0, 'drawer inserted into dom')
+        assert.notStrictEqual($('#drawer-test').length, 0, 'drawer inserted into dom')
         $(this).unikornDrawer('hide')
       })
       .on('hidden.uni.drawer', function () {
@@ -145,7 +143,7 @@ $(function () {
     $('<div id="drawer-test"/>')
       .on('shown.uni.drawer', function () {
         assert.ok($('#drawer-test').is(':visible'), 'drawer visible')
-        assert.notEqual($('#drawer-test').length, 0, 'drawer inserted into dom')
+        assert.notStrictEqual($('#drawer-test').length, 0, 'drawer inserted into dom')
         $(this).unikornDrawer('toggle')
       })
       .on('hidden.uni.drawer', function () {
@@ -162,7 +160,7 @@ $(function () {
     $('<div id="drawer-test"><span class="close" data-dismiss="drawer"/></div>')
       .on('shown.uni.drawer', function () {
         assert.ok($('#drawer-test').is(':visible'), 'drawer visible')
-        assert.notEqual($('#drawer-test').length, 0, 'drawer inserted into dom')
+        assert.notStrictEqual($('#drawer-test').length, 0, 'drawer inserted into dom')
         $(this).find('.close').trigger('click')
       })
       .on('hidden.uni.drawer', function () {
@@ -194,7 +192,7 @@ $(function () {
 
     $('<div id="drawer-test"><div class="contents"/></div>')
       .on('shown.uni.drawer', function () {
-        assert.notEqual($('#drawer-test').length, 0, 'drawer inserted into dom')
+        assert.notStrictEqual($('#drawer-test').length, 0, 'drawer inserted into dom')
         $('.contents').trigger('click')
         assert.ok($('#drawer-test').is(':visible'), 'drawer visible')
         $('#drawer-test').trigger('click')
@@ -699,6 +697,7 @@ $(function () {
   test('transition duration should be the drawer-dialog duration before triggering shown event', (assert) => {
     assert.expect(1)
     var done = assert.async()
+
     var style = [
       '<style>',
       '  .drawer.fade .drawer-dialog {',
@@ -710,19 +709,19 @@ $(function () {
       '  }',
       '</style>'
     ].join('')
-
     var $style = $(style).appendTo('head')
+
     var drawerHTML = [
       '<div class="drawer fade" id="exampleDrawer" tabindex="-1" role="dialog" aria-labelledby="exampleDrawerLabel" aria-hidden="true">',
-      '<div class="drawer-dialog" role="document">',
-      '<div class="drawer-content">',
-      '<div class="drawer-body">...</div>',
-      '</div>',
-      '</div>',
+      '  <div class="drawer-dialog" role="document">',
+      '    <div class="drawer-content">',
+      '      <div class="drawer-body">...</div>',
+      '    </div>',
+      '  </div>',
       '</div>'
     ].join('')
-
     var $drawer = $(drawerHTML).appendTo('#qunit-fixture')
+
     var expectedTransitionDuration = 300
     var spy = sinon.spy(Util, 'getTransitionDurationFromElement')
 
@@ -767,6 +766,45 @@ $(function () {
       assert.ok(drawerDataApiEvent.length === 1, '`Event.CLICK_DATA_API` on `document` was not removed')
 
       $.fn.off.restore()
+      done()
+    }).unikornDrawer('show')
+  })
+
+  test('should not adjust the inline body padding when it does not overflow, even on a scaled display', (assert) => {
+    assert.expect(1)
+    var done = assert.async()
+
+    var $drawer = $([
+      '<div id="drawer-test">',
+      '  <div class="drawer-dialog">',
+      '    <div class="drawer-content">',
+      '      <div class="drawer-body" />',
+      '    </div>',
+      '  </div>',
+      '</div>'
+    ].join('')).appendTo('#qunit-fixture')
+
+    var originalPadding = window.getComputedStyle(document.body).paddingRight
+
+    // Remove body margins as would be done by Bootstrap css
+    document.body.style.margin = '0'
+
+    // Hide scrollbars to prevent the body overflowing
+    document.body.style.overflow = 'hidden'
+
+    // Simulate a discrepancy between exact, i.e. floating point body width, and rounded body width
+    // as it can occur when zooming or scaling the display to something else than 100%
+    document.documentElement.style.paddingRight = '.48px'
+
+    $drawer.on('shown.uni.drawer', function () {
+      var currentPadding = window.getComputedStyle(document.body).paddingRight
+
+      assert.strictEqual(currentPadding, originalPadding, 'body padding should not be adjusted')
+
+      // Restore overridden css
+      document.body.style.removeProperty('margin')
+      document.body.style.removeProperty('overflow')
+      document.documentElement.style.paddingRight = '16px'
       done()
     }).unikornDrawer('show')
   })
@@ -852,7 +890,6 @@ $(function () {
       '</div>'
     ].join('')).appendTo('#qunit-fixture')
 
-
     $drawer.on('shown.uni.drawer', function () {
       assert.strictEqual($drawer.scrollTop(), 0)
       done()
@@ -863,7 +900,12 @@ $(function () {
   test('should not close drawer when clicking outside of drawer-content if backdrop = static', (assert) => {
     assert.expect(1)
     var done = assert.async()
-    var $drawer = $('<div class="drawer" data-backdrop="static"><div class="drawer-dialog" /></div>').appendTo('#qunit-fixture')
+
+    var $drawer = $([
+      '<div class="drawer" data-backdrop="static">',
+      '  <div class="drawer-dialog" />',
+      '</div>'
+    ].join('')).appendTo('#qunit-fixture')
 
     $drawer.on('shown.uni.drawer', function () {
       $drawer.trigger('click')
@@ -879,6 +921,65 @@ $(function () {
       })
       .unikornDrawer({
         backdrop: 'static'
+      })
+  })
+
+  test('should close drawer when escape key is pressed with keyboard = true and backdrop is static', (assert) => {
+    assert.expect(1)
+    var done = assert.async()
+
+    var $drawer = $([
+      '<div class="drawer" data-backdrop="static" data-keyboard="true">',
+      '  <div class="drawer-dialog" />',
+      '</div>'
+    ].join('')).appendTo('#qunit-fixture')
+
+    $drawer.on('shown.uni.drawer', function () {
+      $drawer.trigger($.Event('keydown', {
+        which: 27
+      }))
+
+      setTimeout(function () {
+        var drawer = $drawer.data('uni.drawer')
+
+        assert.strictEqual(drawer._isShown, false)
+        done()
+      }, 10)
+    })
+      .unikornDrawer({
+        backdrop: 'static',
+        keyboard: true
+      })
+  })
+
+  test('should not close drawer when escape key is pressed with keyboard = false and backdrop = static', (assert) => {
+    assert.expect(1)
+    var done = assert.async()
+
+    var $drawer = $([
+      '<div class="drawer" data-backdrop="static" data-keyboard="false">',
+      '  <div class="drawer-dialog" />',
+      '</div>'
+    ].join('')).appendTo('#qunit-fixture')
+
+    $drawer.on('shown.uni.drawer', function () {
+      $drawer.trigger($.Event('keydown', {
+        which: 27
+      }))
+
+      setTimeout(function () {
+        var drawer = $drawer.data('uni.drawer')
+
+        assert.strictEqual(drawer._isShown, true)
+        done()
+      }, 10)
+    })
+      .on('hidden.uni.drawer', function () {
+        assert.strictEqual(false, true, 'should not hide the drawer')
+      })
+      .unikornDrawer({
+        backdrop: 'static',
+        keyboard: false
       })
   })
 })

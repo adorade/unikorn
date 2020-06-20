@@ -1,11 +1,14 @@
-$(function () {
-  'use strict'
-
+$(() => {
   const { module, test } = QUnit
 
   window.Button = typeof unikorn !== 'undefined' ? unikorn.Button : Button
 
   module('button plugin', () => {
+    test('should return `Button` plugin version', (assert) => {
+      assert.expect(1)
+      assert.strictEqual(typeof Button.VERSION, 'string')
+    })
+
     test('should be defined on jquery object', (assert) => {
       assert.expect(1)
       assert.ok($(document.body).button, 'button method is defined')
@@ -29,11 +32,6 @@ $(function () {
     assert.strictEqual(typeof $.fn.button, 'undefined', 'button was set back to undefined (org value)')
   })
 
-  test('should return button version', (assert) => {
-    assert.expect(1)
-    assert.strictEqual(typeof Button.VERSION, 'string')
-  })
-
   test('should return jquery collection containing the element', (assert) => {
     assert.expect(2)
 
@@ -47,7 +45,7 @@ $(function () {
   test('should toggle active', (assert) => {
     assert.expect(2)
 
-    var $btn = $('<button class="btn" data-toggle="button">mdo</button>')
+    var $btn = $('<button class="btn" data-toggle="button">uni</button>')
     assert.ok(!$btn.hasClass('active'), 'btn does not have active class')
 
     $btn.unikornButton('toggle')
@@ -57,7 +55,7 @@ $(function () {
   test('should toggle active when btn children are clicked', (assert) => {
     assert.expect(2)
 
-    var $btn = $('<button class="btn" data-toggle="button">mdo</button>')
+    var $btn = $('<button class="btn" data-toggle="button">uni</button>')
     var $inner = $('<i/>')
 
     $btn.append($inner).appendTo('#qunit-fixture')
@@ -160,7 +158,7 @@ $(function () {
     assert.expect(1)
     var done = assert.async()
 
-    var $btn = $('<button class="btn active" data-toggle="button" aria-pressed="false">mdo</button>')
+    var $btn = $('<button class="btn active" data-toggle="button" aria-pressed="false">uni</button>')
     $btn.appendTo('#qunit-fixture')
 
     $(window).trigger($.Event('load'))
@@ -210,7 +208,7 @@ $(function () {
   })
 
   test('should check for closest matching toggle', (assert) => {
-    assert.expect(12)
+    assert.expect(18)
 
     var groupHTML = '<div class="btn-group" data-toggle="buttons">' +
         '<label class="btn btn-primary active">' +
@@ -244,6 +242,14 @@ $(function () {
     assert.ok(!$btn1.find('input').prop('checked'), 'btn1 is not checked')
     assert.ok($btn2.hasClass('active'), 'btn2 has active class')
     assert.ok($btn2.find('input').prop('checked'), 'btn2 is checked')
+
+    $btn1.unikornButton('toggle')
+    assert.ok($btn1.hasClass('active'), 'btn1 has active class')
+    assert.ok($btn1.find('input').prop('checked'), 'btn1 prop is checked')
+    assert.ok($btn1.find('input')[0].checked, 'btn1 is checked with jquery')
+    assert.ok(!$btn2.hasClass('active'), 'btn2 does not have active class')
+    assert.ok(!$btn2.find('input').prop('checked'), 'btn2 is not checked')
+    assert.ok(!$btn2.find('input')[0].checked, 'btn2 is not checked')
   })
 
   test('should not add aria-pressed on labels for radio/checkbox inputs in a data-toggle="buttons" group', (assert) => {
@@ -280,8 +286,8 @@ $(function () {
 
     assert.ok($btn.is(':not(.active)'), 'button is initially not active')
     assert.ok(!$input.prop('checked'), 'checkbox is initially not checked')
-    $btn[0].click() // fire a real click on the DOM node itself, not a click() on the jQuery object that just aliases to trigger('click')
 
+    $btn[0].click() // fire a real click on the DOM node itself, not a click() on the jQuery object that just aliases to trigger('click')
     assert.ok($btn.is(':not(.active)'), 'button did not become active')
     assert.ok(!$input.prop('checked'), 'checkbox did not get checked')
   })
@@ -301,6 +307,7 @@ $(function () {
 
     assert.ok($btn.is(':not(.active)'), 'button is initially not active')
     assert.ok(!$input.prop('checked'), 'checkbox is initially not checked')
+
     $btn[0].click() // fire a real click on the DOM node itself, not a click() on the jQuery object that just aliases to trigger('click')
     assert.ok($btn.is(':not(.active)'), 'button did not become active')
     assert.ok(!$input.prop('checked'), 'checkbox did not get checked')
@@ -321,6 +328,7 @@ $(function () {
 
     assert.ok($label.is(':not(.active)'), 'label is initially not active')
     assert.ok(!$input.prop('checked'), 'checkbox is initially not checked')
+
     $label[0].click() // fire a real click on the DOM node itself, not a click() on the jQuery object that just aliases to trigger('click')
     assert.ok($label.is('.active'), 'label is active after click')
     assert.ok($input.prop('checked'), 'checkbox is checked after click')
@@ -341,9 +349,32 @@ $(function () {
 
     assert.ok($btn.is(':not(.active)'), '<div> is initially not active')
     assert.ok(!$input.prop('checked'), 'checkbox is initially not checked')
+
     $btn[0].click() // fire a real click on the DOM node itself, not a click() on the jQuery object that just aliases to trigger('click')
     assert.ok($btn.is('.active'), '<div> is active after click')
     assert.ok($input.prop('checked'), 'checkbox is checked after click')
+  })
+
+  test('should correctly set checked state on input and active class on the label when using button toggle', (assert) => {
+    assert.expect(6)
+    var groupHTML = '<div class="btn-group" data-toggle="buttons">' +
+        '<label class="btn">' +
+        '<input type="checkbox">' +
+        '</label>' +
+        '</div>'
+    var $group = $(groupHTML).appendTo('#qunit-fixture')
+
+    var $btn = $group.children().eq(0)
+    var $input = $btn.children().eq(0)
+
+    assert.ok($btn.is(':not(.active)'), '<label> is initially not active')
+    assert.ok(!$input.prop('checked'), 'checkbox property is initially not checked')
+    assert.ok(!$input[0].checked, 'checkbox is not checked by jquery after click')
+
+    $btn.unikornButton('toggle')
+    assert.ok($btn.is('.active'), '<label> is active after click')
+    assert.ok($input.prop('checked'), 'checkbox property is checked after click')
+    assert.ok($input[0].checked, 'checkbox is checked by jquery after click')
   })
 
   test('should not do anything if the click was just sent to the outer container with data-toggle', (assert) => {
@@ -361,6 +392,7 @@ $(function () {
 
     assert.ok($label.is(':not(.active)'), 'label is initially not active')
     assert.ok(!$input.prop('checked'), 'checkbox is initially not checked')
+
     $group[0].click() // fire a real click on the DOM node itself, not a click() on the jQuery object that just aliases to trigger('click')
     assert.ok($label.is(':not(.active)'), 'label is not active after click')
     assert.ok(!$input.prop('checked'), 'checkbox is not checked after click')
@@ -380,6 +412,7 @@ $(function () {
     var $input = $label.children().eq(0)
 
     assert.ok(!$input.prop('checked'), 'hidden input initially has no checked property')
+
     $label[0].click() // fire a real click on the DOM node itself, not a click() on the jQuery object that just aliases to trigger('click')
     assert.ok(!$input.prop('checked'), 'hidden input does not have a checked property')
   })
@@ -398,6 +431,7 @@ $(function () {
     var $input = $label.children().eq(0)
 
     assert.ok(!$input.prop('checked'), 'text input initially has no checked property')
+
     $label[0].click() // fire a real click on the DOM node itself, not a click() on the jQuery object that just aliases to trigger('click')
     assert.ok(!$input.prop('checked'), 'text input does not have a checked property')
   })

@@ -1,6 +1,4 @@
-$(function () {
-  'use strict'
-
+$(() => {
   const { module, test } = QUnit
 
   window.Carousel = typeof unikorn !== 'undefined' ? unikorn.Carousel : Carousel
@@ -24,6 +22,11 @@ $(function () {
   ].join('')
 
   module('carousel plugin', () => {
+    test('should return `Carousel` plugin version', (assert) => {
+      assert.expect(1)
+      assert.strictEqual(typeof Carousel.VERSION, 'string')
+    })
+
     test('should be defined on jQuery object', (assert) => {
       assert.expect(1)
       assert.ok($(document.body).carousel, 'carousel method is defined')
@@ -45,11 +48,6 @@ $(function () {
   test('should provide no conflict', (assert) => {
     assert.expect(1)
     assert.strictEqual(typeof $.fn.carousel, 'undefined', 'carousel was set back to undefined (orig value)')
-  })
-
-  test('should return carousel version', (assert) => {
-    assert.expect(1)
-    assert.strictEqual(typeof Carousel.VERSION, 'string')
   })
 
   test('should return default parameters', (assert) => {
@@ -291,7 +289,7 @@ $(function () {
     assert.expect(2)
     var done = assert.async()
 
-    var template = '<div id="myCarousel" class="carousel slide">' +
+    var carouselHTML = '<div id="myCarousel" class="carousel slide">' +
         '<div class="carousel-inner">' +
         '<div class="carousel-item active">' +
         '<img alt="">' +
@@ -324,9 +322,9 @@ $(function () {
         '<a class="left carousel-control" href="#myCarousel" data-slide="prev">&lsaquo;</a>' +
         '<a class="right carousel-control" href="#myCarousel" data-slide="next">&rsaquo;</a>' +
         '</div>'
-    var $template = $(template)
+    var $carousel = $(carouselHTML)
 
-    $template
+    $carousel
       .on('slide.uni.carousel', function (e) {
         assert.ok(e.relatedTarget, 'relatedTarget present')
         assert.ok($(e.relatedTarget).hasClass('carousel-item'), 'relatedTarget has class "item"')
@@ -339,7 +337,7 @@ $(function () {
     assert.expect(2)
     var done = assert.async()
 
-    var template = '<div id="myCarousel" class="carousel slide">' +
+    var carouselHTML = '<div id="myCarousel" class="carousel slide">' +
         '<div class="carousel-inner">' +
         '<div class="carousel-item active">' +
         '<img alt="">' +
@@ -372,9 +370,9 @@ $(function () {
         '<a class="left carousel-control" href="#myCarousel" data-slide="prev">&lsaquo;</a>' +
         '<a class="right carousel-control" href="#myCarousel" data-slide="next">&rsaquo;</a>' +
         '</div>'
-    var $template = $(template)
+    var $carousel = $(carouselHTML)
 
-    $template
+    $carousel
       .on('slid.uni.carousel', function (e) {
         assert.ok(e.relatedTarget, 'relatedTarget present')
         assert.ok($(e.relatedTarget).hasClass('carousel-item'), 'relatedTarget has class "item"')
@@ -387,7 +385,7 @@ $(function () {
     assert.expect(4)
     var done = assert.async()
 
-    var template = '<div id="myCarousel" class="carousel slide">' +
+    var carouselHTML = '<div id="myCarousel" class="carousel slide">' +
         '<div class="carousel-inner">' +
         '<div class="carousel-item active">' +
         '<img alt="">' +
@@ -411,9 +409,9 @@ $(function () {
         '<a class="left carousel-control" href="#myCarousel" data-slide="prev">&lsaquo;</a>' +
         '<a class="right carousel-control" href="#myCarousel" data-slide="next">&rsaquo;</a>' +
         '</div>'
-    var $template = $(template)
+    var $carousel = $(carouselHTML)
 
-    $template
+    $carousel
       .on('slid.uni.carousel', function (e) {
         assert.ok(typeof e.from !== 'undefined', 'from present')
         assert.ok(typeof e.to !== 'undefined', 'to present')
@@ -431,7 +429,7 @@ $(function () {
   test('should set interval from data attribute', (assert) => {
     assert.expect(4)
 
-    var templateHTML = '<div id="myCarousel" class="carousel slide">' +
+    var carouselHTML = '<div id="myCarousel" class="carousel slide">' +
         '<div class="carousel-inner">' +
         '<div class="carousel-item active">' +
         '<img alt="">' +
@@ -464,7 +462,7 @@ $(function () {
         '<a class="left carousel-control" href="#myCarousel" data-slide="prev">&lsaquo;</a>' +
         '<a class="right carousel-control" href="#myCarousel" data-slide="next">&rsaquo;</a>' +
         '</div>'
-    var $carousel = $(templateHTML)
+    var $carousel = $(carouselHTML)
     $carousel.attr('data-interval', 1814)
 
     $carousel.appendTo('body')
@@ -493,7 +491,8 @@ $(function () {
 
   test('should set interval from data attribute on individual carousel-item', (assert) => {
     assert.expect(2)
-    var templateHTML = '<div id="myCarousel" class="carousel slide" data-interval="1814">' +
+
+    var carouselHTML = '<div id="myCarousel" class="carousel slide" data-interval="1814">' +
         '<div class="carousel-inner">' +
         '<div class="carousel-item active" data-interval="2814">' +
         '<img alt="">' +
@@ -526,7 +525,7 @@ $(function () {
         '<a class="left carousel-control" href="#myCarousel" data-slide="prev">&lsaquo;</a>' +
         '<a class="right carousel-control" href="#myCarousel" data-slide="next">&rsaquo;</a>' +
         '</div>'
-    var $carousel = $(templateHTML)
+    var $carousel = $(carouselHTML)
 
     $carousel.appendTo('body')
     $carousel.unikornCarousel(1)
@@ -542,7 +541,7 @@ $(function () {
   test('should skip over non-items when using item indices', (assert) => {
     assert.expect(2)
 
-    var templateHTML = '<div id="myCarousel" class="carousel" data-interval="1814">' +
+    var carouselHTML = '<div id="myCarousel" class="carousel" data-interval="1814">' +
         '<div class="carousel-inner">' +
         '<div class="carousel-item active">' +
         '<img alt="">' +
@@ -555,19 +554,19 @@ $(function () {
         '</div>' +
         '</div>' +
         '</div>'
-    var $template = $(templateHTML)
+    var $carousel = $(carouselHTML)
 
-    $template.unikornCarousel()
-    assert.strictEqual($template.find('.carousel-item')[0], $template.find('.active')[0], 'first item active')
+    $carousel.unikornCarousel()
+    assert.strictEqual($carousel.find('.carousel-item')[0], $carousel.find('.active')[0], 'first item active')
 
-    $template.unikornCarousel(1)
-    assert.strictEqual($template.find('.carousel-item')[1], $template.find('.active')[0], 'second item active')
+    $carousel.unikornCarousel(1)
+    assert.strictEqual($carousel.find('.carousel-item')[1], $carousel.find('.active')[0], 'second item active')
   })
 
   test('should skip over non-items when using next/prev methods', (assert) => {
     assert.expect(2)
 
-    var templateHTML = '<div id="myCarousel" class="carousel" data-interval="1814">' +
+    var carouselHTML = '<div id="myCarousel" class="carousel" data-interval="1814">' +
         '<div class="carousel-inner">' +
         '<div class="carousel-item active">' +
         '<img alt="">' +
@@ -580,19 +579,19 @@ $(function () {
         '</div>' +
         '</div>' +
         '</div>'
-    var $template = $(templateHTML)
+    var $carousel = $(carouselHTML)
 
-    $template.unikornCarousel()
-    assert.strictEqual($template.find('.carousel-item')[0], $template.find('.active')[0], 'first item active')
+    $carousel.unikornCarousel()
+    assert.strictEqual($carousel.find('.carousel-item')[0], $carousel.find('.active')[0], 'first item active')
 
-    $template.unikornCarousel('next')
-    assert.strictEqual($template.find('.carousel-item')[1], $template.find('.active')[0], 'second item active')
+    $carousel.unikornCarousel('next')
+    assert.strictEqual($carousel.find('.carousel-item')[1], $carousel.find('.active')[0], 'second item active')
   })
 
   test('should go to previous item if left arrow key is pressed', (assert) => {
     assert.expect(2)
 
-    var templateHTML = '<div id="myCarousel" class="carousel" data-interval="false">' +
+    var carouselHTML = '<div id="myCarousel" class="carousel" data-interval="false">' +
         '<div class="carousel-inner">' +
         '<div id="first" class="carousel-item">' +
         '<img alt="">' +
@@ -605,19 +604,19 @@ $(function () {
         '</div>' +
         '</div>' +
         '</div>'
-    var $template = $(templateHTML)
+    var $carousel = $(carouselHTML)
 
-    $template.unikornCarousel()
-    assert.strictEqual($template.find('.carousel-item')[1], $template.find('.active')[0], 'second item active')
+    $carousel.unikornCarousel()
+    assert.strictEqual($carousel.find('.carousel-item')[1], $carousel.find('.active')[0], 'second item active')
 
-    $template.trigger($.Event('keydown', { which: 37 }))
-    assert.strictEqual($template.find('.carousel-item')[0], $template.find('.active')[0], 'first item active')
+    $carousel.trigger($.Event('keydown', { which: 37 }))
+    assert.strictEqual($carousel.find('.carousel-item')[0], $carousel.find('.active')[0], 'first item active')
   })
 
   test('should go to next item if right arrow key is pressed', (assert) => {
     assert.expect(2)
 
-    var templateHTML = '<div id="myCarousel" class="carousel" data-interval="false">' +
+    var carouselHTML = '<div id="myCarousel" class="carousel" data-interval="false">' +
         '<div class="carousel-inner">' +
         '<div id="first" class="carousel-item active">' +
         '<img alt="">' +
@@ -630,50 +629,51 @@ $(function () {
         '</div>' +
         '</div>' +
         '</div>'
-    var $template = $(templateHTML)
+    var $carousel = $(carouselHTML)
 
-    $template.unikornCarousel()
-    assert.strictEqual($template.find('.carousel-item')[0], $template.find('.active')[0], 'first item active')
+    $carousel.unikornCarousel()
+    assert.strictEqual($carousel.find('.carousel-item')[0], $carousel.find('.active')[0], 'first item active')
 
-    $template.trigger($.Event('keydown', { which: 39 }))
-    assert.strictEqual($template.find('.carousel-item')[1], $template.find('.active')[0], 'second item active')
+    $carousel.trigger($.Event('keydown', { which: 39 }))
+    assert.strictEqual($carousel.find('.carousel-item')[1], $carousel.find('.active')[0], 'second item active')
   })
 
   test('should not prevent keydown if key is not ARROW_LEFT or ARROW_RIGHT', (assert) => {
     assert.expect(2)
-    var templateHTML = '<div id="myCarousel" class="carousel" data-interval="false">' +
+    var done = assert.async()
+
+    var carouselHTML = '<div id="myCarousel" class="carousel" data-interval="false">' +
         '<div class="carousel-inner">' +
         '<div id="first" class="carousel-item active">' +
         '<img alt="">' +
         '</div>' +
         '</div>' +
         '</div>'
-    var $template = $(templateHTML)
+    var $carousel = $(carouselHTML)
 
-    $template.unikornCarousel()
-    var done = assert.async()
+    $carousel.unikornCarousel()
 
     var eventArrowDown = $.Event('keydown', { which: 40 })
     var eventArrowUp   = $.Event('keydown', { which: 38 })
 
-    $template.one('keydown', function (event) {
+    $carousel.one('keydown', function (event) {
       assert.strictEqual(event.isDefaultPrevented(), false)
     })
 
-    $template.trigger(eventArrowDown)
+    $carousel.trigger(eventArrowDown)
 
-    $template.one('keydown', function (event) {
+    $carousel.one('keydown', function (event) {
       assert.strictEqual(event.isDefaultPrevented(), false)
       done()
     })
 
-    $template.trigger(eventArrowUp)
+    $carousel.trigger(eventArrowUp)
   })
 
   test('should support disabling the keyboard navigation', (assert) => {
     assert.expect(3)
 
-    var templateHTML = '<div id="myCarousel" class="carousel" data-interval="false" data-keyboard="false">' +
+    var carouselHTML = '<div id="myCarousel" class="carousel" data-interval="false" data-keyboard="false">' +
         '<div class="carousel-inner">' +
         '<div id="first" class="carousel-item active">' +
         '<img alt="">' +
@@ -686,26 +686,26 @@ $(function () {
         '</div>' +
         '</div>' +
         '</div>'
-    var $template = $(templateHTML)
+    var $carousel = $(carouselHTML)
 
-    $template.unikornCarousel()
-    assert.strictEqual($template.find('.carousel-item')[0], $template.find('.active')[0], 'first item active')
+    $carousel.unikornCarousel()
+    assert.strictEqual($carousel.find('.carousel-item')[0], $carousel.find('.active')[0], 'first item active')
 
-    $template.trigger($.Event('keydown', {
+    $carousel.trigger($.Event('keydown', {
       which: 39
     }))
-    assert.strictEqual($template.find('.carousel-item')[0], $template.find('.active')[0], 'first item still active after right arrow press')
+    assert.strictEqual($carousel.find('.carousel-item')[0], $carousel.find('.active')[0], 'first item still active after right arrow press')
 
-    $template.trigger($.Event('keydown', {
+    $carousel.trigger($.Event('keydown', {
       which: 37
     }))
-    assert.strictEqual($template.find('.carousel-item')[0], $template.find('.active')[0], 'first item still active after left arrow press')
+    assert.strictEqual($carousel.find('.carousel-item')[0], $carousel.find('.active')[0], 'first item still active after left arrow press')
   })
 
   test('should ignore keyboard events within <input>s and <textarea>s', (assert) => {
     assert.expect(7)
 
-    var templateHTML = '<div id="myCarousel" class="carousel" data-interval="false">' +
+    var carouselHTML = '<div id="myCarousel" class="carousel" data-interval="false">' +
         '<div class="carousel-inner">' +
         '<div id="first" class="carousel-item active">' +
         '<img alt="">' +
@@ -720,35 +720,35 @@ $(function () {
         '</div>' +
         '</div>' +
         '</div>'
-    var $template = $(templateHTML)
-    var $input = $template.find('#in-put')
-    var $textarea = $template.find('#text-area')
+    var $carousel = $(carouselHTML)
+    var $input = $carousel.find('#in-put')
+    var $textarea = $carousel.find('#text-area')
 
     assert.strictEqual($input.length, 1, 'found <input>')
     assert.strictEqual($textarea.length, 1, 'found <textarea>')
 
-    $template.unikornCarousel()
-    assert.strictEqual($template.find('.carousel-item')[0], $template.find('.active')[0], 'first item active')
+    $carousel.unikornCarousel()
+    assert.strictEqual($carousel.find('.carousel-item')[0], $carousel.find('.active')[0], 'first item active')
 
     $input.trigger($.Event('keydown', {
       which: 39
     }))
-    assert.strictEqual($template.find('.carousel-item')[0], $template.find('.active')[0], 'first item still active after right arrow press in <input>')
+    assert.strictEqual($carousel.find('.carousel-item')[0], $carousel.find('.active')[0], 'first item still active after right arrow press in <input>')
 
     $input.trigger($.Event('keydown', {
       which: 37
     }))
-    assert.strictEqual($template.find('.carousel-item')[0], $template.find('.active')[0], 'first item still active after left arrow press in <input>')
+    assert.strictEqual($carousel.find('.carousel-item')[0], $carousel.find('.active')[0], 'first item still active after left arrow press in <input>')
 
     $textarea.trigger($.Event('keydown', {
       which: 39
     }))
-    assert.strictEqual($template.find('.carousel-item')[0], $template.find('.active')[0], 'first item still active after right arrow press in <textarea>')
+    assert.strictEqual($carousel.find('.carousel-item')[0], $carousel.find('.active')[0], 'first item still active after right arrow press in <textarea>')
 
     $textarea.trigger($.Event('keydown', {
       which: 37
     }))
-    assert.strictEqual($template.find('.carousel-item')[0], $template.find('.active')[0], 'first item still active after left arrow press in <textarea>')
+    assert.strictEqual($carousel.find('.carousel-item')[0], $carousel.find('.active')[0], 'first item still active after left arrow press in <textarea>')
   })
 
   test('should wrap around from end to start when wrap option is true', (assert) => {
@@ -917,7 +917,7 @@ $(function () {
     assert.expect(2)
     var done = assert.async()
 
-    var templateHTML = '<div id="myCarousel" class="carousel" data-interval="false">' +
+    var carouselHTML = '<div id="myCarousel" class="carousel" data-interval="false">' +
         '<div class="carousel-inner">' +
         '<div id="first" class="carousel-item">' +
         '<input type="text" id="inputText" />' +
@@ -927,13 +927,13 @@ $(function () {
         '</div>' +
         '</div>' +
         '</div>'
-    var $template = $(templateHTML)
+    var $carousel = $(carouselHTML)
 
-    $template.appendTo('#qunit-fixture')
-    var $inputText = $template.find('#inputText')
-    var $textArea = $template.find('#txtArea')
+    $carousel.appendTo('#qunit-fixture')
+    var $inputText = $carousel.find('#inputText')
+    var $textArea = $carousel.find('#txtArea')
 
-    $template.unikornCarousel()
+    $carousel.unikornCarousel()
 
     var eventKeyDown = $.Event('keydown', {
       which: 65 // 65 for "a"
@@ -954,7 +954,7 @@ $(function () {
     assert.expect(2)
     var done = assert.async()
 
-    var html = '<div id="myCarousel" class="carousel slide" data-interval="50" style="display: none;">' +
+    var carouselHTML = '<div id="myCarousel" class="carousel slide" data-interval="50" style="display: none;">' +
         '<div class="carousel-inner">' +
         '<div id="firstItem" class="carousel-item active">' +
         '<img alt="">' +
@@ -968,14 +968,14 @@ $(function () {
         '<a class="left carousel-control" href="#myCarousel" data-slide="prev">&lsaquo;</a>' +
         '<a class="right carousel-control" href="#myCarousel" data-slide="next">&rsaquo;</a>' +
         '</div>'
-    var $html = $(html)
+    var $carousel = $(carouselHTML)
 
-    $html.appendTo('#qunit-fixture').unikornCarousel()
+    $carousel.appendTo('#qunit-fixture').unikornCarousel()
 
     var $firstItem = $('#firstItem')
     setTimeout(function () {
       assert.ok($firstItem.hasClass('active'))
-      $html
+      $carousel
         .unikornCarousel('dispose')
         .attr('style', 'visibility: hidden;')
         .unikornCarousel()
@@ -990,7 +990,8 @@ $(function () {
   test('Should not go to the next item when the parent of the carousel is not visible', (assert) => {
     assert.expect(2)
     var done = assert.async()
-    var html = '<div id="parent" style="display: none;">' +
+
+    var carouselHTML = '<div id="parent" style="display: none;">' +
         '<div id="myCarousel" class="carousel slide" data-interval="50" style="display: none;">' +
         '<div class="carousel-inner">' +
         '<div id="firstItem" class="carousel-item active">' +
@@ -1006,7 +1007,7 @@ $(function () {
         '<a class="right carousel-control" href="#myCarousel" data-slide="next">&rsaquo;</a>' +
         '</div>' +
         '</div>'
-    var $html = $(html)
+    var $html = $(carouselHTML)
 
     $html.appendTo('#qunit-fixture')
 
@@ -1038,6 +1039,7 @@ $(function () {
 
     document.documentElement.ontouchstart = $.noop
     Simulator.setType('pointer')
+
     assert.expect(3)
     var $styles = $(stylesCarousel).appendTo('head')
     var done = assert.async()
@@ -1052,10 +1054,11 @@ $(function () {
         '</div>' +
         '</div>' +
         '</div>'
-
     var $carousel = $(carouselHTML).appendTo('#qunit-fixture')
     var $item = $('#item')
+
     $carousel.unikornCarousel()
+
     var carousel = $carousel.data('uni.carousel')
     var spy = sinon.spy(carousel, 'prev')
 
@@ -1075,12 +1078,12 @@ $(function () {
   })
 
   test('should allow swiperight and call prev with touch events', (assert) => {
+    document.documentElement.ontouchstart = $.noop
     Simulator.setType('touch')
     clearPointerEvents()
 
     assert.expect(3)
     var done = assert.async()
-    document.documentElement.ontouchstart = $.noop
 
     var carouselHTML = '<div class="carousel" data-interval="false">' +
         '<div class="carousel-inner">' +
@@ -1092,11 +1095,12 @@ $(function () {
         '</div>' +
         '</div>' +
         '</div>'
-
     var $carousel = $(carouselHTML)
     $carousel.appendTo('#qunit-fixture')
     var $item = $('#item')
+
     $carousel.unikornCarousel()
+
     var carousel = $carousel.data('uni.carousel')
     var spy = sinon.spy(carousel, 'prev')
 
@@ -1122,9 +1126,9 @@ $(function () {
     }
 
     document.documentElement.ontouchstart = $.noop
-    assert.expect(4)
     Simulator.setType('pointer')
 
+    assert.expect(4)
     var $styles = $(stylesCarousel).appendTo('head')
     var done = assert.async()
 
@@ -1138,11 +1142,12 @@ $(function () {
         '</div>' +
         '</div>' +
         '</div>'
-
     var $carousel = $(carouselHTML)
     $carousel.appendTo('#qunit-fixture')
     var $item = $('#item')
+
     $carousel.unikornCarousel()
+
     var carousel = $carousel.data('uni.carousel')
     var spy = sinon.spy(carousel, 'next')
 
@@ -1164,11 +1169,11 @@ $(function () {
   })
 
   test('should allow swipeleft and call next with touch events', (assert) => {
-    assert.expect(4)
-    clearPointerEvents()
-    Simulator.setType('touch')
     document.documentElement.ontouchstart = $.noop
+    Simulator.setType('touch')
+    clearPointerEvents()
 
+    assert.expect(4)
     var done = assert.async()
 
     var carouselHTML = '<div class="carousel" data-interval="false">' +
@@ -1181,11 +1186,12 @@ $(function () {
         '</div>' +
         '</div>' +
         '</div>'
-
     var $carousel = $(carouselHTML)
     $carousel.appendTo('#qunit-fixture')
     var $item = $('#item')
+
     $carousel.unikornCarousel()
+
     var carousel = $carousel.data('uni.carousel')
     var spy = sinon.spy(carousel, 'next')
 
@@ -1207,16 +1213,17 @@ $(function () {
   })
 
   test('should not allow pinch with touch events', (assert) => {
-    assert.expect(0)
+    document.documentElement.ontouchstart = $.noop
+    Simulator.setType('touch')
     clearPointerEvents()
 
-    Simulator.setType('touch')
+    assert.expect(0)
     var done = assert.async()
-    document.documentElement.ontouchstart = $.noop
 
     var carouselHTML = '<div class="carousel" data-interval="false"></div>'
     var $carousel = $(carouselHTML)
     $carousel.appendTo('#qunit-fixture')
+
     $carousel.unikornCarousel()
 
     Simulator.gestures.swipe($carousel[0], {
@@ -1237,10 +1244,10 @@ $(function () {
     var carouselHTML = '<div class="carousel" data-interval="false"></div>'
     var $carousel = $(carouselHTML)
     $carousel.appendTo('#qunit-fixture')
+
     $carousel.unikornCarousel()
 
     var carousel = $carousel.data('uni.carousel')
-
     var spy = sinon.spy(carousel, '_slide')
 
     carousel._isSliding = true
@@ -1256,6 +1263,7 @@ $(function () {
     var carouselHTML = '<div class="carousel" data-interval="false"></div>'
     var $carousel = $(carouselHTML)
     $carousel.appendTo('#qunit-fixture')
+
     $carousel.unikornCarousel()
 
     var carousel = $carousel.data('uni.carousel')
@@ -1283,6 +1291,7 @@ $(function () {
     var carouselHTML = '<div class="carousel"></div>'
     var $carousel = $(carouselHTML)
     $carousel.appendTo('#qunit-fixture')
+
     $carousel.unikornCarousel()
 
     assert.strictEqual(spy.called, false)
@@ -1297,6 +1306,7 @@ $(function () {
     var carouselHTML = '<div class="carousel" data-ride="carousel"></div>'
     var $carousel = $(carouselHTML)
     $carousel.appendTo('#qunit-fixture')
+
     $carousel.unikornCarousel()
 
     assert.strictEqual(spy.called, true)
@@ -1305,8 +1315,8 @@ $(function () {
 
   test('should init carousels with data-ride on load event', (assert) => {
     assert.expect(1)
-
     var done = assert.async()
+
     var spy = sinon.spy(Carousel, '_jQueryInterface')
 
     var carouselHTML = '<div class="carousel" data-ride="carousel"></div>'
@@ -1326,9 +1336,10 @@ $(function () {
     assert.expect(1)
 
     var spy = sinon.spy(Carousel.prototype, '_addTouchEventListeners')
-    var $carousel = $('<div class="carousel" data-ride="carousel" data-touch="false"></div>')
 
+    var $carousel = $('<div class="carousel" data-ride="carousel" data-touch="false"></div>')
     $carousel.appendTo('#qunit-fixture')
+
     $carousel.unikornCarousel()
 
     assert.strictEqual(spy.called, false)

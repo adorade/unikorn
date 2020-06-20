@@ -1,11 +1,14 @@
-$(function () {
-  'use strict'
-
+$(() => {
   const { module, test } = QUnit
 
   window.Alert = typeof unikorn !== 'undefined' ? unikorn.Alert : Alert
 
   module('alert plugin', () => {
+    test('should return `Alert` plugin version', (assert) => {
+      assert.expect(1)
+      assert.strictEqual(typeof Alert.VERSION, 'string')
+    })
+
     test('should be defined on jquery object', (assert) => {
       assert.expect(1)
       assert.ok($(document.body).alert, 'alert method is defined')
@@ -27,11 +30,6 @@ $(function () {
   test('should provide no conflict', (assert) => {
     assert.expect(1)
     assert.strictEqual(typeof $.fn.alert, 'undefined', 'alert was set back to undefined (org value)')
-  })
-
-  test('should return alert version', (assert) => {
-    assert.expect(1)
-    assert.strictEqual(typeof Alert.VERSION, 'string')
   })
 
   test('should return jquery collection containing the element', (assert) => {
@@ -66,7 +64,8 @@ $(function () {
         '<p><strong>Holy guacamole!</strong> Best check yo self, you\'re not looking too good.</p>' +
         '</div>'
     var $alert = $(alertHTML).appendTo('#qunit-fixture').unikornAlert()
-    assert.notEqual($('#qunit-fixture').find('.alert').length, 0, 'element added to dom')
+
+    assert.notStrictEqual($('#qunit-fixture').find('.alert').length, 0, 'element added to dom')
 
     $alert
       .one('closed.uni.alert', function () {
