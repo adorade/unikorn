@@ -1,11 +1,14 @@
-$(function () {
-  'use strict'
-
+$(() => {
   const { module, test } = QUnit
 
   window.Dropdown = typeof unikorn !== 'undefined' ? unikorn.Dropdown : Dropdown
 
   module('dropdowns plugin', () => {
+    test('should return `Dropdown` plugin version', (assert) => {
+      assert.expect(1)
+      assert.strictEqual(typeof Dropdown.VERSION, 'string')
+    })
+
     test('should be defined on jquery object', (assert) => {
       assert.expect(1)
       assert.ok($(document.body).dropdown, 'dropdown method is defined')
@@ -27,11 +30,6 @@ $(function () {
   test('should provide no conflict', (assert) => {
     assert.expect(1)
     assert.strictEqual(typeof $.fn.dropdown, 'undefined', 'dropdown was set back to undefined (org value)')
-  })
-
-  test('should return dropdown version', (assert) => {
-    assert.expect(1)
-    assert.strictEqual(typeof Dropdown.VERSION, 'string')
   })
 
   test('should throw explicit error on undefined method', (assert) => {
@@ -115,6 +113,7 @@ $(function () {
   test('should not add class position-static to dropdown if boundary not set', (assert) => {
     assert.expect(1)
     var done = assert.async()
+
     var dropdownHTML = '<div class="tabs">' +
         '<div class="dropdown">' +
         '<a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown</a>' +
@@ -140,6 +139,7 @@ $(function () {
   test('should add class position-static to dropdown if boundary not scrollParent', (assert) => {
     assert.expect(1)
     var done = assert.async()
+
     var dropdownHTML = '<div class="tabs">' +
         '<div class="dropdown">' +
         '<a href="#" class="dropdown-toggle" data-toggle="dropdown" data-boundary="viewport">Dropdown</a>' +
@@ -165,6 +165,7 @@ $(function () {
   test('should set aria-expanded="true" on target when dropdown menu is shown', (assert) => {
     assert.expect(1)
     var done = assert.async()
+
     var dropdownHTML = '<div class="tabs">' +
         '<div class="dropdown">' +
         '<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Dropdown</a>' +
@@ -354,7 +355,7 @@ $(function () {
 
     var dropdownHTML = '<div class="nav">' +
         '<div class="dropdown" id="testmenu">' +
-        '<a class="dropdown-toggle" data-toggle="dropdown" href="#testmenu">Test menu <span class="caret"/></a>' +
+        '<a class="dropdown-toggle" data-toggle="dropdown" href="#testmenu">Test menu</a>' +
         '<div class="dropdown-menu">' +
         '<a class="dropdown-item" href="#sub1">Submenu 1</a>' +
         '</div>' +
@@ -411,7 +412,7 @@ $(function () {
         '</div>' +
         '<div class="btn-group">' +
         '<button class="btn">Actions</button>' +
-        '<button class="btn dropdown-toggle" data-toggle="dropdown"><span class="caret"/></button>' +
+        '<button class="btn dropdown-toggle" data-toggle="dropdown"></button>' +
         '<div class="dropdown-menu">' +
         '<a class="dropdown-item" href="#">Action 1</a>' +
         '</div>' +
@@ -825,8 +826,8 @@ $(function () {
         '</div>' +
         '</div>' +
         '</nav>'
-
     $(html).appendTo('#qunit-fixture')
+
     var $triggerDropdown = $('#qunit-fixture')
       .find('[data-toggle="dropdown"]')
       .unikornDropdown()
@@ -1082,6 +1083,68 @@ $(function () {
         $textarea.trigger('click')
       })
     $textarea.trigger('click')
+  })
+
+  test('should not stop key event propagation when dropdown is disabled', (assert) => {
+    assert.expect(1)
+    var done = assert.async()
+
+    var dropdownHTML = '<div class="tabs">' +
+        '<div class="dropdown">' +
+        '<a href="#" class="dropdown-toggle" id="toggle" data-toggle="dropdown" disabled>Dropdown</a>' +
+        '<div class="dropdown-menu">' +
+        '<a class="dropdown-item" id="item" href="#">Menu item</a>' +
+        '</div>' +
+        '</div>'
+    var $dropdown = $(dropdownHTML)
+      .appendTo('#qunit-fixture')
+      .find('[data-toggle="dropdown"]')
+      .unikornDropdown()
+
+    var $body = $('body')
+
+    $(document).on('keydown', function () {
+      $body.addClass('event-handled')
+    })
+
+    // Key escape
+    $dropdown.trigger('focus').trigger($.Event('keydown', {
+      which: 27
+    }))
+
+    assert.ok($body.hasClass('event-handled'), 'ESC key event was propagated')
+    done()
+  })
+
+  test('should not stop ESC key event propagation when dropdown is not active', (assert) => {
+    assert.expect(1)
+    var done = assert.async()
+
+    var dropdownHTML = '<div class="tabs">' +
+        '<div class="dropdown">' +
+        '<a href="#" class="dropdown-toggle" id="toggle" data-toggle="dropdown">Dropdown</a>' +
+        '<div class="dropdown-menu">' +
+        '<a class="dropdown-item" id="item" href="#">Menu item</a>' +
+        '</div>' +
+        '</div>'
+    var $dropdown = $(dropdownHTML)
+      .appendTo('#qunit-fixture')
+      .find('[data-toggle="dropdown"]')
+      .unikornDropdown()
+
+    var $body = $('body')
+
+    $(document).on('keydown', function () {
+      $body.addClass('event-handled')
+    })
+
+    // Key escape
+    $dropdown.trigger('focus').trigger($.Event('keydown', {
+      which: 27
+    }))
+
+    assert.ok($body.hasClass('event-handled'), 'ESC key event was propagated')
+    done()
   })
 
   test('should not use Popper.js if display set to static', (assert) => {
@@ -1484,8 +1547,7 @@ $(function () {
       return offsets
     }
 
-    var dropdownHTML =
-      '<div class="dropdown">' +
+    var dropdownHTML ='<div class="dropdown">' +
       '<a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown</a>' +
       '<div class="dropdown-menu">' +
       '<a class="dropdown-item" href="#">Another link</a>' +
@@ -1509,15 +1571,13 @@ $(function () {
   test('should create offset modifier correctly when offset option is not a function', (assert) => {
     assert.expect(2)
 
-    var dropdownHTML =
-      '<div class="dropdown">' +
+    var myOffset = 42
+    var dropdownHTML = '<div class="dropdown">' +
       '<a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown</a>' +
       '<div class="dropdown-menu">' +
       '<a class="dropdown-item" href="#">Another link</a>' +
       '</div>' +
       '</div>'
-
-    var myOffset = 42
     var $dropdown = $(dropdownHTML)
       .appendTo('#qunit-fixture')
       .find('[data-toggle="dropdown"]')
@@ -1535,14 +1595,12 @@ $(function () {
   test('should allow to pass config to popper.js with `popperConfig`', (assert) => {
     assert.expect(1)
 
-    var dropdownHTML =
-      '<div class="dropdown">' +
-      '  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown</a>' +
-      '  <div class="dropdown-menu">' +
-      '    <a class="dropdown-item" href="#">Another link</a>' +
-      '  </div>' +
+    var dropdownHTML = '<div class="dropdown">' +
+      '<a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown</a>' +
+      '<div class="dropdown-menu">' +
+      '<a class="dropdown-item" href="#">Another link</a>' +
+      '</div>' +
       '</div>'
-
     var $dropdown = $(dropdownHTML)
       .appendTo('#qunit-fixture')
       .find('[data-toggle="dropdown"]')

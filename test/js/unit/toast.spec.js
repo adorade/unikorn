@@ -1,11 +1,14 @@
-$(function () {
-  'use strict'
-
+$(() => {
   const { module, test } = QUnit
 
   window.Toast = typeof unikorn !== 'undefined' ? unikorn.Toast : Toast
 
   module('toast plugin', () => {
+    test('should return `Toast` plugin version', (assert) => {
+      assert.expect(1)
+      assert.strictEqual(typeof Toast.VERSION, 'string')
+    })
+
     test('should be defined on jquery object', (assert) => {
       assert.expect(1)
       assert.ok($(document.body).toast, 'toast method is defined')
@@ -29,13 +32,9 @@ $(function () {
     assert.strictEqual(typeof $.fn.toast, 'undefined', 'toast was set back to undefined (org value)')
   })
 
-  test('should return toast version', (assert) => {
-    assert.expect(1)
-    assert.strictEqual(typeof Toast.VERSION, 'string')
-  })
-
   test('should throw explicit error on undefined method', (assert) => {
     assert.expect(1)
+
     var $el = $('<div/>')
     $el.unikornToast()
 
@@ -51,6 +50,7 @@ $(function () {
 
     var $el = $('<div/>')
     var $toast = $el.unikornToast()
+
     assert.ok($toast instanceof $, 'returns jquery collection')
     assert.strictEqual($toast[0], $el[0], 'collection contains element')
   })
@@ -65,7 +65,6 @@ $(function () {
           'a simple toast' +
         '</div>' +
       '</div>'
-
     var $toast = $(toastHtml)
       .unikornToast()
       .appendTo($('#qunit-fixture'))
@@ -87,7 +86,6 @@ $(function () {
           'a simple toast' +
         '</div>' +
       '</div>'
-
     var $toast = $(toastHtml)
       .unikornToast()
       .appendTo($('#qunit-fixture'))
@@ -109,7 +107,6 @@ $(function () {
           'a simple toast' +
         '</div>' +
       '</div>'
-
     var $toast = $(toastHtml)
       .unikornToast()
       .appendTo($('#qunit-fixture'))
@@ -163,7 +160,6 @@ $(function () {
           'a simple toast' +
         '</div>' +
       '</div>'
-
     var $toast = $(toastHtml)
       .unikornToast()
       .appendTo($('#qunit-fixture'))
@@ -194,7 +190,6 @@ $(function () {
           'a simple toast' +
         '</div>' +
       '</div>'
-
     var $toast = $(toastHtml)
       .unikornToast({
         delay: 1
@@ -218,7 +213,6 @@ $(function () {
           'close' +
         '</button>' +
       '</div>'
-
     var $toast = $(toastHtml)
       .unikornToast()
       .appendTo($('#qunit-fixture'))
@@ -244,11 +238,10 @@ $(function () {
 
     var toastHtml =
       '<div class="toast" data-autohide="false" data-animation="false">' +
-      '<button type="button" class="ml-2 mb-1 close" data-dismiss="toast">' +
-      'close' +
-      '</button>' +
+        '<button type="button" class="ml-2 mb-1 close" data-dismiss="toast">' +
+          'close' +
+        '</button>' +
       '</div>'
-
     var $toast = $(toastHtml)
       .unikornToast()
 
@@ -262,11 +255,10 @@ $(function () {
 
     var toastHtml =
       '<div class="toast" data-delay="1" data-autohide="false">' +
-      '<div class="toast-body">' +
-      'a simple toast' +
-      '</div>' +
+        '<div class="toast-body">' +
+          'a simple toast' +
+        '</div>' +
       '</div>'
-
     var $toast = $(toastHtml)
       .unikornToast()
       .appendTo($('#qunit-fixture'))
@@ -296,11 +288,10 @@ $(function () {
 
     var toastHtml =
       '<div class="toast" data-delay="1" data-autohide="false">' +
-      '<div class="toast-body">' +
-      'a simple toast' +
-      '</div>' +
+        '<div class="toast-body">' +
+          'a simple toast' +
+        '</div>' +
       '</div>'
-
     var $toast = $(toastHtml)
       .unikornToast()
       .appendTo($('#qunit-fixture'))

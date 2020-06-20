@@ -35,7 +35,7 @@ export const DefaultWhitelist = {
   h5: [],
   h6: [],
   i: [],
-  img: ['src', 'alt', 'title', 'width', 'height'],
+  img: ['src', 'srcset', 'alt', 'title', 'width', 'height'],
   li: [],
   ol: [],
   p: [],
@@ -55,14 +55,14 @@ export const DefaultWhitelist = {
  *
  * Shoutout to Angular 7 https://github.com/angular/angular/blob/7.2.4/packages/core/src/sanitization/url_sanitizer.ts
  */
-const SAFE_URL_PATTERN = /^(?:(?:https?|mailto|ftp|tel|file):|[^&:/?#]*(?:[/?#]|$))/gi
+const SAFE_URL_PATTERN = /^(?:(?:https?|mailto|ftp|tel|file):|[^#&/:?]*(?:[#/?]|$))/gi
 
 /**
  * A pattern that matches safe data URLs. Only matches image, video and audio types.
  *
  * Shoutout to Angular 7 https://github.com/angular/angular/blob/7.2.4/packages/core/src/sanitization/url_sanitizer.ts
  */
-const DATA_URL_PATTERN = /^data:(?:image\/(?:bmp|gif|jpeg|jpg|png|tiff|webp)|video\/(?:mpeg|mp4|ogg|webm)|audio\/(?:mp3|oga|ogg|opus));base64,[a-z0-9+/]+=*$/i
+const DATA_URL_PATTERN = /^data:(?:image\/(?:bmp|gif|jpeg|jpg|png|tiff|webp)|video\/(?:mpeg|mp4|ogg|webm)|audio\/(?:mp3|oga|ogg|opus));base64,[\d+/a-z]+=*$/i
 
 function allowedAttribute(attr, allowedAttributeList) {
   const attrName = attr.nodeName.toLowerCase()
@@ -78,7 +78,7 @@ function allowedAttribute(attr, allowedAttributeList) {
   const regExp = allowedAttributeList.filter((attrRegex) => attrRegex instanceof RegExp)
 
   // Check if a regular expression validates the attribute.
-  for (let i = 0, l = regExp.length; i < l; i++) {
+  for (let i = 0, len = regExp.length; i < len; i++) {
     if (attrName.match(regExp[i])) {
       return true
     }

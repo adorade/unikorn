@@ -313,9 +313,12 @@ const Modal = (($) => {
     }
 
     _setEscapeEvent() {
-      if (this._isShown && this._config.keyboard) {
+      if (this._isShown) {
         $(this._element).on(Event.KEYDOWN_DISMISS, (event) => {
-          if (event.which === ESCAPE_KEYCODE) {
+          if (this._config.keyboard && event.which === ESCAPE_KEYCODE) {
+            event.preventDefault()
+            this.hide()
+          } else if (!this._config.keyboard && event.which === ESCAPE_KEYCODE) {
             this._triggerBackdropTransition()
           }
         })
@@ -446,7 +449,7 @@ const Modal = (($) => {
 
     _checkScrollbar() {
       const rect = document.body.getBoundingClientRect()
-      this._isBodyOverflowing = rect.left + rect.right < window.innerWidth
+      this._isBodyOverflowing = Math.round(rect.left + rect.right) < window.innerWidth
       this._scrollbarWidth = this._getScrollbarWidth()
     }
 

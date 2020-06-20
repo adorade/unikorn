@@ -1,11 +1,14 @@
-$(function () {
-  'use strict'
-
+$(() => {
   const { module, test } = QUnit
 
   window.Popover = typeof unikorn !== 'undefined' ? unikorn.Popover : Popover
 
   module('popover plugin', () => {
+    test('should return `Popover` plugin version', (assert) => {
+      assert.expect(1)
+      assert.strictEqual(typeof Popover.VERSION, 'string')
+    })
+
     test('should be defined on jquery object', (assert) => {
       assert.expect(1)
       assert.ok($(document.body).popover, 'popover method is defined')
@@ -28,11 +31,6 @@ $(function () {
   test('should provide no conflict', (assert) => {
     assert.expect(1)
     assert.strictEqual(typeof $.fn.popover, 'undefined', 'popover was set back to undefined (org value)')
-  })
-
-  test('should return popover version', (assert) => {
-    assert.expect(1)
-    assert.strictEqual(typeof Popover.VERSION, 'string')
   })
 
   test('should throw explicit error on undefined method', (assert) => {
@@ -62,10 +60,10 @@ $(function () {
     assert.expect(2)
     var done = assert.async()
 
-    $('<a href="#" title="mdo" data-content="https://twitter.com/mdo">@mdo</a>')
+    $('<a href="#" title="uni" data-content="https://twitter.com/uni">@uni</a>')
       .appendTo('#qunit-fixture')
       .on('shown.uni.popover', function () {
-        assert.notEqual($('.popover').length, 0, 'popover was inserted')
+        assert.notStrictEqual($('.popover').length, 0, 'popover was inserted')
         $(this).unikornPopover('hide')
       })
       .on('hidden.uni.popover', function () {
@@ -78,7 +76,7 @@ $(function () {
   test('should store popover instance in popover data object', (assert) => {
     assert.expect(1)
 
-    var $popover = $('<a href="#" title="mdo" data-content="https://twitter.com/mdo">@mdo</a>').unikornPopover()
+    var $popover = $('<a href="#" title="uni" data-content="https://twitter.com/uni">@uni</a>').unikornPopover()
 
     assert.ok($popover.data('uni.popover'), 'popover instance exists')
   })
@@ -112,7 +110,7 @@ $(function () {
 
     $popover
       .one('shown.uni.popover', function () {
-        assert.notEqual($('.popover').length, 0, 'popover was inserted')
+        assert.notStrictEqual($('.popover').length, 0, 'popover was inserted')
         assert.strictEqual($('.popover .popover-header').text(), '@fat', 'title correctly inserted')
         assert.strictEqual($('.popover .popover-body').text(), 'loves writing tests （╯°□°）╯︵ ┻━┻', 'content correctly inserted')
         $popover.unikornPopover('hide')
@@ -135,7 +133,7 @@ $(function () {
 
     $popover.unikornPopover('show')
 
-    assert.notEqual($('.popover').length, 0, 'popover inserted')
+    assert.notStrictEqual($('.popover').length, 0, 'popover inserted')
     assert.strictEqual($('.popover .popover-header').text(), '@glebm <3 writing tests', 'title inserted')
     assert.ok($.contains($('.popover').get(0), title), 'title node moved, not copied')
     // toLowerCase because IE8 will return <I>...</I>
@@ -145,6 +143,7 @@ $(function () {
 
   test('should allow DOMElement title and content (html: false)', (assert) => {
     assert.expect(5)
+
     var title = document.createTextNode('@glebm <3 writing tests')
     var content = $('<i>¯\\_(ツ)_/¯</i>').get(0)
     var $popover = $('<a href="#" rel="tooltip"/>')
@@ -153,7 +152,7 @@ $(function () {
 
     $popover.unikornPopover('show')
 
-    assert.notEqual($('.popover').length, 0, 'popover inserted')
+    assert.notStrictEqual($('.popover').length, 0, 'popover inserted')
     assert.strictEqual($('.popover .popover-header').text(), '@glebm <3 writing tests', 'title inserted')
     assert.ok(!$.contains($('.popover').get(0), title), 'title node copied, not moved')
     assert.strictEqual($('.popover .popover-body').html(), '¯\\_(ツ)_/¯', 'content inserted')
@@ -176,7 +175,7 @@ $(function () {
       })
 
     function popoverInserted() {
-      assert.notEqual($('.popover').length, 0, 'popover was inserted')
+      assert.notStrictEqual($('.popover').length, 0, 'popover was inserted')
       assert.equal($('.popover .popover-body').html(), $div[0].outerHTML, 'content correctly inserted')
     }
 
@@ -204,12 +203,12 @@ $(function () {
     assert.expect(4)
     var done = assert.async()
 
-    var $popover = $('<a href="#" title="@mdo" data-content="loves data attributes (づ｡◕‿‿◕｡)づ ︵ ┻━┻" >@mdo</a>')
+    var $popover = $('<a href="#" title="@uni" data-content="loves data attributes (づ｡◕‿‿◕｡)づ ︵ ┻━┻" >@uni</a>')
       .appendTo('#qunit-fixture')
       .unikornPopover()
       .one('shown.uni.popover', function () {
-        assert.notEqual($('.popover').length, 0, 'popover was inserted')
-        assert.strictEqual($('.popover .popover-header').text(), '@mdo', 'title correctly inserted')
+        assert.notStrictEqual($('.popover').length, 0, 'popover was inserted')
+        assert.strictEqual($('.popover .popover-header').text(), '@uni', 'title correctly inserted')
         assert.strictEqual($('.popover .popover-body').text(), 'loves data attributes (づ｡◕‿‿◕｡)づ ︵ ┻━┻', 'content correctly inserted')
         $popover.unikornPopover('hide')
       })
@@ -224,15 +223,15 @@ $(function () {
     assert.expect(4)
     var done = assert.async()
 
-    var $popover = $('<a href="#" title="@mdo" data-content="loves data attributes (づ｡◕‿‿◕｡)づ ︵ ┻━┻" >@mdo</a>')
+    var $popover = $('<a href="#" title="@uni" data-content="loves data attributes (づ｡◕‿‿◕｡)づ ︵ ┻━┻" >@uni</a>')
       .appendTo('#qunit-fixture')
       .unikornPopover({
         title: 'ignored title option',
         content: 'ignored content option'
       })
       .one('shown.uni.popover', function () {
-        assert.notEqual($('.popover').length, 0, 'popover was inserted')
-        assert.strictEqual($('.popover .popover-header').text(), '@mdo', 'title correctly inserted')
+        assert.notStrictEqual($('.popover').length, 0, 'popover was inserted')
+        assert.strictEqual($('.popover .popover-header').text(), '@uni', 'title correctly inserted')
         assert.strictEqual($('.popover .popover-body').text(), 'loves data attributes (づ｡◕‿‿◕｡)づ ︵ ┻━┻', 'content correctly inserted')
         $popover.unikornPopover('hide')
       })
@@ -255,7 +254,7 @@ $(function () {
         template: '<div class="popover foobar"><div class="arrow"></div><div class="inner"><h3 class="title"/><div class="content"><p/></div></div></div>'
       })
       .one('shown.uni.popover', function () {
-        assert.notEqual($('.popover').length, 0, 'popover was inserted')
+        assert.notStrictEqual($('.popover').length, 0, 'popover was inserted')
         assert.ok($('.popover').hasClass('foobar'), 'custom class is present')
         $popover.unikornPopover('hide')
       })
@@ -292,7 +291,7 @@ $(function () {
     assert.expect(2)
     var done = assert.async()
 
-    var $div = $('<div><a href="#" title="mdo" data-content="https://twitter.com/mdo">@mdo</a></div>')
+    var $div = $('<div><a href="#" title="uni" data-content="https://twitter.com/uni">@uni</a></div>')
       .appendTo('#qunit-fixture')
       .unikornPopover({
         selector: 'a',
@@ -432,7 +431,7 @@ $(function () {
     assert.expect(2)
     var done = assert.async()
 
-    var $popover = $('<a href="#">@mdo</a>')
+    var $popover = $('<a href="#">@uni</a>')
       .appendTo('#qunit-fixture')
       .unikornPopover({
         title: 5,
@@ -451,7 +450,7 @@ $(function () {
     assert.expect(2)
     var done = assert.async()
 
-    var $popover = $('<a href="#">@mdo</a>')
+    var $popover = $('<a href="#">@uni</a>')
       .appendTo('#qunit-fixture')
       .unikornPopover({
         title: 'Test popover',

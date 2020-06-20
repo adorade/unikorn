@@ -1,11 +1,14 @@
-$(function () {
-  'use strict'
-
+$(() => {
   const { module, test } = QUnit
 
   window.Tooltip = typeof unikorn !== 'undefined' ? unikorn.Tooltip : Tooltip
 
   module('tooltip plugin', () => {
+    test('should return `Tooltip` plugin version', (assert) => {
+      assert.expect(1)
+      assert.strictEqual(typeof Tooltip.VERSION, 'string')
+    })
+
     test('should be defined on jquery object', (assert) => {
       assert.expect(1)
       assert.ok($(document.body).tooltip, 'tooltip method is defined')
@@ -28,11 +31,6 @@ $(function () {
   test('should provide no conflict', (assert) => {
     assert.expect(1)
     assert.strictEqual(typeof $.fn.tooltip, 'undefined', 'tooltip was set back to undefined (org value)')
-  })
-
-  test('should return tooltip version', (assert) => {
-    assert.expect(1)
-    assert.strictEqual(typeof Tooltip.VERSION, 'string')
   })
 
   test('should throw explicit error on undefined method', (assert) => {
@@ -164,7 +162,7 @@ $(function () {
 
     $tooltip
       .one('shown.uni.tooltip', function () {
-        assert.notEqual($('.tooltip b').length, 0, 'b tag was inserted')
+        assert.notStrictEqual($('.tooltip b').length, 0, 'b tag was inserted')
         $tooltip.unikornTooltip('hide')
       })
       .one('hidden.uni.tooltip', function () {
@@ -187,7 +185,7 @@ $(function () {
 
     $tooltip
       .one('shown.uni.tooltip', function () {
-        assert.notEqual($('.tooltip').length, 0, 'tooltip inserted')
+        assert.notStrictEqual($('.tooltip').length, 0, 'tooltip inserted')
         assert.strictEqual($('.tooltip').text(), '<3 writing tests', 'title inserted')
         assert.ok(!$.contains($('.tooltip').get(0), title), 'title node copied, not moved')
         done()
@@ -209,7 +207,7 @@ $(function () {
 
     $tooltip
       .one('shown.uni.tooltip', function () {
-        assert.notEqual($('.tooltip').length, 0, 'tooltip inserted')
+        assert.notStrictEqual($('.tooltip').length, 0, 'tooltip inserted')
         assert.strictEqual($('.tooltip').text(), '<3 writing tests', 'title inserted')
         assert.ok($.contains($('.tooltip').get(0), title), 'title node moved, not copied')
         done()
@@ -270,7 +268,7 @@ $(function () {
     $('<div title="tooltip title"/>')
       .appendTo('#qunit-fixture')
       .on('inserted.uni.tooltip', function () {
-        assert.notEqual($('.tooltip').length, 0, 'tooltip was inserted')
+        assert.notStrictEqual($('.tooltip').length, 0, 'tooltip was inserted')
         assert.ok(true, 'inserted event fired')
         done()
       })
@@ -413,7 +411,7 @@ $(function () {
 
     $tooltip
       .one('shown.uni.tooltip', function () {
-        assert.notEqual($('body > .tooltip').length, 0, 'tooltip is direct descendant of body')
+        assert.notStrictEqual($('body > .tooltip').length, 0, 'tooltip is direct descendant of body')
         assert.strictEqual($('#qunit-fixture > .tooltip').length, 0, 'tooltip is not in parent')
         $tooltip.unikornTooltip('hide')
       })
@@ -427,6 +425,7 @@ $(function () {
   test('should place tooltips inside a specific container when container is an element', (assert) => {
     assert.expect(3)
     var done = assert.async()
+
     var $container = $('<div></div>').appendTo('#qunit-fixture')
     var $tooltip = $('<a href="#" rel="tooltip" title="Another tooltip"/>')
       .appendTo('#qunit-fixture')
@@ -450,6 +449,7 @@ $(function () {
   test('should place tooltips inside a specific container when container is a selector', (assert) => {
     assert.expect(3)
     var done = assert.async()
+
     var $container = $('<div id="container"></div>').appendTo('#qunit-fixture')
     var $tooltip = $('<a href="#" rel="tooltip" title="Another tooltip"/>')
       .appendTo('#qunit-fixture')
@@ -924,6 +924,7 @@ $(function () {
   test('should allow to close modal if the tooltip element is detached', (assert) => {
     assert.expect(1)
     var done = assert.async()
+
     var templateHTML = [
       '<div id="modal-test" class="modal">',
       '  <div class="modal-dialog" role="document">',
@@ -935,8 +936,8 @@ $(function () {
       '  </div>',
       '</div>'
     ].join('')
-
     $(templateHTML).appendTo('#qunit-fixture')
+
     var $tooltip = $('#tooltipTest')
     var $modal = $('#modal-test')
 

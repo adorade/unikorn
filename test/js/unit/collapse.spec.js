@@ -1,11 +1,14 @@
-$(function () {
-  'use strict'
-
+$(() => {
   const { module, test } = QUnit
 
   window.Collapse = typeof unikorn !== 'undefined' ? unikorn.Collapse : Collapse
 
   module('collapse plugin', () => {
+    test('should return `Collapse` plugin version', (assert) => {
+      assert.expect(1)
+      assert.strictEqual(typeof Collapse.VERSION, 'string')
+    })
+
     test('should be defined on jquery object', (assert) => {
       assert.expect(1)
       assert.ok($(document.body).collapse, 'collapse method is defined')
@@ -27,11 +30,6 @@ $(function () {
   test('should provide no conflict', (assert) => {
     assert.expect(1)
     assert.strictEqual(typeof $.fn.collapse, 'undefined', 'collapse was set back to undefined (org value)')
-  })
-
-  test('should return collapse version', (assert) => {
-    assert.expect(1)
-    assert.strictEqual(typeof Collapse.VERSION, 'string')
   })
 
   test('should throw explicit error on undefined method', (assert) => {
@@ -96,7 +94,7 @@ $(function () {
     assert.expect(2)
     var done = assert.async()
 
-    var html = [
+    var accordionHTML = [
       '<div class="panel-group" id="accordion1">',
       '<div class="panel">',
       '<div id="collapse1" class="collapse"/>',
@@ -109,7 +107,7 @@ $(function () {
       '</div>'
     ].join('')
 
-    $(html).appendTo('#qunit-fixture')
+    $(accordionHTML).appendTo('#qunit-fixture')
 
     var $el1 = $('#collapse1')
     var $el2 = $('#collapse2')
@@ -571,6 +569,7 @@ $(function () {
   test('should allow accordion to contain nested elements', (assert) => {
     assert.expect(4)
     var done = assert.async()
+
     var accordionHTML = '<div id="accordion">' +
         '<div class="row">' +
         '<div class="col-lg-6">' +
@@ -587,12 +586,13 @@ $(function () {
         '</div>' +
         '</div>' +
         '</div>'
-
     $(accordionHTML).appendTo('#qunit-fixture')
+
     var $trigger = $('#linkTrigger')
     var $triggerTwo = $('#linkTriggerTwo')
     var $collapseOne = $('#collapseOne')
     var $collapseTwo = $('#collapseTwo')
+
     $collapseOne.on('shown.uni.collapse', function () {
       assert.ok($collapseOne.hasClass('show'), '#collapseOne is shown')
       assert.ok(!$collapseTwo.hasClass('show'), '#collapseTwo is not shown')
@@ -609,6 +609,7 @@ $(function () {
   test('should allow accordion to target multiple elements', (assert) => {
     assert.expect(8)
     var done = assert.async()
+
     var accordionHTML = '<div id="accordion">' +
       '<a id="linkTriggerOne" data-toggle="collapse" data-target=".collapseOne" href="#" aria-expanded="false" aria-controls="collapseOne"></a>' +
       '<a id="linkTriggerTwo" data-toggle="collapse" data-target=".collapseTwo" href="#" aria-expanded="false" aria-controls="collapseTwo"></a>' +
@@ -617,8 +618,8 @@ $(function () {
       '<div id="collapseTwoOne" class="collapse collapseTwo" role="tabpanel" data-parent="#accordion"></div>' +
       '<div id="collapseTwoTwo" class="collapse collapseTwo" role="tabpanel" data-parent="#accordion"></div>' +
       '</div>'
-
     $(accordionHTML).appendTo('#qunit-fixture')
+
     var $trigger = $('#linkTriggerOne')
     var $triggerTwo = $('#linkTriggerTwo')
     var $collapseOneOne = $('#collapseOneOne')
@@ -684,6 +685,7 @@ $(function () {
   test('should collapse accordion children but not nested accordion children', (assert) => {
     assert.expect(9)
     var done = assert.async()
+
     var accordionHTML = '<div id="accordion">' +
         '<div class="item">' +
         '<a id="linkTrigger" data-toggle="collapse" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne"></a>' +
@@ -841,13 +843,13 @@ $(function () {
   test('should allow jquery object in parent config', (assert) => {
     assert.expect(1)
 
-    var html = '<div class="my-collapse">' +
+    var collapseHTML = '<div class="my-collapse">' +
         '<div class="item">' +
         '<a data-toggle="collapse" href="#">Toggle item</a>' +
         '<div class="collapse">Lorem ipsum</div>' +
         '</div>' +
         '</div>'
-    $(html).appendTo('#qunit-fixture')
+    $(collapseHTML).appendTo('#qunit-fixture')
 
     try {
       $('[data-toggle="collapse"]').unikornCollapse({
@@ -862,13 +864,13 @@ $(function () {
   test('should allow DOM object in parent config', (assert) => {
     assert.expect(1)
 
-    var html = '<div class="my-collapse">' +
+    var collapseHTML = '<div class="my-collapse">' +
         '<div class="item">' +
         '<a data-toggle="collapse" href="#">Toggle item</a>' +
         '<div class="collapse">Lorem ipsum</div>' +
         '</div>' +
         '</div>'
-    $(html).appendTo('#qunit-fixture')
+    $(collapseHTML).appendTo('#qunit-fixture')
 
     try {
       $('[data-toggle="collapse"]').unikornCollapse({
@@ -884,7 +886,7 @@ $(function () {
     assert.expect(2)
     var done = assert.async()
 
-    var html = '<div class="my-collapse">' +
+    var collapseHTML = '<div class="my-collapse">' +
         '<div class="item">' +
         '<a data-toggle="collapse" href="#">Toggle item 1</a>' +
         '<div id="collapse1" class="collapse show">Lorem ipsum 1</div>' +
@@ -894,7 +896,7 @@ $(function () {
         '<div id="collapse2" class="collapse">Lorem ipsum 2</div>' +
         '</div>' +
         '</div>'
-    $(html).appendTo('#qunit-fixture')
+    $(collapseHTML).appendTo('#qunit-fixture')
 
     var $parent = $('.my-collapse')
     var $collapse2 = $('#collapse2')

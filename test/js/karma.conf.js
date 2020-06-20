@@ -102,8 +102,7 @@ module.exports = (config) => {
         base: 'ChromeHeadless',
         // base: 'Chrome',
         flags: [
-          '--no-sandbox',
-          '--disable-features=VizDisplayCompositor'
+          '--no-sandbox'
         ],
         displayName: 'Chrome w/o sandbox'
       },

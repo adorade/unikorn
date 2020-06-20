@@ -1,12 +1,15 @@
-$(function () {
-  'use strict'
-
+$(() => {
   const { module, test } = QUnit
   const $modalScrollbarMeasure = $('<style> .modal-scrollbar-measure { position: absolute; top: -9999px; width: 50px; height: 50px; overflow: scroll; } </style>')
 
   window.Modal = typeof unikorn !== 'undefined' ? unikorn.Modal : Modal
 
   module('modal plugin', () => {
+    test('should return `Modal` plugin version', (assert) => {
+      assert.expect(1)
+      assert.strictEqual(typeof Modal.VERSION, 'string')
+    })
+
     test('should be defined on jquery object', (assert) => {
       assert.expect(1)
       assert.ok($(document.body).modal, 'modal method is defined')
@@ -39,18 +42,13 @@ $(function () {
       $modalScrollbarMeasure.remove()
       // Restore scrollbars
       $('html').removeAttr('style')
-      // $('body').removeAttr('class style')
+      $('body').removeAttr('class style')
     }
   })
 
   test('should provide no conflict', (assert) => {
     assert.expect(1)
-    assert.strictEqual(typeof $.fn.modal, 'undefined', 'modal was set back to undefined (orig value)')
-  })
-
-  test('should return modal version', (assert) => {
-    assert.expect(1)
-    assert.strictEqual(typeof Modal.VERSION, 'string')
+    assert.strictEqual(typeof $.fn.modal, 'undefined', 'modal was set back to undefined (org value)')
   })
 
   test('should throw explicit error on undefined method', (assert) => {
@@ -87,7 +85,7 @@ $(function () {
 
     $('<div id="modal-test"/>')
       .on('shown.uni.modal', function () {
-        assert.notEqual($('#modal-test').length, 0, 'modal inserted into dom')
+        assert.notStrictEqual($('#modal-test').length, 0, 'modal inserted into dom')
         done()
       })
       .unikornModal('show')
@@ -128,7 +126,7 @@ $(function () {
     $('<div id="modal-test"/>')
       .on('shown.uni.modal', function () {
         assert.ok($('#modal-test').is(':visible'), 'modal visible')
-        assert.notEqual($('#modal-test').length, 0, 'modal inserted into dom')
+        assert.notStrictEqual($('#modal-test').length, 0, 'modal inserted into dom')
         $(this).unikornModal('hide')
       })
       .on('hidden.uni.modal', function () {
@@ -145,7 +143,7 @@ $(function () {
     $('<div id="modal-test"/>')
       .on('shown.uni.modal', function () {
         assert.ok($('#modal-test').is(':visible'), 'modal visible')
-        assert.notEqual($('#modal-test').length, 0, 'modal inserted into dom')
+        assert.notStrictEqual($('#modal-test').length, 0, 'modal inserted into dom')
         $(this).unikornModal('toggle')
       })
       .on('hidden.uni.modal', function () {
@@ -162,7 +160,7 @@ $(function () {
     $('<div id="modal-test"><span class="close" data-dismiss="modal"/></div>')
       .on('shown.uni.modal', function () {
         assert.ok($('#modal-test').is(':visible'), 'modal visible')
-        assert.notEqual($('#modal-test').length, 0, 'modal inserted into dom')
+        assert.notStrictEqual($('#modal-test').length, 0, 'modal inserted into dom')
         $(this).find('.close').trigger('click')
       })
       .on('hidden.uni.modal', function () {
@@ -194,7 +192,7 @@ $(function () {
 
     $('<div id="modal-test"><div class="contents"/></div>')
       .on('shown.uni.modal', function () {
-        assert.notEqual($('#modal-test').length, 0, 'modal inserted into dom')
+        assert.notStrictEqual($('#modal-test').length, 0, 'modal inserted into dom')
         $('.contents').trigger('click')
         assert.ok($('#modal-test').is(':visible'), 'modal visible')
         $('#modal-test').trigger('click')
@@ -683,12 +681,14 @@ $(function () {
     var done = assert.async()
     var count = 0
 
-    $('<div id="modal-test"/>').on('shown.uni.modal', function () {
-      count++
-    }).on('hidden.uni.modal', function () {
-      assert.strictEqual(count, 1, 'show() runs only once')
-      done()
-    })
+    $('<div id="modal-test"/>')
+      .on('shown.uni.modal', function () {
+        count++
+      })
+      .on('hidden.uni.modal', function () {
+        assert.strictEqual(count, 1, 'show() runs only once')
+        done()
+      })
       .unikornModal('show')
       .unikornModal('show')
       .unikornModal('hide')
@@ -697,6 +697,7 @@ $(function () {
   test('transition duration should be the modal-dialog duration before triggering shown event', (assert) => {
     assert.expect(1)
     var done = assert.async()
+
     var style = [
       '<style>',
       '  .modal.fade .modal-dialog {',
@@ -708,19 +709,19 @@ $(function () {
       '  }',
       '</style>'
     ].join('')
-
     var $style = $(style).appendTo('head')
+
     var modalHTML = [
       '<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">',
-      '<div class="modal-dialog" role="document">',
-      '<div class="modal-content">',
-      '<div class="modal-body">...</div>',
-      '</div>',
-      '</div>',
+      '  <div class="modal-dialog" role="document">',
+      '    <div class="modal-content">',
+      '      <div class="modal-body">...</div>',
+      '    </div>',
+      '  </div>',
       '</div>'
     ].join('')
-
     var $modal = $(modalHTML).appendTo('#qunit-fixture')
+
     var expectedTransitionDuration = 300
     var spy = sinon.spy(Util, 'getTransitionDurationFromElement')
 
@@ -765,6 +766,45 @@ $(function () {
       assert.ok(modalDataApiEvent.length === 1, '`Event.CLICK_DATA_API` on `document` was not removed')
 
       $.fn.off.restore()
+      done()
+    }).unikornModal('show')
+  })
+
+  test('should not adjust the inline body padding when it does not overflow, even on a scaled display', (assert) => {
+    assert.expect(1)
+    var done = assert.async()
+
+    var $modal = $([
+      '<div id="modal-test">',
+      '  <div class="modal-dialog">',
+      '    <div class="modal-content">',
+      '      <div class="modal-body" />',
+      '    </div>',
+      '  </div>',
+      '</div>'
+    ].join('')).appendTo('#qunit-fixture')
+
+    var originalPadding = window.getComputedStyle(document.body).paddingRight
+
+    // Remove body margins as would be done by Bootstrap css
+    document.body.style.margin = '0'
+
+    // Hide scrollbars to prevent the body overflowing
+    document.body.style.overflow = 'hidden'
+
+    // Simulate a discrepancy between exact, i.e. floating point body width, and rounded body width
+    // as it can occur when zooming or scaling the display to something else than 100%
+    document.documentElement.style.paddingRight = '.48px'
+
+    $modal.on('shown.uni.modal', function () {
+      var currentPadding = window.getComputedStyle(document.body).paddingRight
+
+      assert.strictEqual(currentPadding, originalPadding, 'body padding should not be adjusted')
+
+      // Restore overridden css
+      document.body.style.removeProperty('margin')
+      document.body.style.removeProperty('overflow')
+      document.documentElement.style.paddingRight = '16px'
       done()
     }).unikornModal('show')
   })
@@ -850,7 +890,6 @@ $(function () {
       '</div>'
     ].join('')).appendTo('#qunit-fixture')
 
-
     $modal.on('shown.uni.modal', function () {
       assert.strictEqual($modal.scrollTop(), 0)
       done()
@@ -861,7 +900,12 @@ $(function () {
   test('should not close modal when clicking outside of modal-content if backdrop = static', (assert) => {
     assert.expect(1)
     var done = assert.async()
-    var $modal = $('<div class="modal" data-backdrop="static"><div class="modal-dialog" /></div>').appendTo('#qunit-fixture')
+
+    var $modal = $([
+      '<div class="modal" data-backdrop="static">',
+      '  <div class="modal-dialog" />',
+      '</div>'
+    ].join('')).appendTo('#qunit-fixture')
 
     $modal.on('shown.uni.modal', function () {
       $modal.trigger('click')
@@ -877,6 +921,65 @@ $(function () {
       })
       .unikornModal({
         backdrop: 'static'
+      })
+  })
+
+  test('should close modal when escape key is pressed with keyboard = true and backdrop is static', (assert) => {
+    assert.expect(1)
+    var done = assert.async()
+
+    var $modal = $([
+      '<div class="modal" data-backdrop="static" data-keyboard="true">',
+      '  <div class="modal-dialog" />',
+      '</div>'
+    ].join('')).appendTo('#qunit-fixture')
+
+    $modal.on('shown.uni.modal', function () {
+      $modal.trigger($.Event('keydown', {
+        which: 27
+      }))
+
+      setTimeout(function () {
+        var modal = $modal.data('uni.modal')
+
+        assert.strictEqual(modal._isShown, false)
+        done()
+      }, 10)
+    })
+      .unikornModal({
+        backdrop: 'static',
+        keyboard: true
+      })
+  })
+
+  test('should not close modal when escape key is pressed with keyboard = false and backdrop = static', (assert) => {
+    assert.expect(1)
+    var done = assert.async()
+
+    var $modal = $([
+      '<div class="modal" data-backdrop="static" data-keyboard="false">',
+      '  <div class="modal-dialog" />',
+      '</div>'
+    ].join('')).appendTo('#qunit-fixture')
+
+    $modal.on('shown.uni.modal', function () {
+      $modal.trigger($.Event('keydown', {
+        which: 27
+      }))
+
+      setTimeout(function () {
+        var modal = $modal.data('uni.modal')
+
+        assert.strictEqual(modal._isShown, true)
+        done()
+      }, 10)
+    })
+      .on('hidden.uni.modal', function () {
+        assert.strictEqual(false, true, 'should not hide the modal')
+      })
+      .unikornModal({
+        backdrop: 'static',
+        keyboard: false
       })
   })
 })

@@ -1,6 +1,4 @@
-$(function () {
-  'use strict'
-
+$(() => {
   const { module, test } = QUnit
 
   window.Util = typeof unikorn !== 'undefined' ? unikorn.Util : Util
@@ -22,7 +20,7 @@ $(function () {
     assert.strictEqual(Util.getSelectorFromElement($el2[0]), null)
   })
 
-  test('Util.getSelectorFromElement should throw error when there is a bad selector', (assert) => {
+  test('Util.getSelectorFromElement should return null when there is a bad selector', (assert) => {
     assert.expect(2)
 
     var $el = $('<div data-target="#1"></div>').appendTo($('#qunit-fixture'))
@@ -50,6 +48,26 @@ $(function () {
     } catch (err) {
       assert.strictEqual(err.message, 'COLLAPSE: Option "parent" provided type "number" but expected type "(string|element)".')
     }
+  })
+
+  test('Util.typeCheckConfig should return null/undefined stringified when passed', (assert) => {
+    assert.expect(1)
+
+    var namePlugin = 'collapse'
+    var defaultType = {
+      toggle: '(null|undefined)'
+    }
+    var config = {
+      toggle: null
+    }
+
+    Util.typeCheckConfig(namePlugin, config, defaultType)
+
+    config.toggle = undefined
+
+    Util.typeCheckConfig(namePlugin, config, defaultType)
+
+    assert.strictEqual(true, true)
   })
 
   test('Util.isElement should check if we passed an element or not', (assert) => {
@@ -80,6 +98,7 @@ $(function () {
 
   test('Util.getTransitionDurationFromElement should return the addition of transition-delay and transition-duration', (assert) => {
     assert.expect(2)
+
     var $fixture = $('#qunit-fixture')
     var $div = $('<div style="transition: all 0s 150ms ease-out;"></div>').appendTo($fixture)
     var $div2 = $('<div style="transition: all .25s 30ms ease-out;"></div>').appendTo($fixture)
@@ -140,14 +159,15 @@ $(function () {
     }
 
     assert.expect(2)
+
     var $div = $('<div id="test"></div>').appendTo($('#qunit-fixture'))
     var shadowRoot = $div[0].attachShadow({
       mode: 'open'
     })
 
-    assert.equal(shadowRoot, Util.findShadowRoot(shadowRoot))
+    assert.strictEqual(shadowRoot, Util.findShadowRoot(shadowRoot))
     shadowRoot.innerHTML = '<button>Shadow Button</button>'
-    assert.equal(shadowRoot, Util.findShadowRoot(shadowRoot.firstChild))
+    assert.strictEqual(shadowRoot, Util.findShadowRoot(shadowRoot.firstChild))
   })
 
   test('Util.findShadowRoot should return null when attachShadow is not available', (assert) => {
@@ -155,7 +175,7 @@ $(function () {
 
     var $div = $('<div id="test"></div>').appendTo($('#qunit-fixture'))
     if (!document.documentElement.attachShadow) {
-      assert.equal(null, Util.findShadowRoot($div[0]))
+      assert.strictEqual(null, Util.findShadowRoot($div[0]))
     } else {
       var sandbox = sinon.createSandbox()
 
@@ -164,7 +184,7 @@ $(function () {
         return $div
       })
 
-      assert.equal(null, Util.findShadowRoot($div[0]))
+      assert.strictEqual(null, Util.findShadowRoot($div[0]))
       sandbox.restore()
     }
   })
