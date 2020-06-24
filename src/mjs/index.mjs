@@ -1,5 +1,5 @@
 /**
- * UniKorn (v1.0.0): index.mjs
+ * UniKorn (v1.1.0): index.mjs
  * Licensed under MIT (https://github.com/adorade/unikorn/blob/master/LICENSE)
  * -------------------------------------------------------------------------- */
 

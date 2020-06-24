@@ -1,5 +1,5 @@
 /**
- * UniKorn (v1.0.0): carousel.mjs
+ * UniKorn (v1.1.0): carousel.mjs
  * Licensed under MIT (https://github.com/adorade/unikorn/blob/master/LICENSE)
  * -------------------------------------------------------------------------- */
 

@@ -1,3 +1,8 @@
+/**
+ * UniKorn (v1.1.0): modal.spec.js
+ * Licensed under MIT (https://github.com/adorade/unikorn/blob/master/LICENSE)
+ * -------------------------------------------------------------------------- */
+
 $(() => {
   const { module, test } = QUnit
   const $modalScrollbarMeasure = $('<style> .modal-scrollbar-measure { position: absolute; top: -9999px; width: 50px; height: 50px; overflow: scroll; } </style>')
