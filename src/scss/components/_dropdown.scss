@@ -142,6 +142,7 @@
   color: $dropdown-link-color;
   font-weight: $font-weight-normal;
   text-align: inherit; // For `<button>`s
+  text-decoration: if($link-decoration == none, null, none);
   white-space: nowrap; // prevent links from randomly breaking onto new lines
   clear: both;
 
@@ -193,7 +194,7 @@
 // ----------------------------
 .dropdown-header {
   display: block;
-  padding: $dropdown-padding-y $dropdown-item-padding-x;
+  padding: $dropdown-header-padding;
   margin-bottom: 0; // for use with heading elements
   color: $dropdown-header-color;
   font-size: $font-size-sm;

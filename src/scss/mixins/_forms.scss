@@ -19,10 +19,10 @@
     color: $input-focus-color;
     outline: 0;
 
-    // Avoid using mixin so we can pass custom focus shadow properly
     @if $enable-shadows {
-      box-shadow: $input-box-shadow, $input-focus-box-shadow;
+      @include box-shadow($input-box-shadow, $input-focus-box-shadow);
     } @else {
+      // Avoid using mixin so we can pass custom focus shadow properly
       box-shadow: $input-focus-box-shadow;
     }
   }
@@ -82,8 +82,8 @@
 
       @if $enable-validation-icons {
         padding-right: $input-height-inner;
-        background-image: $icon;
-        background-position: center right $input-height-inner-quarter;
+        background-image: escape-svg($icon);
+        background-position: right $input-height-inner-quarter center;
         background-size: $input-height-inner-half $input-height-inner-half;
         background-repeat: no-repeat;
       }
@@ -111,7 +111,7 @@
 
       @if $enable-validation-icons {
         padding-right: $custom-select-feedback-icon-padding-right;
-        background: $custom-select-background, $icon $custom-select-bg no-repeat $custom-select-feedback-icon-position / $custom-select-feedback-icon-size;
+        background: $custom-select-background, escape-svg($icon) $custom-select-bg no-repeat $custom-select-feedback-icon-position / $custom-select-feedback-icon-size;
       }
 
       &:focus {
