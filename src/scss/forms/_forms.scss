@@ -11,8 +11,6 @@
   height: $input-height;
   padding: $input-padding-y $input-padding-x;
   border: $input-border-width solid $input-border-color;
-
-  // Reset unusual Firefox-on-Android default style; see https://github.com/necolas/normalize.css/issues/214.
   background-clip: padding-box;
   background-color: $input-bg;
   color: $input-color;
@@ -61,6 +59,15 @@
 
     // iOS fix for unreadable disabled content; see https://github.com/twbs/bootstrap/issues/11655.
     opacity: 1;
+  }
+}
+
+input[type="date"],
+input[type="time"],
+input[type="datetime-local"],
+input[type="month"] {
+  &.form-control {
+    appearance: none; // Fix appearance for date inputs in Safari
   }
 }
 
@@ -216,7 +223,8 @@ textarea.form-control {
   margin-top: $form-check-input-margin-y;
   margin-left: -$form-check-input-gutter;
 
-  &[disabled] ~ .form-check-label {
+  &[disabled] ~ .form-check-label,
+  &:disabled ~ .form-check-label {
     color: $text-muted;
   }
 }

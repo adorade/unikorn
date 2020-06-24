@@ -19,6 +19,7 @@
   background-color: $pagination-bg;
   color: $pagination-color;
   line-height: $pagination-line-height;
+  text-decoration: if($link-decoration == none, null, none);
 
   &:hover {
     z-index: 2;

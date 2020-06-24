@@ -118,7 +118,7 @@
 
   .custom-control-input:checked ~ .custom-control-label {
     &::after {
-      background-image: $custom-checkbox-indicator-icon-checked;
+      background-image: escape-svg($custom-checkbox-indicator-icon-checked);
     }
   }
 
@@ -129,7 +129,7 @@
       @include box-shadow($custom-checkbox-indicator-indeterminate-box-shadow);
     }
     &::after {
-      background-image: $custom-checkbox-indicator-icon-indeterminate;
+      background-image: escape-svg($custom-checkbox-indicator-icon-indeterminate);
     }
   }
 
@@ -154,7 +154,7 @@
 
   .custom-control-input:checked ~ .custom-control-label {
     &::after {
-      background-image: $custom-radio-indicator-icon-checked;
+      background-image: escape-svg($custom-radio-indicator-icon-checked);
     }
   }
 
@@ -232,8 +232,9 @@
     border-color: $custom-select-focus-border-color;
     outline: 0;
     @if $enable-shadows {
-      box-shadow: $custom-select-box-shadow, $custom-select-focus-box-shadow;
+      @include box-shadow($custom-select-box-shadow, $custom-select-focus-box-shadow);
     } @else {
+      // Avoid using mixin so we can pass custom focus shadow properly
       box-shadow: $custom-select-focus-box-shadow;
     }
 

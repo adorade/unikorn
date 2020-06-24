@@ -17,6 +17,7 @@
   overflow: hidden; // force rounded corners by cropping it
   background-color: $progress-bg;
   font-size: $progress-font-size;
+  line-height: 0;
   @include border-radius($progress-border-radius);
   @include box-shadow($progress-box-shadow);
 }
@@ -25,6 +26,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+  overflow: hidden;
   background-color: $progress-bar-bg;
   color: $progress-bar-color;
   text-align: center;
