@@ -175,6 +175,7 @@ class GulpRollup extends Transform {
     };
 
     // Custom rollup can be provided inside the config object
+    // eslint-disable-next-line no-import-assign
     rollup = inputOptions.rollup || rollup;
     delete inputOptions.rollup;
 

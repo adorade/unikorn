@@ -53,6 +53,14 @@ module.exports = {
       "rules": {
         "comma-dangle": "off"
       }
+    },
+    {
+      "files": [
+        "**/.eslintrc.js"
+      ],
+      "rules": {
+        quotes: ["error", "double"]
+      }
     }
   ]
 }
