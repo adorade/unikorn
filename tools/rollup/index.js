@@ -1,5 +1,5 @@
 /*!
- * UniKorn (v1.0.0): tools/rollup/index.js
+ * UniKorn (v1.1.0): tools/rollup/index.js
  * Rollup gulp plugin
  * Copyright (c) 2020 Adorade (https://adorade.ro)
  * Licensed under MIT (https://github.com/adorade/unikorn/blob/master/LICENSE)
@@ -175,6 +175,7 @@ class GulpRollup extends Transform {
     };
 
     // Custom rollup can be provided inside the config object
+    // eslint-disable-next-line no-import-assign
     rollup = inputOptions.rollup || rollup;
     delete inputOptions.rollup;
 

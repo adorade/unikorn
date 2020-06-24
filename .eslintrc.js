@@ -1,5 +1,5 @@
 /*!
- * UniKorn (v1.0.0): .eslintrc.js
+ * UniKorn (v1.1.0): .eslintrc.js
  * Copyright (c) 2020 Adorade (https://adorade.ro)
  * Licensed under MIT (https://github.com/adorade/unikorn/blob/master/LICENSE)
  * ========================================================================== */
@@ -52,6 +52,14 @@ module.exports = {
       ],
       "rules": {
         "comma-dangle": "off"
+      }
+    },
+    {
+      "files": [
+        "**/.eslintrc.js"
+      ],
+      "rules": {
+        quotes: ["error", "double"]
       }
     }
   ]

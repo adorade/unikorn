@@ -1,3 +1,8 @@
+/**
+ * UniKorn (v1.1.0): collapse.spec.js
+ * Licensed under MIT (https://github.com/adorade/unikorn/blob/master/LICENSE)
+ * -------------------------------------------------------------------------- */
+
 $(() => {
   const { module, test } = QUnit
 

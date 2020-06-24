@@ -1,5 +1,5 @@
 /**
- * UniKorn (v1.0.0): popover.mjs
+ * UniKorn (v1.1.0): popover.mjs
  * Licensed under MIT (https://github.com/adorade/unikorn/blob/master/LICENSE)
  * -------------------------------------------------------------------------- */
 
