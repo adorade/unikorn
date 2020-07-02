@@ -1,5 +1,5 @@
 /**
- * UniKorn (v1.1.0): alert.mjs
+ * UniKorn (v1.1.1): alert.mjs
  * Licensed under MIT (https://github.com/adorade/unikorn/blob/master/LICENSE)
  * -------------------------------------------------------------------------- */
 

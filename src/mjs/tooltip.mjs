@@ -1,5 +1,5 @@
 /**
- * UniKorn (v1.1.0): tooltip.mjs
+ * UniKorn (v1.1.1): tooltip.mjs
  * Licensed under MIT (https://github.com/adorade/unikorn/blob/master/LICENSE)
  * -------------------------------------------------------------------------- */
 

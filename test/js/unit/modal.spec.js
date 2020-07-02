@@ -1,5 +1,5 @@
 /**
- * UniKorn (v1.1.0): modal.spec.js
+ * UniKorn (v1.1.1): modal.spec.js
  * Licensed under MIT (https://github.com/adorade/unikorn/blob/master/LICENSE)
  * -------------------------------------------------------------------------- */
 
