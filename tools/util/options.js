@@ -11,7 +11,7 @@ export const opts = {
     failAfterError: true,
     reportOutputDir: paths.logs.gulp,
     reporters: [
-      { formatter: 'string', save: 'styles.txt' }
+      { formatter: 'string', save: 'styles.txt', console: true }
     ],
     syntax: 'scss'
   },

@@ -17,7 +17,6 @@ export const dirs = {
 export const paths = {
   styles: {
     src: `${dirs.src}/scss/**/*.scss`,
-    comp: `${dirs.src}/scss/unikorn.scss`,
     dest: `${dirs.dest}/css/`,
     filter: `${dirs.dest}/css/*.css`
   },
