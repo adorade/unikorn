@@ -1,5 +1,5 @@
 /*!
- * UniKorn (v1.1.0): tools/util/options.js
+ * UniKorn (v1.1.1): tools/util/options.js
  * Copyright (c) 2020 Adorade (https://adorade.ro)
  * Licensed under MIT (https://github.com/adorade/unikorn/blob/master/LICENSE)
  * ========================================================================== */

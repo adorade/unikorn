@@ -1,5 +1,5 @@
 /**
- * UniKorn (v1.1.0): button.spec.js
+ * UniKorn (v1.1.1): button.spec.js
  * Licensed under MIT (https://github.com/adorade/unikorn/blob/master/LICENSE)
  * -------------------------------------------------------------------------- */
 

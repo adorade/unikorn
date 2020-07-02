@@ -1,5 +1,5 @@
 /**
- * UniKorn (v1.1.0): dropdown.spec.js
+ * UniKorn (v1.1.1): dropdown.spec.js
  * Licensed under MIT (https://github.com/adorade/unikorn/blob/master/LICENSE)
  * -------------------------------------------------------------------------- */
 

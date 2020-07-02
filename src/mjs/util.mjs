@@ -1,5 +1,5 @@
 /**
- * UniKorn (v1.1.0): util.mjs
+ * UniKorn (v1.1.1): util.mjs
  * Licensed under MIT (https://github.com/adorade/unikorn/blob/master/LICENSE)
  * -------------------------------------------------------------------------- */
 
@@ -67,7 +67,7 @@ const Util = (($) => {
   const Util = {
 
     TRANSITION_END: 'uniTransitionEnd',
-    VERSION: '1.1.0',
+    VERSION: '1.1.1',
 
     getUID(prefix) {
       do {
@@ -182,7 +182,7 @@ const Util = (($) => {
           const version = $.fn.jquery.split(' ')[0].split('.')
 
           if (version[0] < 3 || version[0] >= 4) {
-            throw new Error("UniKorn's JavaScript requires at least jQuery v3.0.0 but less than v1.1.0")
+            throw new Error("UniKorn's JavaScript requires at least jQuery v3.0.0 but less than v4.0.0")
           }
         })($)
       }
