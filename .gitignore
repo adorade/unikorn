@@ -15,6 +15,10 @@ coverage
 # Ignore docs files
 # docs
 
+# Ignore Yarn Configuration
+.yarn
+.yarnrc.yml
+
 # Numerous always-ignore extensions
 *.diff
 *.err
