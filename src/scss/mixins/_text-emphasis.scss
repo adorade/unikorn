@@ -1,10 +1,10 @@
 //
 // Mixins - Text emphasis
 // =============================================================================
-// stylelint-disable declaration-no-important
-// Typography
 
-// Text emphasis
+// stylelint-disable declaration-no-important
+
+// Typography - Text emphasis
 @mixin text-emphasis-variant($parent, $color) {
   #{$parent} {
     color: $color !important;
