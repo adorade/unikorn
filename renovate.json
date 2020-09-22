@@ -2,26 +2,37 @@
   "extends": [
     "config:base",
     ":maintainLockFilesWeekly",
-    "schedule:nonOfficeHours"
+    "schedule:nonOfficeHours",
+    ":assignAndReview(adorade)"
   ],
   "timezone": "Europe/Bucharest",
+  "labels": ["deps"],
   "packageRules": [
     {
       "packagePatterns": ["^@babel/"],
-      "groupName": "babel packages"
+      "groupName": "babel packages",
+      "labels": ["build"]
     },
     {
       "packagePatterns": ["^eslint|eslint$"],
-      "groupName": "eslint packages"
+      "groupName": "eslint packages",
+      "labels": ["lint"]
     },
     {
       "packagePatterns": ["^rollup|^@rollup/"],
       "groupName": "rollup packages",
-      "schedule": ["after 5pm on friday"]
+      "schedule": ["after 5pm on friday"],
+      "labels": ["build"]
     },
     {
       "packagePatterns": ["^stylelint|stylelint$"],
-      "groupName": "stylelint packages"
+      "groupName": "stylelint packages",
+      "labels": ["lint"]
+    },
+    {
+      "packagePatterns": ["^gulp"],
+      "groupName": "gulp packages",
+      "labels": ["gulp"]
     }
   ]
 }
