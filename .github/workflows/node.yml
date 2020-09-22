@@ -5,9 +5,9 @@ on:
   push:
     branches: [master, develop]
   pull_request:
-    branches: [master]
+    branches: master
   schedule:
-  - cron: 0 2 * * 1-5
+  - cron: 0 11 * * SAT
 
 jobs:
   build:
@@ -15,36 +15,33 @@ jobs:
 
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest, macOS-latest]
-        node_version: [10.x, 12.x]
+        os: [ubuntu-20.04]
+        node_version: [12.x]
 
     runs-on: ${{ matrix.os }}
 
     steps:
     # checkout the repo
     - name: Checkout the repo
-      uses: actions/checkout@v1
+      uses: actions/checkout@v2
 
     # use node.js matrix
     - name: Use Node.js ${{ matrix.node_version }}
-      uses: actions/setup-node@v1
+      uses: actions/setup-node@v2-beta
       with:
         node-version: ${{ matrix.node_version }}
 
     # install dependencies
     - name: Clean install dependencies
       run: yarn install
-      shell: bash
 
     # verify build tools
     - name: Verify build tools
       run: yarn run verify
-      shell: bash
 
     # build proccess
     - name: Build proccess
       run: yarn run build:gulp
-      shell: bash
 
     # deploy web app using publish profile credentials
     # coming soon
