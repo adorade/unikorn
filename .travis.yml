@@ -9,40 +9,39 @@
 # http://docs.travis-ci.com/user/customizing-the-build/
 
 language: node_js
-
 node_js:
   - "lts/*"
 
-os:
-  - linux
-  - osx
+os: linux
+dist: focal
 
-dist: bionic
-
-addons:
-  chrome: stable
+stages:
+  - verify
+  - name: build
+    if: branch != tests
+  - name: test
+    if: branch = tests
 
 git:
-  depth: 10
+  depth: 5
 
 cache:
   yarn: true
   directories:
     - node_modules
 
-before_install:
-  - npm install -g yarn
-
 before_script:
   - yarn global add gulp-cli
 
+script: echo "Running tests against $(node -v) ..."
+
 jobs:
   include:
-    - stage: "Verify"
+    - stage: verify
       script: yarn run verify
-    - stage: "Build"
-      if: branch != tests
+    - stage: build
       script: yarn run build
-    - stage: "Test"
-      if: branch = tests
+    - stage: test
+      addons:
+        chrome: stable
       script: yarn run test
