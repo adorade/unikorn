@@ -23,7 +23,8 @@ export const $ = require('gulp-load-plugins')({
     'fancy-log': 'log',
     'gulp-stylelint': 'gStylelint',
     'gulp-eslint': 'gEslint',
-    'gulp-pug-linter': 'pugLinter'
+    'gulp-pug-linter': 'pugLinter',
+    'gulp-terser-js': 'gTerser'
   }
 });
 

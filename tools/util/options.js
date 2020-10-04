@@ -34,6 +34,9 @@ export const opts = {
     // see .babelrc.js
   },
   terser: {
+    compress: {
+      evaluate: false
+    },
     output: {
       comments: false
     },
