@@ -76,7 +76,11 @@ export function minifyJS () {
   $.log(`${green('-> Minify JS...')}`);
 
   return src(paths.scripts.filter)
-    .pipe($.terser(opts.terser))
+    .pipe($.gTerser(opts.terser)
+      .on('error', () => {
+        this.emit('end');
+      })
+    )
     .pipe($.rename({ extname: '.min.js' }))
     .pipe($.header(banner()))
     .pipe($.size(opts.size))
