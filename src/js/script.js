@@ -11,9 +11,9 @@
 //- // $().jquery, $.fn.jquery, jquery().jquery, jquery.fn.jquery
 //- console.log('You are running jQuery version: ' + $.fn.jquery);
 
-$(document).ready(function() {
+$(function() {
   // Window Scroll
-  $(window).scroll(function() {
+  $(window).on('scroll', function() {
     var navbar = $('.navbar'),
         totop = $('.back-to-top'),
         windowPos = $(window).scrollTop(),
@@ -29,7 +29,10 @@ $(document).ready(function() {
 
     try {
       var scrollProcent = 0;
-      scrollProcent = 100 - Math.round((($(document).height() - $(window).height() - $(window).scrollTop()) * 100) / ($(document).height() - $(window).height()));
+      scrollProcent = 100 - Math.round(
+        (($(document).height() - $(window).height() - $(window).scrollTop()) * 100) /
+        ($(document).height() - $(window).height())
+      );
       $('.back-to-top-bg-change').height(scrollProcent + '%');
     } catch (e) {
       console.log(e);
@@ -43,7 +46,7 @@ $(document).ready(function() {
     $('.uni-search').toggleClass('open'),
     $('a[href="#toggle-search"]').toggleClass('active'),
     $('.uni-search').hasClass('open') && setTimeout(function() {
-      $('.uni-search .form-control').focus()
+      $('.uni-search .form-control').trigger('focus')
     }, 100);
   });
 
