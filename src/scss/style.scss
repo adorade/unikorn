@@ -85,6 +85,10 @@
     padding: 0;
   }
 
+  form {
+    width: 100%;
+  }
+
   .form-control {
     height: auto;
     border-width: 0;
@@ -223,7 +227,7 @@
 .scroll-down {
   position: absolute;
   right: 0;
-  bottom: 40px;
+  bottom: 16px;
   left: 0;
   display: inline-block;
   width: 120px;
@@ -242,7 +246,7 @@
   }
 
   .scroll-down-text {
-    display: block;
+    display: none;
     color: rgba(255, 255, 255, .7);
     text-shadow: 0 0 5px #000;
     text-transform: uppercase;
@@ -277,10 +281,10 @@
     animation-iteration-count: infinite;
   }
 
-  @media (max-width: 574px) {
-    bottom: 16px;
-    & .scroller-text {
-      display: none;
+  @media (min-width: 576px) {
+    bottom: 40px;
+    & .scroll-down-text {
+      display: block;
     }
   }
 }
