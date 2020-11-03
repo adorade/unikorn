@@ -1,149 +1,29 @@
 //- grids.pug
-html(lang="en")
-  head
-    meta(charset="UTF-8")
-    meta(name="viewport" content="width=device-width, initial-scale=1.0")
-    title Test Grids
-    block styles
-      include _partials/styles
+extends _layout/grid
 
-  body
-    .grids#grids
-      .container
-        .row
-          .col-12
-            .col-grid 12 - 12
+prepend setting
+  - title = 'Grid System';
 
-        .row
-          .col-6
-            .col-grid 6 - 12
-          .col-6
-            .col-grid 6 - 12
+block content
+  h1.my-3.text-center= title
 
-        .row
-          .col-4
-            .col-grid 4 - 12
-          .col-4
-            .col-grid 4 - 12
-          .col-4
-            .col-grid 4 - 12
+  .default#default
+    .container
+      h2.my-3 Default
+      include _includes/misc/col-grids
 
-        .row
-          .col-3
-            .col-grid 3 - 12
-          .col-3
-            .col-grid 3 - 12
-          .col-3
-            .col-grid 3 - 12
-          .col-3
-            .col-grid 3 - 12
+  hr
 
-        .row
-          .col-2
-            .col-grid 2 - 12
-          .col-2
-            .col-grid 2 - 12
-          .col-2
-            .col-grid 2 - 12
-          .col-2
-            .col-grid 2 - 12
-          .col-2
-            .col-grid 2 - 12
-          .col-2
-            .col-grid 2 - 12
+  .grids#grids
+    .container
+      h2.my-3 New Grids
+      include _includes/misc/col-grids
 
-        .row
-          .col-1
-            .col-grid.px-2.px-lg-3 .
-          .col-1
-            .col-grid.px-2.px-lg-3 .
-          .col-1
-            .col-grid.px-2.px-lg-3 .
-          .col-1
-            .col-grid.px-2.px-lg-3 .
-          .col-1
-            .col-grid.px-2.px-lg-3 .
-          .col-1
-            .col-grid.px-2.px-lg-3 .
-          .col-1
-            .col-grid.px-2.px-lg-3 .
-          .col-1
-            .col-grid.px-2.px-lg-3 .
-          .col-1
-            .col-grid.px-2.px-lg-3 .
-          .col-1
-            .col-grid.px-2.px-lg-3 .
-          .col-1
-            .col-grid.px-2.px-lg-3 .
-          .col-1
-            .col-grid.px-2.px-lg-3 .
-
-        .row
-          .col-1
-            .col-grid.px-2.px-lg-3 .
-          .col-11
-            .col-grid 11 - 12
-
-        .row
-          .col-2
-            .col-grid 2 - 12
-          .col-10
-            .col-grid 10 - 12
-
-        .row
-          .col-3
-            .col-grid 3 - 12
-          .col-9
-            .col-grid 9 - 12
-
-        .row
-          .col-4
-            .col-grid 4 - 12
-          .col-8
-            .col-grid 8 - 12
-
-        .row
-          .col-5
-            .col-grid 5 - 12
-          .col-7
-            .col-grid 7 - 12
-
-        .row
-          .col-6
-            .col-grid 6 - 12
-          .col-6
-            .col-grid 6 - 12
-
-        .row
-          .col-7
-            .col-grid 7 - 12
-          .col-5
-            .col-grid 5 - 12
-
-        .row
-          .col-8
-            .col-grid 8 - 12
-          .col-4
-            .col-grid 4 - 12
-
-        .row
-          .col-9
-            .col-grid 9 - 12
-          .col-3
-            .col-grid 3 - 12
-
-        .row
-          .col-10
-            .col-grid 10 - 12
-          .col-2
-            .col-grid 2 - 12
-
-        .row
-          .col-11
-            .col-grid 11 - 12
-          .col-1
-            .col-grid.px-2.px-lg-3 .
-
-        .row
-          .col-12
-            .col-grid 12 - 12
+block custom-js
+  script.
+    $(window).on("load orientationchange resize", function() {
+      $( ".col-grid" ).html(function () {
+        var colWidth = $( this ).width();
+        $( this ).text( colWidth );
+      });
+    });
