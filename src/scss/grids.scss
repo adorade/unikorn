@@ -1,0 +1,88 @@
+//
+// Grid Sizes
+// =============================================================================
+$grid: 16px;
+
+// Photo padding calculation
+$font-size: $grid * 2;  // photo font-size
+$line-height: 1;        // photo line-height
+$photo-pad: calc((56.25% - (#{$font-size} * #{$line-height})) / 2);
+
+.default,
+.grids {
+  .col-grid {
+    padding-top: $grid;
+    padding-bottom: $grid;
+    text-align: center;
+  }
+
+  .photo-grid {
+    width: 100%;
+    height: auto;
+    padding-top: $photo-pad;
+    padding-bottom: $photo-pad;
+    font-size: 2rem;
+    line-height: 1;
+    text-align: center;
+  }
+}
+
+.default {
+  .col-grid,
+  .photo-grid {
+    background-color: rgba(86, 61, 124, .15);
+  }
+}
+
+.grids {
+  .container {
+    padding-right: $grid;
+    padding-left: $grid;
+
+    // gutter: 32px; p: 16px;
+    @media (min-width: 576px) {
+      // 1 col: 16px; m: 0;
+      max-width: 576px; // 36px x 16
+    }
+
+    @media (min-width: 768px) {
+      // 1 col: 32px; m: 0;
+      max-width: 768px; // 48px x 16
+    }
+
+    @media (min-width: 992px) {
+      // 1 col: 48px; m: 16px;
+      max-width: 960px; // 60px x 16
+    }
+
+    @media (min-width: 1200px) {
+      // 1 col: 64px; m: 24px;
+      max-width: 1152px; // 72px x 16
+    }
+
+    @media (min-width: 1440px) {
+      // 1 col: 80; m: 48px;
+      max-width: 1344px; // 84px x 16
+    }
+
+    @media (min-width: 1920px) {
+      // 1 col: 120; m: 48px;
+      max-width: 1824px; // 114px x 16
+    }
+  }
+
+  .row {
+    margin-right: -$grid;
+    margin-left: -$grid;
+  }
+
+  & [class*="col-"]:not(.col-grid) {
+    padding-right: $grid;
+    padding-left: $grid;
+  }
+
+  .col-grid,
+  .photo-grid {
+    background-color: rgba(0, 123, 255, .15);
+  }
+}

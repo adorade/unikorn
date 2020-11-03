@@ -1,0 +1,30 @@
+//- photos.pug
+extends _layout/grid
+
+prepend setting
+  - title = 'Photos Grid System';
+
+block content
+  h1.my-3.text-center= title
+
+  .default#default
+    .container
+      h2.my-3 Default
+      include _includes/misc/photo-grids
+
+  hr
+
+  .grids#grids
+    .container
+      h2.my-3 New Grids
+      include _includes/misc/photo-grids
+
+block custom-js
+  script.
+    $(window).on("load orientationchange resize", function() {
+      $( ".photo-grid" ).html(function () {
+        var photoWidth = $( this ).innerWidth();
+        var photoHeight = $( this ).innerHeight();
+        $( this ).text( photoWidth + ' x ' + photoHeight );
+      });
+    });
