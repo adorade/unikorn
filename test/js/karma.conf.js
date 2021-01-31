@@ -8,6 +8,8 @@
  * Usage:
  *   `yarn run test` or `yarn test`
  *   `gulp tester`
+ *
+ * Docs: https://karma-runner.github.io/6.0/config/configuration-file.html
  */
 
 module.exports = (config) => {
@@ -21,17 +23,16 @@ module.exports = (config) => {
     frameworks: ['qunit', 'sinon', 'detectBrowsers'],
 
     // List of plugins to load
-    // Docs: http://karma-runner.github.io/3.0/config/plugins.html
+    // Docs: https://karma-runner.github.io/6.0/config/plugins.html
     // By default, Karma loads all sibling NPM modules which have a name starting with karma-*.
     // available framework: https://www.npmjs.com/search?q=keywords:karma-plugin
-    plugins: [
-      'karma-chrome-launcher',
-      'karma-firefox-launcher',
-      'karma-qunit',
-      'karma-sinon',
-      'karma-detect-browsers',
-      'karma-coverage-istanbul-reporter'
-    ],
+    // plugins: [
+    //   'karma-chrome-launcher',
+    //   'karma-qunit',
+    //   'karma-sinon',
+    //   'karma-detect-browsers',
+    //   'karma-coverage-istanbul-reporter'
+    // ],
 
     // List of files / patterns to load in the browser
     files: [
@@ -100,17 +101,20 @@ module.exports = (config) => {
     customLaunchers: {
       ChromeHeadlessNoSandbox: {
         base: 'ChromeHeadless',
-        // base: 'Chrome',
         flags: [
           '--no-sandbox'
         ],
         displayName: 'Chrome w/o sandbox'
-      },
-      FirefoxHeadless: {
-        base: 'Firefox',
-        flags: ['-headless']
       }
     },
+
+    // To avoid DISCONNECTED messages - for debugging
+    // browserDisconnectTimeout : 10000,     // default 2000
+    // browserDisconnectTolerance : 1,       // default 0
+    // browserNoActivityTimeout : 4*60*1000, // default 30000
+    // captureTimeout : 4*60*1000,           // default 60000
+    // pingTimeout: 60000,                   // default 5000
+    // maxHttpBufferSize: 1e8,
 
     // Detecting all browsers installed on the current system
     // https://github.com/litixsoft/karma-detect-browsers
@@ -125,12 +129,8 @@ module.exports = (config) => {
           if (process.env.CI === true || availableBrowsers.includes('Chrome')) {
             return ['ChromeHeadlessNoSandbox']
           }
-
-          if (availableBrowsers.includes('Firefox')) {
-            return ['FirefoxHeadless']
-          }
         } else {
-          throw new Error('Please install Chrome or Firefox')
+          throw new Error('Please install Chrome!')
         }
       }
     }
