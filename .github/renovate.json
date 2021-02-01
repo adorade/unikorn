@@ -1,7 +1,6 @@
 {
   "extends": [
     "config:base",
-    ":maintainLockFilesWeekly",
     "schedule:nonOfficeHours",
     ":assignAndReview(adorade)"
   ],
@@ -9,30 +8,36 @@
   "labels": ["deps"],
   "packageRules": [
     {
-      "packagePatterns": ["^@babel/"],
+      "matchPackagePatterns": ["^@babel/"],
       "groupName": "babel packages",
       "labels": ["build"]
     },
     {
-      "packagePatterns": ["^eslint|eslint$"],
+      "matchPackagePatterns": ["^eslint|eslint$"],
       "groupName": "eslint packages",
       "labels": ["lint"]
     },
     {
-      "packagePatterns": ["^rollup|^@rollup/"],
+      "matchPackagePatterns": ["^rollup|^@rollup/"],
       "groupName": "rollup packages",
       "schedule": ["after 5pm on friday"],
       "labels": ["build"]
     },
     {
-      "packagePatterns": ["^stylelint|stylelint$"],
+      "matchPackagePatterns": ["^stylelint|stylelint$"],
       "groupName": "stylelint packages",
       "labels": ["lint"]
     },
     {
-      "packagePatterns": ["^gulp"],
+      "matchPackagePatterns": ["^gulp"],
       "groupName": "gulp packages",
       "labels": ["gulp"]
     }
-  ]
+  ],
+  "lockFileMaintenance": {
+    "enabled": true,
+    "extends": [
+      "schedule:monthly"
+    ]
+  }
 }
