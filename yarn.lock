@@ -4433,10 +4433,10 @@ gulp-load-plugins@2.0.6:
     micromatch "^4.0.2"
     resolve "^1.17.0"
 
-gulp-pug-linter@1.4.0:
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/gulp-pug-linter/-/gulp-pug-linter-1.4.0.tgz#85b12cd5dba73329ea3becaddb9456584d0d877c"
-  integrity sha512-cTElkArn82qgbGIDVZ7xnktlK3DvLwD1hq3w5v4Eh53Q6RZSVSUNCoAJnkuo4grBTd76tGXFGAqNQMNn4hc6Sw==
+gulp-pug-linter@1.5.0:
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/gulp-pug-linter/-/gulp-pug-linter-1.5.0.tgz#466590c7d8c360cf9207b957a523b5b8283e2aa6"
+  integrity sha512-DjjRMui89T4lb1b6UUQdZvjF6XNDrbLbBbvg9fSpYgeaYgFE6pEixDQtvn7FuJjjRzv1Eiy3D8IzUWDhSleKAw==
   dependencies:
     fancy-log "^1.3.3"
     plugin-error "^1.0.1"
